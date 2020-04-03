@@ -3,4 +3,10 @@
        translatable="false">
       AIzaSyA33ywQA5fI5m_IuYgjd00ZY6d74Xh90x8
    </string>
+   <string name="map_start_latitude">39.57119</string>
+   <string name="map_start_longitude">2.646634</string>
+   <integer name="map_start_zoom">7</integer>
+   <integer name="map_start_zoom_modelling_facility">6</integer>
+   <integer name="map_start_zoom_hfradar">8</integer>
+   <integer name="map_start_zoom_tablet">8</integer>
 </resources>

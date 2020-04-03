@@ -13,10 +13,14 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.socib.R;
+import com.socib.ui.util.Device;
+
+import java.util.Objects;
 
 public class MapFragment  extends Fragment {
     private MapView mMapView;
@@ -30,11 +34,8 @@ public class MapFragment  extends Fragment {
 
         mMapView.onResume(); // needed to get the map to display immediately
 
-        try {
-            MapsInitializer.initialize(getActivity().getApplicationContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        MapsInitializer.initialize(Objects.requireNonNull(getActivity()).getApplicationContext());
+
 
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -44,12 +45,22 @@ public class MapFragment  extends Fragment {
                 // For showing a move to my location button
                 googleMap.setMyLocationEnabled(true);
 
+                double lat = Double.parseDouble(getResources().getString(R.string.map_start_latitude));
+                double lng = Double.parseDouble(getResources().getString(R.string.map_start_longitude));
+
                 // For dropping a marker at a point on the Map
-                LatLng sydney = new LatLng(-34, 151);
-                googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
+                final LatLng SOCIB = new LatLng(lat, lng);
+                googleMap.addMarker(new MarkerOptions()
+                        .position(SOCIB)
+                        .title("Socib Station")
+                        .snippet("Socib Station in Parc bit")
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_meteo))
+                        );
 
                 // For zooming automatically to the location of the marker
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
+                int startZoom = Device.isTablet(getActivity()) ? getResources().getInteger(R.integer.map_start_zoom_tablet) :
+                        getResources().getInteger(R.integer.map_start_zoom);
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(SOCIB).zoom(startZoom).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         });
