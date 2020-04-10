@@ -40,6 +40,7 @@ public class FixedStationApiService {
                 .map(GetProductsResponse::getResults)
                 .map(this::getFixedStation)
                 .flatMap(Observable::merge)
+                .filter(fixedStation -> fixedStation.getLatitude() != null && fixedStation.getLongitude() != null)
                 .doOnNext(fixedStation -> Log.i("doOnNext:", fixedStation.toString()))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(fixedStations::add);

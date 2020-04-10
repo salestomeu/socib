@@ -16,5 +16,6 @@ public class FixedStation {
     private String name;
     private Double latitude;
     private Double longitude;
+    private String dataSourceId;
     private String type;
 }

@@ -25,6 +25,7 @@ public class FixedStationConverter extends AbstractModelConverter<FixedStation, 
                     .findAny()
                     .get()
                     .get(0);
+            fixedStation.setDataSourceId(dataSource.getId());
             fixedStation.setLatitude(coordinates.get(0));
             fixedStation.setLongitude(coordinates.get(1));
 
