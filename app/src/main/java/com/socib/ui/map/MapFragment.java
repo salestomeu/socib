@@ -99,11 +99,11 @@ public class MapFragment  extends Fragment {
                 getViewLifecycleOwner(), this::addMarker
         );
 
-        fixedStationViewModel.getProducts().observe(
-                getViewLifecycleOwner(), products->{
-                    Log.i("product.size:", String.valueOf(products.size()));
-                }
-        );
+//        fixedStationViewModel.getProducts().observe(
+//                getViewLifecycleOwner(), products->{
+//                    Log.i("product.size:", String.valueOf(products.size()));
+//                }
+//        );
 
         return rootView;
     }

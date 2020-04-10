@@ -32,7 +32,7 @@ public class FixedStationApiServiceTest {
         FixedStationApiService fixedStationApiService = new FixedStationApiService(IntegrationOperationFactory.getMockAdapter(mockResponse()),fixedStationConverter);
         LiveData<List<FixedStation>> products = fixedStationApiService.getDataProducts("coastal station");
 
-       //assertEquals("", 6, getValue(products).size());
+        assertEquals("", 6, getValue(products).size());
     }
 
     public static <T> T getValue(final LiveData<T> liveData) throws InterruptedException {

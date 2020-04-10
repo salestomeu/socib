@@ -33,12 +33,12 @@ public class FixedStationViewModel extends AndroidViewModel {
         return fixedStations;
     }
 
-    public LiveData<List<Product>> getProducts() {
-        if (products == null){
-            products = new MutableLiveData<>();
-            fixedStationApiService = new FixedStationApiService(IntegrationOperationFactory.getAdapter(),new FixedStationConverter());
-        }
-        return fixedStationApiService.getDataProducts2("Coastal Station");
-    }
+//    public LiveData<List<Product>> getProducts() {
+//        if (products == null){
+//            products = new MutableLiveData<>();
+//            fixedStationApiService = new FixedStationApiService(IntegrationOperationFactory.getAdapter(),new FixedStationConverter());
+//        }
+//        return fixedStationApiService.getDataProducts("Coastal Station");
+//    }
 
 }
