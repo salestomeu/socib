@@ -1,5 +1,7 @@
 package com.socib.service.product.converter;
 
+import android.util.Log;
+
 import com.socib.commons.AbstractModelConverter;
 import com.socib.integrationSocib.model.DataSource;
 import com.socib.integrationSocib.model.Product;
@@ -12,17 +14,24 @@ public class FixedStationConverter extends AbstractModelConverter<FixedStation, 
 
     public FixedStation toApiModel(Product domainModel, List<DataSource> dataSources, Class<FixedStation> apiClass) {
         FixedStation fixedStation = super.toApiModel(domainModel, apiClass);
-
-        DataSource dataSourceSelected = dataSources
+        Log.i("stationId:", fixedStation.getId());
+        Optional<DataSource> dataSourceSelected = dataSources
                 .stream()
                 .filter(dataSource -> dataSource.getInstrument() != null)
-                .findFirst().orElse(new DataSource());
-        Optional<List<Double>> coordinates = dataSourceSelected.getCoverageBoundingBox().getCoordinates()
-                .stream()
-                .findAny();
-        if (coordinates.isPresent()) {
-            fixedStation.setLatitude(coordinates.get().get(0));
-            fixedStation.setLongitude(coordinates.get().get(1));
+                .findFirst();
+        if (dataSourceSelected.isPresent()) {
+            DataSource dataSource = dataSourceSelected.get();
+            Log.i("dataSource:", dataSource.toString());
+            List<Double> coordinates = dataSource.getCoverage_bounding_box().getCoordinates()
+                    .stream()
+                    .findAny()
+                    .get()
+                    .get(0);
+            fixedStation.setLatitude(coordinates.get(0));
+            fixedStation.setLongitude(coordinates.get(1));
+
+        } else {
+            Log.e("stationId:", fixedStation.getId());
         }
         return fixedStation;
     }
