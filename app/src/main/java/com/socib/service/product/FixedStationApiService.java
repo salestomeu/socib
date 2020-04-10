@@ -1,5 +1,7 @@
 package com.socib.service.product;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -31,21 +33,25 @@ public class FixedStationApiService {
     }
 
     public LiveData<List<FixedStation>> getDataProducts(String platformType){
-        final MutableLiveData<List<FixedStation>> fixedStations = new MutableLiveData<>();
+        final MutableLiveData<List<FixedStation>> fixedStationsAdapter = new MutableLiveData<>();
+        List<FixedStation> fixedStations = new ArrayList<>();
         Disposable result = getApiOperation.getProducts(platformType, TRUE, apiKey)
                 .subscribeOn(Schedulers.io())
+                .map(GetProductsResponse::getResults)
                 .map(this::getFixedStation)
                 .flatMap(Observable::merge)
+                .doOnNext(fixedStation -> Log.i("doOnNext:", fixedStation.toString()))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe((fixedStation) -> {
-                    fixedStations.setValue((List<FixedStation>) fixedStation);
+                    fixedStations.add(fixedStation);
                 });
-        return fixedStations;
+        fixedStationsAdapter.setValue(fixedStations);
+        return fixedStationsAdapter;
     }
 
-    private List<Observable<FixedStation>> getFixedStation(GetProductsResponse productResponse) {
+    private List<Observable<FixedStation>> getFixedStation(List<Product> products) {
         List<Observable<FixedStation>> fixedStationsList = new ArrayList<>();
-        for (Product product : productResponse.getResults()){
+        for (Product product : products){
             fixedStationsList.add(getApiOperation.getDataSource(product.getId(), TRUE, apiKey)
                     .map(getDataSourceResponse -> fixedStationConverter.toApiModel(product, getDataSourceResponse.getResults(), FixedStation.class)));
         }
