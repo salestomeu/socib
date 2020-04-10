@@ -74,6 +74,15 @@ public class MapFragment  extends Fragment {
                     getResources().getInteger(R.integer.map_start_zoom);
             CameraPosition cameraPosition = new CameraPosition.Builder().target(SOCIB).zoom(startZoom).build();
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            fixedStationViewModel.getFixedStation().observe(
+                    getViewLifecycleOwner(), fixedStations -> fixedStations
+                            .forEach(fixedStation -> googleMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(fixedStation.getLatitude(), fixedStation.getLongitude()))
+                                    .title(fixedStation.getName())
+                                    .snippet(fixedStation.getName())
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_meteo))
+                            ))
+            );
 
         });
 
@@ -88,6 +97,12 @@ public class MapFragment  extends Fragment {
         );*/
         fixedStationViewModel.getFixedStation().observe(
                 getViewLifecycleOwner(), this::addMarker
+        );
+
+        fixedStationViewModel.getProducts().observe(
+                getViewLifecycleOwner(), products->{
+                    Log.i("product.size:", String.valueOf(products.size()));
+                }
         );
 
         return rootView;

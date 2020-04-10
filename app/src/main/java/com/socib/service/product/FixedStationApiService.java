@@ -48,6 +48,16 @@ public class FixedStationApiService {
         return fixedStationsAdapter;
     }
 
+    public LiveData<List<Product>> getDataProducts2(String platformType){
+        final MutableLiveData<List<Product>> fixedStationsAdapter = new MutableLiveData<>();
+        getApiOperation.getProducts(platformType, TRUE, apiKey)
+                .subscribeOn(Schedulers.io())
+                .map(GetProductsResponse::getResults)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(fixedStationsAdapter::setValue);
+        return fixedStationsAdapter;
+    }
+
     private List<Observable<FixedStation>> getFixedStation(List<Product> products) {
         List<Observable<FixedStation>> fixedStationsList = new ArrayList<>();
         for (Product product : products){
