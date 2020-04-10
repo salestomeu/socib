@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.socib.integrationSocib.GetApiOperation;
-import com.socib.integrationSocib.model.GetDataSourceResponse;
 import com.socib.integrationSocib.model.GetProductsResponse;
 import com.socib.integrationSocib.model.Product;
 import com.socib.model.FixedStation;
@@ -48,12 +47,8 @@ public class FixedStationApiService {
         List<Observable<FixedStation>> fixedStationsList = new ArrayList<>();
         for (Product product : productResponse.getResults()){
             fixedStationsList.add(getApiOperation.getDataSource(product.getId(), TRUE, apiKey)
-                    .map(getDataSourceResponse -> getCoordenates(product, getDataSourceResponse)));
+                    .map(getDataSourceResponse -> fixedStationConverter.toApiModel(product, getDataSourceResponse.getResults(), FixedStation.class)));
         }
         return fixedStationsList;
-    }
-
-    private FixedStation getCoordenates(Product product, GetDataSourceResponse dataSourceResponse) {
-        return fixedStationConverter.toApiModel(product, dataSourceResponse.getResults(), FixedStation.class);
     }
 }
