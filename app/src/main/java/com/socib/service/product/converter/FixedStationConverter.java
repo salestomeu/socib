@@ -14,14 +14,12 @@ public class FixedStationConverter extends AbstractModelConverter<FixedStation, 
 
     public FixedStation toApiModel(Product domainModel, List<DataSource> dataSources, Class<FixedStation> apiClass) {
         FixedStation fixedStation = super.toApiModel(domainModel, apiClass);
-        Log.i("stationId:", fixedStation.getId());
         Optional<DataSource> dataSourceSelected = dataSources
                 .stream()
                 .filter(dataSource -> dataSource.getInstrument() != null)
                 .findFirst();
         if (dataSourceSelected.isPresent()) {
             DataSource dataSource = dataSourceSelected.get();
-            Log.i("dataSource:", dataSource.toString());
             List<Double> coordinates = dataSource.getCoverage_bounding_box().getCoordinates()
                     .stream()
                     .findAny()
@@ -30,8 +28,6 @@ public class FixedStationConverter extends AbstractModelConverter<FixedStation, 
             fixedStation.setLatitude(coordinates.get(0));
             fixedStation.setLongitude(coordinates.get(1));
 
-        } else {
-            Log.e("stationId:", fixedStation.getId());
         }
         return fixedStation;
     }

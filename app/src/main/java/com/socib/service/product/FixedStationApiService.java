@@ -42,9 +42,7 @@ public class FixedStationApiService {
                 .flatMap(Observable::merge)
                 .doOnNext(fixedStation -> Log.i("doOnNext:", fixedStation.toString()))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe((fixedStation) -> {
-                    fixedStations.add(fixedStation);
-                });
+                .subscribe(fixedStations::add);
         fixedStationsAdapter.setValue(fixedStations);
         return fixedStationsAdapter;
     }

@@ -26,6 +26,7 @@ import com.socib.model.FixedStation;
 import com.socib.ui.util.Device;
 import com.socib.viewmodel.FixedStationViewModel;
 
+import java.util.List;
 import java.util.Objects;
 
 public class MapFragment  extends Fragment {
@@ -86,17 +87,16 @@ public class MapFragment  extends Fragment {
                         ))
         );*/
         fixedStationViewModel.getFixedStation().observe(
-                getViewLifecycleOwner(),fixedStations -> fixedStations
-                        .forEach(fixedStation -> googleMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(fixedStation.getLatitude(), fixedStation.getLongitude()))
-                                .title(fixedStation.getName())
-                                .snippet(fixedStation.getName())
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_meteo))
-                        ))
+                getViewLifecycleOwner(), this::addMarker
         );
 
         return rootView;
     }
+
+    private void addMarker(List<FixedStation> fixedStations) {
+        Log.i("addMarker",String.valueOf(fixedStations.size()));
+    }
+
 
     @Override
     public void onResume() {
