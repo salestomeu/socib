@@ -87,7 +87,12 @@ public class MapFragment  extends Fragment {
         );*/
         fixedStationViewModel.getFixedStation().observe(
                 getViewLifecycleOwner(),fixedStations -> fixedStations
-                        .forEach(fixedStation -> Log.i("product:",fixedStation.getId()))
+                        .forEach(fixedStation -> googleMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(fixedStation.getLatitude(), fixedStation.getLongitude()))
+                                .title(fixedStation.getName())
+                                .snippet(fixedStation.getName())
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_meteo))
+                        ))
         );
 
         return rootView;

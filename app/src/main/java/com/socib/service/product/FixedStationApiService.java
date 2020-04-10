@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
@@ -35,25 +36,28 @@ public class FixedStationApiService {
         getApiOperation.getProducts(platformType, TRUE, apiKey)
                 .subscribeOn(Schedulers.io())
                 .map(productsResponse -> getFixedStation(productsResponse))
+                .flatMap(Observable::merge)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe((fixedStation)-> {
-                    fixedStations.setValue(fixedStation);
+                    fixedStations.setValue((List<FixedStation>) fixedStation);
                 });
         return fixedStations;
     }
 
-    private List<FixedStation> getFixedStation(GetProductsResponse productResponse) {
-        List<FixedStation> fixedStationsList = new ArrayList<>();
+    private List<Observable<FixedStation>> getFixedStation(GetProductsResponse productResponse) {
+        List<Observable<FixedStation>> fixedStationsList = new ArrayList<>();
         for (Product product : productResponse.getResults()){
-            fixedStationsList.add(getApiOperation.getDataSource(product.getId(), TRUE, apiKey)
-                    .map(dataSourceResponse -> getCoordenates(product, dataSourceResponse)));
+            Observable<FixedStation> fixedStationObservable = getApiOperation.getDataSource(product.getId(), TRUE, apiKey)
+                    .map(getDataSourceResponse -> getCoordenates(product, getDataSourceResponse));
         }
         return fixedStationsList;
     }
 
-    private Observable<FixedStation> getCoordenates(Product product, GetDataSourceResponse dataSourceResponse) {
-        return Observable.just(fixedStationConverter.toApiModel(product, dataSourceResponse.getResults(), FixedStation.class));
+    private FixedStation getCoordenates(Product product, GetDataSourceResponse dataSourceResponse) {
+        return fixedStationConverter.toApiModel(product, dataSourceResponse.getResults(), FixedStation.class);
     }
+
+
 
 
     private List<Observable<GetDataSourceResponse>> getDataSourceObservable(GetApiOperation getApiOperation, List<Product> products){

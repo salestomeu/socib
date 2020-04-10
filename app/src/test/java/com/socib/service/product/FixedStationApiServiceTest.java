@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer;
 
 import com.socib.integrationSocib.IntegrationOperationFactory;
 import com.socib.integrationSocib.model.Product;
+import com.socib.model.FixedStation;
 import com.socib.service.product.converter.FixedStationConverter;
 
 import org.junit.Test;
@@ -29,7 +30,7 @@ public class FixedStationApiServiceTest {
     public void aaaa() throws InterruptedException {
         FixedStationConverter fixedStationConverter = new FixedStationConverter();
         FixedStationApiService fixedStationApiService = new FixedStationApiService(IntegrationOperationFactory.getMockAdapter(mockResponse()),fixedStationConverter);
-        LiveData<List<Product>> products = fixedStationApiService.getDataProducts("coastal station");
+        LiveData<List<FixedStation>> products = fixedStationApiService.getDataProducts("coastal station");
 
        //assertEquals("", 6, getValue(products).size());
     }
