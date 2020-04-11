@@ -4,9 +4,11 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -20,6 +22,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.socib.R;
 import com.socib.model.FixedStation;
@@ -28,7 +31,9 @@ import com.socib.viewmodel.CoastalStationViewModel;
 import com.socib.viewmodel.SeaLevelStationViewModel;
 import com.socib.viewmodel.WeatherStationViewModel;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class MapFragment  extends Fragment {
@@ -38,11 +43,13 @@ public class MapFragment  extends Fragment {
     private static final int INITIAL_REQUEST=1337;
     private MapView mMapView;
     private GoogleMap googleMap;
+    private Map<String, FixedStation> mapFixedStations;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState){
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
         mMapView = rootView.findViewById(R.id.mapView);
+        mapFixedStations = new HashMap<>();
         mMapView.onCreate(savedInstanceState);
         CoastalStationViewModel coastalStationViewModel = ViewModelProviders.of(this).get(CoastalStationViewModel.class);
         SeaLevelStationViewModel seaLevelStationViewModel = ViewModelProviders.of(this).get(SeaLevelStationViewModel.class);
@@ -80,10 +87,27 @@ public class MapFragment  extends Fragment {
             weatherStationViewModel.getFixedStation().observe(
                     getViewLifecycleOwner(), this::addMarker
             );
+            googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter(){
+                @Override
+                public View getInfoWindow(Marker marker) {
+                    return null;
+                }
+
+                @Override
+                public View getInfoContents(Marker marker) {
+                    View view = getLayoutInflater().inflate(R.layout.infowindow_fixed_station, null, false);
+                    TextView name = view.findViewById(R.id.textName);
+                    TextView type = view.findViewById(R.id.textType);
+                    TextView lastUpdated = view.findViewById(R.id.textLastUpdated);
+
+                    FixedStation fixedStation = mapFixedStations.get(marker.getTitle());
+                    name.setText(fixedStation.getName());
+                    type.setText(fixedStation.getType());
+                    lastUpdated.setText("Updated: "+fixedStation.getLastUpdateDate());
+                    return view;
+                }
+            });
         });
-
-
-
 
 
         return rootView;
@@ -92,13 +116,14 @@ public class MapFragment  extends Fragment {
     private void addMarker(final List<FixedStation> fixedStations) {
         Log.i("addMarker fixedStations.size:",fixedStations.get(0).getType()+","+ fixedStations.size());
         fixedStations.forEach(
-                fixedStation -> googleMap.addMarker(new MarkerOptions()
+                fixedStation -> {
+                    googleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(fixedStation.getLatitude(), fixedStation.getLongitude()))
-                        .title(fixedStation.getName())
-                        .snippet(fixedStation.getType())
-                        .snippet("Updated: "+fixedStation.getLastUpdateDate().toString())
+                        .title(fixedStation.getId())
                         .icon(BitmapDescriptorFactory.fromResource(fixedStation.getIcon()))
-        ));
+                    );
+                    mapFixedStations.put(fixedStation.getId(), fixedStation);
+                });
 
         int icon = R.drawable.ic_map_station;
     }
