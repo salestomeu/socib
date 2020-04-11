@@ -1,5 +1,7 @@
 package com.socib.integrationSocib.model;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +16,7 @@ import lombok.ToString;
 public class DataSource {
     private String id;
     private String instrument;
+    private Date end_datetime;
     private CoverageBoundingBox coverage_bounding_box;
 
 }

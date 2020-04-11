@@ -1,11 +1,11 @@
 package com.socib.service.product;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.socib.integrationSocib.GetApiOperation;
+import com.socib.integrationSocib.model.DataSource;
+import com.socib.integrationSocib.model.GetDataSourceResponse;
 import com.socib.integrationSocib.model.GetProductsResponse;
 import com.socib.integrationSocib.model.Product;
 import com.socib.model.FixedStation;
@@ -18,25 +18,27 @@ import java.util.stream.Collectors;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 
-public class FixedStationApiService {
+public abstract  class FixedStationApiService {
     private static final String TRUE = "true";
 
     private static final String apiKey = "cF0znGPFcamKiA2p7ze5lKmVHRQlrksI";
-    private final FixedStationConverter fixedStationConverter;
+
+    protected final FixedStationConverter fixedStationConverter;
+    protected abstract FixedStation converterFixedStation(final  Product product, final List<DataSource> dataSources);
+
     private GetApiOperation getApiOperation;
 
-    public FixedStationApiService(Retrofit retrofit, FixedStationConverter fixedStationConverter) {
+    public FixedStationApiService(Retrofit retrofit) {
         this.getApiOperation = retrofit.create(GetApiOperation.class);
-        this.fixedStationConverter = fixedStationConverter;
+        this.fixedStationConverter = new FixedStationConverter();
     }
 
     public LiveData<List<FixedStation>> getDataProducts(String platformType){
         final MutableLiveData<List<FixedStation>> fixedStationsAdapter = new MutableLiveData<>();
-        Disposable result = getApiOperation.getProducts(platformType, TRUE, apiKey)
+        getApiOperation.getProducts(platformType, TRUE, apiKey)
                 .subscribeOn(Schedulers.io())
                 .map(GetProductsResponse::getResults)
                 .flatMap(this::getFixedStation)
@@ -49,7 +51,7 @@ public class FixedStationApiService {
         List<Observable<FixedStation>> fixedStationsList = new ArrayList<>();
         for (Product product : products){
             fixedStationsList.add(getApiOperation.getDataSource(product.getId(), TRUE, apiKey)
-                    .map(getDataSourceResponse -> fixedStationConverter.toApiModel(product, getDataSourceResponse.getResults(), FixedStation.class)));
+                    .map(getDataSourceResponse -> converterFixedStation(product, getDataSourceResponse.getResults())));
         }
         return Observable.zip(fixedStationsList, this::getFixedStationList);
     }
@@ -57,6 +59,7 @@ public class FixedStationApiService {
     private List<FixedStation> getFixedStationList(Object[] objects) {
         return Arrays.stream(objects)
                 .map(FixedStation.class::cast)
+                .filter(fixedStation ->  fixedStation != null && fixedStation.getLatitude() != null && fixedStation.getLongitude() != null)
                 .collect(Collectors.toList());
     }
 }

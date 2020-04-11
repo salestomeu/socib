@@ -1,5 +1,7 @@
 package com.socib.integrationSocib;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import okhttp3.OkHttpClient;
@@ -12,9 +14,13 @@ public class IntegrationOperationFactory {
 
     public static Retrofit getAdapter() {
        if (retrofit == null) {
+           Gson gson = new GsonBuilder()
+                   .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                   .create();
+
            retrofit = new Retrofit.Builder()
                    .baseUrl(BASE_URL)
-                   .addConverterFactory(GsonConverterFactory.create())
+                   .addConverterFactory(GsonConverterFactory.create(gson))
                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                    .build();
        }

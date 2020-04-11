@@ -24,7 +24,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.socib.R;
 import com.socib.model.FixedStation;
 import com.socib.ui.util.Device;
-import com.socib.viewmodel.FixedStationViewModel;
+import com.socib.viewmodel.CoastalStationViewModel;
+import com.socib.viewmodel.SeaLevelStationViewModel;
+import com.socib.viewmodel.WeatherStationViewModel;
 
 import java.util.List;
 import java.util.Objects;
@@ -37,14 +39,14 @@ public class MapFragment  extends Fragment {
     private MapView mMapView;
     private GoogleMap googleMap;
 
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState){
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
         mMapView = rootView.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
-        FixedStationViewModel fixedStationViewModel = ViewModelProviders.of(this).get(FixedStationViewModel.class);
-
+        CoastalStationViewModel coastalStationViewModel = ViewModelProviders.of(this).get(CoastalStationViewModel.class);
+        SeaLevelStationViewModel seaLevelStationViewModel = ViewModelProviders.of(this).get(SeaLevelStationViewModel.class);
+        WeatherStationViewModel weatherStationViewModel = ViewModelProviders.of(this).get(WeatherStationViewModel.class);
         mMapView.onResume(); // needed to get the map to display immediately
 
         MapsInitializer.initialize(Objects.requireNonNull(getActivity()).getApplicationContext());
@@ -62,54 +64,43 @@ public class MapFragment  extends Fragment {
 
             // For dropping a marker at a point on the Map
             final LatLng SOCIB = new LatLng(lat, lng);
-            googleMap.addMarker(new MarkerOptions()
-                    .position(SOCIB)
-                    .title("Socib Station")
-                    .snippet("Socib Station in Parc bit")
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_meteo))
-                    );
 
             // For zooming automatically to the location of the marker
             int startZoom = Device.isTablet(getActivity()) ? getResources().getInteger(R.integer.map_start_zoom_tablet) :
                     getResources().getInteger(R.integer.map_start_zoom);
             CameraPosition cameraPosition = new CameraPosition.Builder().target(SOCIB).zoom(startZoom).build();
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-            fixedStationViewModel.getFixedStation().observe(
-                    getViewLifecycleOwner(), fixedStations -> fixedStations
-                            .forEach(fixedStation -> googleMap.addMarker(new MarkerOptions()
-                                    .position(new LatLng(fixedStation.getLatitude(), fixedStation.getLongitude()))
-                                    .title(fixedStation.getName())
-                                    .snippet(fixedStation.getName())
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_meteo))
-                            ))
-            );
 
+            coastalStationViewModel.getFixedStation().observe(
+                    getViewLifecycleOwner(), this::addMarker
+            );
+            seaLevelStationViewModel.getFixedStation().observe(
+                    getViewLifecycleOwner(), this::addMarker
+            );
+            weatherStationViewModel.getFixedStation().observe(
+                    getViewLifecycleOwner(), this::addMarker
+            );
         });
 
-       /* fixedStationViewModel.getFixedStation().observe(
-                getViewLifecycleOwner(), fixedStations -> fixedStations
-                        .forEach(fixedStation -> googleMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(fixedStation.getLatitude(), fixedStation.getLongitude()))
-                                .title(fixedStation.getName())
-                                .snippet(fixedStation.getName())
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_meteo))
-                        ))
-        );*/
-        fixedStationViewModel.getFixedStation().observe(
-                getViewLifecycleOwner(), this::addMarker
-        );
 
-//        fixedStationViewModel.getProducts().observe(
-//                getViewLifecycleOwner(), products->{
-//                    Log.i("product.size:", String.valueOf(products.size()));
-//                }
-//        );
+
+
 
         return rootView;
     }
 
-    private void addMarker(List<FixedStation> fixedStations) {
-        Log.i("addMarker",String.valueOf(fixedStations.size()));
+    private void addMarker(final List<FixedStation> fixedStations) {
+        Log.i("addMarker fixedStations.size:",String.valueOf(fixedStations.size()));
+        fixedStations.forEach(
+                fixedStation -> googleMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(fixedStation.getLatitude(), fixedStation.getLongitude()))
+                        .title(fixedStation.getName())
+                        .snippet(fixedStation.getType())
+                        .snippet("Updated: "+fixedStation.getLastUpdateDate().toString())
+                        .icon(BitmapDescriptorFactory.fromResource(fixedStation.getIcon()))
+        ));
+
+        int icon = R.drawable.ic_map_station;
     }
 
 

@@ -5,9 +5,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import com.socib.integrationSocib.IntegrationOperationFactory;
-import com.socib.integrationSocib.model.Product;
 import com.socib.model.FixedStation;
-import com.socib.service.product.converter.FixedStationConverter;
 
 import org.junit.Test;
 
@@ -18,9 +16,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 public class FixedStationApiServiceTest {
 
@@ -28,8 +24,7 @@ public class FixedStationApiServiceTest {
 
     @Test
     public void aaaa() throws InterruptedException {
-        FixedStationConverter fixedStationConverter = new FixedStationConverter();
-        FixedStationApiService fixedStationApiService = new FixedStationApiService(IntegrationOperationFactory.getMockAdapter(mockResponse()),fixedStationConverter);
+        FixedStationApiService fixedStationApiService = new CoastalStationApiService(IntegrationOperationFactory.getMockAdapter(mockResponse()));
         LiveData<List<FixedStation>> products = fixedStationApiService.getDataProducts("coastal station");
 
         assertEquals("", 6, getValue(products).size());
