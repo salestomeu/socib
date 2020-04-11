@@ -90,7 +90,7 @@ public class MapFragment  extends Fragment {
     }
 
     private void addMarker(final List<FixedStation> fixedStations) {
-        Log.i("addMarker fixedStations.size:",String.valueOf(fixedStations.size()));
+        Log.i("addMarker fixedStations.size:",fixedStations.get(0).getType()+","+ fixedStations.size());
         fixedStations.forEach(
                 fixedStation -> googleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(fixedStation.getLatitude(), fixedStation.getLongitude()))

@@ -5,6 +5,7 @@ import com.socib.integrationSocib.model.Product;
 import com.socib.model.FixedStation;
 import com.socib.model.SeaLevelStation;
 import com.socib.service.product.converter.SeaLevelStationConverter;
+import com.socib.service.provider.SchedulerProvider;
 
 import java.util.List;
 
@@ -14,8 +15,8 @@ public class SeaLevelStationApiService extends FixedStationApiService{
 
     private SeaLevelStationConverter seaLevelStationConverter;
 
-    public SeaLevelStationApiService(Retrofit retrofit) {
-        super(retrofit);
+    public SeaLevelStationApiService(Retrofit retrofit, SchedulerProvider schedulerProvider) {
+        super(retrofit, schedulerProvider);
         this.seaLevelStationConverter = new SeaLevelStationConverter();
     }
 
