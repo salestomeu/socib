@@ -10,6 +10,7 @@ import com.socib.integrationSocib.model.GetProductsResponse;
 import com.socib.integrationSocib.model.Product;
 import com.socib.model.FixedStation;
 import com.socib.service.product.converter.FixedStationConverter;
+import com.socib.service.provider.SchedulerProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,19 +29,23 @@ public class FixedStationApiService {
     private static final String apiKey = "cF0znGPFcamKiA2p7ze5lKmVHRQlrksI";
     private final FixedStationConverter fixedStationConverter;
     private GetApiOperation getApiOperation;
+    private SchedulerProvider schedulerProvider;
 
-    public FixedStationApiService(Retrofit retrofit, FixedStationConverter fixedStationConverter) {
+    public FixedStationApiService(Retrofit retrofit, FixedStationConverter fixedStationConverter,
+                                  SchedulerProvider schedulerProvider) {
         this.getApiOperation = retrofit.create(GetApiOperation.class);
         this.fixedStationConverter = fixedStationConverter;
+        this.schedulerProvider = schedulerProvider;
     }
 
     public LiveData<List<FixedStation>> getDataProducts(String platformType){
         final MutableLiveData<List<FixedStation>> fixedStationsAdapter = new MutableLiveData<>();
-        Disposable result = getApiOperation.getProducts(platformType, TRUE, apiKey)
-                .subscribeOn(Schedulers.io())
+        getApiOperation.getProducts(platformType, TRUE, apiKey)
+                .subscribeOn(this.schedulerProvider.getSchedulerIo())
+                .doOnNext(getProductsResponse -> System.out.println("Ok count: +" + getProductsResponse.getCount()))
                 .map(GetProductsResponse::getResults)
                 .flatMap(this::getFixedStation)
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(this.schedulerProvider.getSchedulerUi())
                 .subscribe(fixedStationsAdapter::setValue);
         return fixedStationsAdapter;
     }

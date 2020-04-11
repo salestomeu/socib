@@ -12,6 +12,7 @@ import com.socib.integrationSocib.model.Product;
 import com.socib.model.FixedStation;
 import com.socib.service.product.FixedStationApiService;
 import com.socib.service.product.converter.FixedStationConverter;
+import com.socib.service.provider.SchedulerProviderImpl;
 
 import java.util.List;
 
@@ -27,7 +28,8 @@ public class FixedStationViewModel extends AndroidViewModel {
     public LiveData<List<FixedStation>> getFixedStation() {
         if (fixedStations == null){
             fixedStations = new MutableLiveData<>();
-            fixedStationApiService = new FixedStationApiService(IntegrationOperationFactory.getAdapter(),new FixedStationConverter());
+            fixedStationApiService = new FixedStationApiService(IntegrationOperationFactory.getAdapter(),new FixedStationConverter(),
+                    new SchedulerProviderImpl());
         }
         fixedStations = fixedStationApiService.getDataProducts("Coastal Station");
         return fixedStations;
