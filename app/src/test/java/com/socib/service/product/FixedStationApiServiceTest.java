@@ -1,6 +1,7 @@
 package com.socib.service.product;
 
 import androidx.annotation.Nullable;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
@@ -27,8 +28,6 @@ import retrofit2.Retrofit;
 import static org.junit.Assert.assertEquals;
 
 public class FixedStationApiServiceTest {
-
-
 
     private static final String PRODUCT_DATA_FILE_NAME = "Product.json";
     private static final String PRODUCT_SOURCES_FILE_NAME = "dataSources.json";
