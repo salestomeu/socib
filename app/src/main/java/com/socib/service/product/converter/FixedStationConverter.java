@@ -15,7 +15,7 @@ public class FixedStationConverter extends AbstractModelConverter<FixedStation, 
 
     public FixedStation toApiModel(Product domainModel, DataSource dataSource, List<Data> datas, Class<FixedStation> apiClass) {
         FixedStation fixedStation = super.toApiModel(domainModel, apiClass);
-        if (dataSource != null) {
+        if (dataSource.getCoverage_bounding_box() != null) {
             List<Double> coordinates = dataSource.getCoverage_bounding_box().getCoordinates()
                     .stream()
                     .findAny()

@@ -19,6 +19,7 @@ public class IntegrationOperationFactory {
        if (retrofit == null) {
            Gson gson = new GsonBuilder()
                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                   .setLenient()
                    .create();
 
            retrofit = new Retrofit.Builder()
