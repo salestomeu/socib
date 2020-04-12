@@ -8,6 +8,7 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.socib.R;
+import com.socib.integrationSocib.model.Variable;
 import com.socib.model.FixedStation;
 import com.socib.ui.util.Device;
 import com.socib.viewmodel.CoastalStationViewModel;
@@ -81,12 +83,12 @@ public class MapFragment  extends Fragment {
             coastalStationViewModel.getFixedStation().observe(
                     getViewLifecycleOwner(), this::addMarker
             );
-            seaLevelStationViewModel.getFixedStation().observe(
+           /* seaLevelStationViewModel.getFixedStation().observe(
                     getViewLifecycleOwner(), this::addMarker
             );
             weatherStationViewModel.getFixedStation().observe(
                     getViewLifecycleOwner(), this::addMarker
-            );
+            );*/
             googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter(){
                 @Override
                 public View getInfoWindow(Marker marker) {
@@ -104,6 +106,19 @@ public class MapFragment  extends Fragment {
                     name.setText(fixedStation.getName());
                     type.setText(fixedStation.getType());
                     lastUpdated.setText("Updated: "+fixedStation.getLastUpdateDate());
+                    LinearLayout listVariables = view.findViewById(R.id.listVariables);
+
+                   if(fixedStation.getVariables() != null) {
+                       for (Variable var: fixedStation.getVariables()) {
+                           Log.i("Variable:",var.toString());
+                           View viewVariable = getLayoutInflater().inflate(R.layout.infowindow_variable, null, false);
+                           TextView variableName =  viewVariable.findViewById(R.id.name);
+                           TextView variableValue = viewVariable.findViewById(R.id.value);
+                           variableName.setText(var.getLong_name()!=null?var.getLong_name():var.getStandard_name());
+                           variableValue.setText(var.getData()+" "+var.getUnits());
+                           listVariables.addView(viewVariable);
+                       }
+                   }
                     return view;
                 }
             });

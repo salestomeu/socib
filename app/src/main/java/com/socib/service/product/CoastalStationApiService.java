@@ -22,7 +22,7 @@ public class CoastalStationApiService extends FixedStationApiService {
         this.coastalStationConverter = new CoastalStationConverter();
     }
     @Override
-    protected FixedStation converterFixedStation2(Product product, DataSource dataSource, List<Data> getDataResponse) {
+    protected FixedStation converterFixedStation(Product product, DataSource dataSource, List<Data> getDataResponse) {
         return coastalStationConverter
                 .toApiModel(fixedStationConverter
                         .toApiModel(product, dataSource, getDataResponse, FixedStation.class), CoastalStation.class);

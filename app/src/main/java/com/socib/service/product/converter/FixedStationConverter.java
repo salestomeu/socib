@@ -15,19 +15,23 @@ public class FixedStationConverter extends AbstractModelConverter<FixedStation, 
 
     public FixedStation toApiModel(Product domainModel, DataSource dataSource, List<Data> datas, Class<FixedStation> apiClass) {
         FixedStation fixedStation = super.toApiModel(domainModel, apiClass);
-        List<Double> coordinates = dataSource.getCoverage_bounding_box().getCoordinates()
-                .stream()
-                .findAny()
-                .get()
-                .get(0);
-        fixedStation.setLastUpdateDate(dataSource.getEnd_datetime());
-        fixedStation.setDataSourceId(dataSource.getId());
-        fixedStation.setLatitude(coordinates.get(1));
-        fixedStation.setLongitude(coordinates.get(0));
+        if (dataSource != null) {
+            List<Double> coordinates = dataSource.getCoverage_bounding_box().getCoordinates()
+                    .stream()
+                    .findAny()
+                    .get()
+                    .get(0);
+            fixedStation.setLastUpdateDate(dataSource.getEnd_datetime());
+            fixedStation.setDataSourceId(dataSource.getId());
+            fixedStation.setLatitude(coordinates.get(1));
+            fixedStation.setLongitude(coordinates.get(0));
+        }
         fixedStation.setVariables( new ArrayList<>());
-        for (Data data : datas) {
-            Log.i("data.variables:", String.valueOf(data.getVariables().size()));
-            fixedStation.getVariables().addAll(data.getVariables());
+        if (datas != null) {
+            for (Data data : datas) {
+                Log.i("data.variables:", data.getVariables().toString());
+                fixedStation.getVariables().addAll(data.getVariables());
+            }
         }
         return fixedStation;
     }

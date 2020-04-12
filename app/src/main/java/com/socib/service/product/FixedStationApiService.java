@@ -1,5 +1,7 @@
 package com.socib.service.product;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -29,7 +31,7 @@ public abstract class FixedStationApiService {
 
     protected FixedStationConverter fixedStationConverter;
 
-    protected abstract FixedStation converterFixedStation2(final Product product, final DataSource dataSource, final List<Data> getDataResponse);
+    protected abstract FixedStation converterFixedStation(final Product product, final DataSource dataSource, final List<Data> getDataResponse);
 
     private GetApiOperation getApiOperation;
     private SchedulerProvider schedulerProvider;
@@ -47,7 +49,7 @@ public abstract class FixedStationApiService {
         final MutableLiveData<List<FixedStation>> fixedStationsAdapter = new MutableLiveData<>();
         getApiOperation.getProducts(platformType, TRUE, apiKey)
                 .subscribeOn(this.schedulerProvider.getSchedulerIo())
-                .doOnNext(getProductsResponse -> System.out.println("Ok count: +" + getProductsResponse.getCount()))
+              //  .doOnNext(getProductsResponse -> System.out.println("Ok count: +" + getProductsResponse.getCount()))
                 .map(GetProductsResponse::getResults)
                 .flatMap(this::getFixedStation)
                 .observeOn(this.schedulerProvider.getSchedulerUi())
@@ -59,31 +61,62 @@ public abstract class FixedStationApiService {
         List<Observable<FixedStation>> fixedStationsList = new ArrayList<>();
         for (Product product : products) {
             fixedStationsList.add(getApiOperation.getDataSource(product.getId(), TRUE, apiKey)
-                                .flatMap(getDataSourceResponse -> getVariableData(product, getDataSourceResponse.getResults())));
+                    .flatMap(getDataSourceResponse -> getVariableData(product, getDataSourceResponse.getResults())));
         }
         return Observable.zip(fixedStationsList, this::getFixedStationList);
     }
 
     private Observable<FixedStation> getVariableData(Product product, List<DataSource> dataSources) {
-        return dataSources
-                .stream()
-                .filter(dataSource -> dataSource.getInstrument() != null)
-                .findFirst()
-                .map(dataSource -> getApiOperation.getData(dataSource.getId(), PROCESSING_LEVEL, MAX_QC_VALUE, TRUE, apiKey)
-                        .map(getDataResponse -> converterFixedStation2(product, dataSource, getDataResponse)))
-                .orElse(new Observable<FixedStation>() {
-                    @Override
-                    protected void subscribeActual(Observer<? super FixedStation> observer) {
-
-                    }
-                });
+        try {
+            return dataSources
+                    .stream()
+                    .filter(dataSource -> dataSource.getInstrument() != null)
+                    .findFirst()
+                    .map(dataSource -> {
+                        Log.i("dataSource.getId:", dataSource.getId());
+                        return getApiOperation.getData(dataSource.getId(), PROCESSING_LEVEL, MAX_QC_VALUE, TRUE, apiKey)
+                                .doOnError(e -> {
+                                    Log.i("Error get Data", e.getMessage());
+                                    converterFixedStation(product, dataSource, null);
+                                })
+                                .map(getDataResponse -> converterFixedStation(product, dataSource, getDataResponse));
+                    })
+                    .orElse(new Observable<FixedStation>() {
+                        @Override
+                        protected void subscribeActual(Observer<? super FixedStation> observer) {
+                            Log.i("Fallo: ", product.getId());
+                            converterFixedStation(product, new DataSource(), null);
+                        }
+                    });
+        } catch (Exception e) {
+            return new Observable<FixedStation>() {
+                @Override
+                protected void subscribeActual(Observer<? super FixedStation> observer) {
+                    Log.i("Fallo: ", product.getId());
+                    converterFixedStation(product, new DataSource(), null);
+                }
+            };
+        }
     }
 
     private List<FixedStation> getFixedStationList(Object[] objects) {
-        return Arrays.stream(objects)
+        List<FixedStation> result = Arrays.stream(objects)
                 .map(FixedStation.class::cast)
                 .filter(fixedStation -> fixedStation != null && fixedStation.getLatitude() != null && fixedStation.getLongitude() != null)
                 .collect(Collectors.toList());
+        Log.i("FixedSationApiService.getFixedSationList size", String.valueOf(result.size()));
+        return  result;
+    }
+
+    public LiveData<List<Data>> getData(){
+        MutableLiveData<List<Data>> listMutableLiveData = new MutableLiveData<>();
+         getApiOperation.getData("10f09dc763", PROCESSING_LEVEL, MAX_QC_VALUE, TRUE, apiKey)
+                 .subscribeOn(this.schedulerProvider.getSchedulerIo())
+                 .doOnNext(data -> Log.i("data.size:", String.valueOf(data.size())))
+                 .observeOn(this.schedulerProvider.getSchedulerUi())
+                .subscribe(listMutableLiveData::setValue);
+
+        return  listMutableLiveData;
     }
 
 }

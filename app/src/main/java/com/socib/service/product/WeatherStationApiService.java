@@ -21,7 +21,7 @@ public class WeatherStationApiService extends FixedStationApiService{
     }
 
     @Override
-    protected FixedStation converterFixedStation2(Product product, DataSource dataSource, List<Data> getDataResponse) {
+    protected FixedStation converterFixedStation(Product product, DataSource dataSource, List<Data> getDataResponse) {
         return weatherStationConverter
                 .toApiModel(fixedStationConverter
                         .toApiModel(product,dataSource, getDataResponse, FixedStation.class), WeatherStation.class);
