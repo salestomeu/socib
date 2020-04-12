@@ -1,39 +1,33 @@
 package com.socib.service.product.converter;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
+import android.util.Log;
 
 import com.socib.commons.AbstractModelConverter;
+import com.socib.integrationSocib.model.Data;
 import com.socib.integrationSocib.model.DataSource;
 import com.socib.integrationSocib.model.Product;
 import com.socib.model.FixedStation;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class FixedStationConverter extends AbstractModelConverter<FixedStation, Product> {
 
-    public FixedStation toApiModel(Product domainModel, List<DataSource> dataSources,Class<FixedStation> apiClass) {
+    public FixedStation toApiModel(Product domainModel, DataSource dataSource, List<Data> datas, Class<FixedStation> apiClass) {
         FixedStation fixedStation = super.toApiModel(domainModel, apiClass);
-        Optional<DataSource> dataSourceSelected = dataSources
+        List<Double> coordinates = dataSource.getCoverage_bounding_box().getCoordinates()
                 .stream()
-                .filter(dataSource -> dataSource.getInstrument() != null)
-                .findFirst();
-        if (dataSourceSelected.isPresent()) {
-            DataSource dataSource = dataSourceSelected.get();
-            List<Double> coordinates = dataSource.getCoverage_bounding_box().getCoordinates()
-                    .stream()
-                    .findAny()
-                    .get()
-                    .get(0);
-            fixedStation.setLastUpdateDate(dataSource.getEnd_datetime());
-            fixedStation.setDataSourceId(dataSource.getId());
-            fixedStation.setLatitude(coordinates.get(1));
-            fixedStation.setLongitude(coordinates.get(0));
+                .findAny()
+                .get()
+                .get(0);
+        fixedStation.setLastUpdateDate(dataSource.getEnd_datetime());
+        fixedStation.setDataSourceId(dataSource.getId());
+        fixedStation.setLatitude(coordinates.get(1));
+        fixedStation.setLongitude(coordinates.get(0));
+        fixedStation.setVariables( new ArrayList<>());
+        for (Data data : datas) {
+            Log.i("data.variables:", String.valueOf(data.getVariables().size()));
+            fixedStation.getVariables().addAll(data.getVariables());
         }
         return fixedStation;
     }

@@ -1,5 +1,6 @@
 package com.socib.service.product;
 
+import com.socib.integrationSocib.model.Data;
 import com.socib.integrationSocib.model.DataSource;
 import com.socib.integrationSocib.model.Product;
 import com.socib.model.FixedStation;
@@ -13,15 +14,16 @@ import retrofit2.Retrofit;
 
 public class WeatherStationApiService extends FixedStationApiService{
     private WeatherStationConverter weatherStationConverter;
+
     public WeatherStationApiService(Retrofit retrofit, SchedulerProvider schedulerProvider) {
         super(retrofit, schedulerProvider);
         this.weatherStationConverter = new WeatherStationConverter();
     }
 
     @Override
-    protected FixedStation converterFixedStation(Product product, List<DataSource> dataSources) {
+    protected FixedStation converterFixedStation2(Product product, DataSource dataSource, List<Data> getDataResponse) {
         return weatherStationConverter
                 .toApiModel(fixedStationConverter
-                        .toApiModel(product,dataSources,FixedStation.class), WeatherStation.class);
+                        .toApiModel(product,dataSource, getDataResponse, FixedStation.class), WeatherStation.class);
     }
 }

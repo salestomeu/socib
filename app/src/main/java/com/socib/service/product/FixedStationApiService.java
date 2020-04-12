@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.socib.integrationSocib.GetApiOperation;
+import com.socib.integrationSocib.model.Data;
 import com.socib.integrationSocib.model.DataSource;
 import com.socib.integrationSocib.model.GetProductsResponse;
 import com.socib.integrationSocib.model.Product;
@@ -17,15 +18,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import io.reactivex.Observable;
+import io.reactivex.Observer;
 import retrofit2.Retrofit;
 
-public abstract  class FixedStationApiService {
+public abstract class FixedStationApiService {
     private static final String TRUE = "true";
-
+    private static final String PROCESSING_LEVEL = "L1";
+    private static final Integer MAX_QC_VALUE = 2;
     private static final String apiKey = "cF0znGPFcamKiA2p7ze5lKmVHRQlrksI";
 
     protected FixedStationConverter fixedStationConverter;
-    protected abstract FixedStation converterFixedStation(final  Product product, final List<DataSource> dataSources);
+
+    protected abstract FixedStation converterFixedStation2(final Product product, final DataSource dataSource, final List<Data> getDataResponse);
 
     private GetApiOperation getApiOperation;
     private SchedulerProvider schedulerProvider;
@@ -39,7 +43,7 @@ public abstract  class FixedStationApiService {
 
     }
 
-    public LiveData<List<FixedStation>> getDataProducts(String platformType){
+    public LiveData<List<FixedStation>> getDataProducts(String platformType) {
         final MutableLiveData<List<FixedStation>> fixedStationsAdapter = new MutableLiveData<>();
         getApiOperation.getProducts(platformType, TRUE, apiKey)
                 .subscribeOn(this.schedulerProvider.getSchedulerIo())
@@ -53,17 +57,33 @@ public abstract  class FixedStationApiService {
 
     private Observable<List<FixedStation>> getFixedStation(List<Product> products) {
         List<Observable<FixedStation>> fixedStationsList = new ArrayList<>();
-        for (Product product : products){
+        for (Product product : products) {
             fixedStationsList.add(getApiOperation.getDataSource(product.getId(), TRUE, apiKey)
-                    .map(getDataSourceResponse -> converterFixedStation(product, getDataSourceResponse.getResults())));
+                                .flatMap(getDataSourceResponse -> getVariableData(product, getDataSourceResponse.getResults())));
         }
         return Observable.zip(fixedStationsList, this::getFixedStationList);
+    }
+
+    private Observable<FixedStation> getVariableData(Product product, List<DataSource> dataSources) {
+        return dataSources
+                .stream()
+                .filter(dataSource -> dataSource.getInstrument() != null)
+                .findFirst()
+                .map(dataSource -> getApiOperation.getData(dataSource.getId(), PROCESSING_LEVEL, MAX_QC_VALUE, TRUE, apiKey)
+                        .map(getDataResponse -> converterFixedStation2(product, dataSource, getDataResponse)))
+                .orElse(new Observable<FixedStation>() {
+                    @Override
+                    protected void subscribeActual(Observer<? super FixedStation> observer) {
+
+                    }
+                });
     }
 
     private List<FixedStation> getFixedStationList(Object[] objects) {
         return Arrays.stream(objects)
                 .map(FixedStation.class::cast)
-                .filter(fixedStation ->  fixedStation != null && fixedStation.getLatitude() != null && fixedStation.getLongitude() != null)
+                .filter(fixedStation -> fixedStation != null && fixedStation.getLatitude() != null && fixedStation.getLongitude() != null)
                 .collect(Collectors.toList());
     }
+
 }

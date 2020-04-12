@@ -1,7 +1,10 @@
 package com.socib.model;
 
+import com.socib.integrationSocib.model.Variable;
+
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,4 +26,5 @@ public class FixedStation {
     private int icon;
     private String type;
     private Date lastUpdateDate;
+    private List<Variable> variables;
 }

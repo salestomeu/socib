@@ -1,5 +1,6 @@
 package com.socib.service.product;
 
+import com.socib.integrationSocib.model.Data;
 import com.socib.integrationSocib.model.DataSource;
 import com.socib.integrationSocib.model.Product;
 import com.socib.model.FixedStation;
@@ -21,9 +22,12 @@ public class SeaLevelStationApiService extends FixedStationApiService{
     }
 
     @Override
-    protected FixedStation converterFixedStation(Product product, List<DataSource> dataSources) {
+    protected FixedStation converterFixedStation2(Product product, DataSource dataSource, List<Data> getDataResponse) {
         return seaLevelStationConverter
                 .toApiModel(fixedStationConverter
-                        .toApiModel(product,dataSources, FixedStation.class), SeaLevelStation.class);
+                        .toApiModel(product,dataSource, getDataResponse, FixedStation.class), SeaLevelStation.class);
     }
+
+
+
 }

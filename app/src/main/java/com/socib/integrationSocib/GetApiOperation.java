@@ -31,7 +31,7 @@ public interface GetApiOperation {
     @GET(DATA_PATH)
     Observable<List<Data>> getData(@Path("id") String id,
                                    @Query("processing_level") String processingLevel,
-                                   @Query("max_qc_value") String maxQcValue,
+                                   @Query("max_qc_value") Integer maxQcValue,
                                    @Query("latest") String latest,
                                    @Header("api_key") String apiKey);
 }
