@@ -10,14 +10,11 @@ import androidx.lifecycle.MutableLiveData;
 import com.socib.integrationSocib.IntegrationOperationFactory;
 import com.socib.model.FixedStation;
 import com.socib.model.StationType;
-import com.socib.service.product.FixedStationApiService;
-import com.socib.service.product.WeatherStationApiService;
-import com.socib.service.provider.SchedulerProvider;
+import com.socib.service.fixedStation.FixedStationApiService;
+import com.socib.service.fixedStation.WeatherStationApiService;
 import com.socib.service.provider.SchedulerProviderImpl;
 
 import java.util.List;
-
-import io.reactivex.Scheduler;
 
 public class WeatherStationViewModel extends AndroidViewModel {
     private LiveData<List<FixedStation>> fixedStations;
@@ -31,7 +28,7 @@ public class WeatherStationViewModel extends AndroidViewModel {
             fixedStations = new MutableLiveData<>();
             weatherStationApiService = new WeatherStationApiService(IntegrationOperationFactory.getAdapter(), new SchedulerProviderImpl());
         }
-        fixedStations = weatherStationApiService.getDataProducts(StationType.WEATHERSTATION.stationType());
+        fixedStations = weatherStationApiService.getFixedStationsLiveData(StationType.WEATHERSTATION.stationType());
         return  fixedStations;
     }
 }

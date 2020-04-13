@@ -1,4 +1,4 @@
-package com.socib.service.product.converter;
+package com.socib.service.fixedStation.converter;
 
 import com.socib.R;
 import com.socib.commons.AbstractModelConverter;

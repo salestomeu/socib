@@ -1,4 +1,4 @@
-package com.socib.service.product;
+package com.socib.service.fixedStation;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -9,7 +9,7 @@ import com.socib.integrationSocib.model.DataSource;
 import com.socib.integrationSocib.model.GetProductsResponse;
 import com.socib.integrationSocib.model.Product;
 import com.socib.model.FixedStation;
-import com.socib.service.product.converter.FixedStationConverter;
+import com.socib.service.fixedStation.converter.FixedStationConverter;
 import com.socib.service.provider.SchedulerProvider;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public abstract class FixedStationApiService {
 
     }
 
-    public LiveData<List<FixedStation>> getDataProducts(String platformType) {
+    public LiveData<List<FixedStation>> getFixedStationsLiveData(String platformType) {
         final MutableLiveData<List<FixedStation>> fixedStationsAdapter = new MutableLiveData<>();
         getApiOperation.getProducts(platformType, TRUE, apiKey)
                 .subscribeOn(this.schedulerProvider.getSchedulerIo())

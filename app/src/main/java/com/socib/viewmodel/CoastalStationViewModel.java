@@ -10,8 +10,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.socib.integrationSocib.IntegrationOperationFactory;
 import com.socib.model.FixedStation;
 import com.socib.model.StationType;
-import com.socib.service.product.CoastalStationApiService;
-import com.socib.service.product.FixedStationApiService;
+import com.socib.service.fixedStation.CoastalStationApiService;
+import com.socib.service.fixedStation.FixedStationApiService;
 import com.socib.service.provider.SchedulerProviderImpl;
 
 import java.util.List;
@@ -29,7 +29,7 @@ public class CoastalStationViewModel extends AndroidViewModel {
             fixedStations = new MutableLiveData<>();
             coastStationApiService = new CoastalStationApiService(IntegrationOperationFactory.getAdapter(), new SchedulerProviderImpl());
         }
-        fixedStations = coastStationApiService.getDataProducts(StationType.COASTALSTATION.stationType());
+        fixedStations = coastStationApiService.getFixedStationsLiveData(StationType.COASTALSTATION.stationType());
         return fixedStations;
     }
 }

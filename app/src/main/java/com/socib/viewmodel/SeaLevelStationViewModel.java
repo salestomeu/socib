@@ -10,8 +10,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.socib.integrationSocib.IntegrationOperationFactory;
 import com.socib.model.FixedStation;
 import com.socib.model.StationType;
-import com.socib.service.product.FixedStationApiService;
-import com.socib.service.product.SeaLevelStationApiService;
+import com.socib.service.fixedStation.FixedStationApiService;
+import com.socib.service.fixedStation.SeaLevelStationApiService;
 import com.socib.service.provider.SchedulerProviderImpl;
 
 import java.util.List;
@@ -29,7 +29,7 @@ public class SeaLevelStationViewModel extends AndroidViewModel {
             fixedStations = new MutableLiveData<>();
             seaLevelStationApiService = new SeaLevelStationApiService(IntegrationOperationFactory.getAdapter(), new SchedulerProviderImpl());
         }
-        fixedStations = seaLevelStationApiService.getDataProducts(StationType.SEALEVEL.stationType());
+        fixedStations = seaLevelStationApiService.getFixedStationsLiveData(StationType.SEALEVEL.stationType());
         return fixedStations;
     }
 }
