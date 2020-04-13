@@ -16,11 +16,11 @@ import com.socib.service.provider.SchedulerProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import retrofit2.Retrofit;
 
 public abstract class FixedStationApiService {
@@ -61,42 +61,25 @@ public abstract class FixedStationApiService {
         List<Observable<FixedStation>> fixedStationsList = new ArrayList<>();
         for (Product product : products) {
             fixedStationsList.add(getApiOperation.getDataSource(product.getId(), TRUE, apiKey)
-                    .flatMap(getDataSourceResponse -> getVariableData(product, getDataSourceResponse.getResults())));
+                    .flatMap(getDataSourceResponse -> getVariableData(product, getDataSourceResponse.getResults()))
+                    .onErrorReturnItem(new FixedStation()));
         }
+        Log.i("FixedStationApiService.getFixedStation fixedStationList.size:",String.valueOf(fixedStationsList.size()));
         return Observable.zip(fixedStationsList, this::getFixedStationList);
     }
 
     private Observable<FixedStation> getVariableData(Product product, List<DataSource> dataSources) {
-        try {
-            return dataSources
-                    .stream()
-                    .filter(dataSource -> dataSource.getInstrument() != null)
-                    .findFirst()
-                    .map(dataSource -> {
-                        Log.i("dataSource.getId:", dataSource.getId());
-                        return getApiOperation.getData(dataSource.getId(), PROCESSING_LEVEL, MAX_QC_VALUE, TRUE, apiKey)
-                                .doOnError(e -> {
-                                    Log.i("Error get Data", e.getMessage());
-                                    converterFixedStation(product, dataSource, null);
-                                })
-                                .map(getDataResponse -> converterFixedStation(product, dataSource, getDataResponse));
-                    })
-                    .orElse(new Observable<FixedStation>() {
-                        @Override
-                        protected void subscribeActual(Observer<? super FixedStation> observer) {
-                            Log.i("Fallo: ", product.getId());
-                            converterFixedStation(product, new DataSource(), null);
-                        }
-                    });
-        } catch (Exception e) {
-            return new Observable<FixedStation>() {
-                @Override
-                protected void subscribeActual(Observer<? super FixedStation> observer) {
-                    Log.i("Fallo: ", product.getId());
-                    converterFixedStation(product, new DataSource(), null);
-                }
-            };
-        }
+        return dataSources
+                .stream()
+                .filter(dataSource -> dataSource.getInstrument() != null)
+                .findFirst()
+                .map(dataSource -> {
+                    Log.i("dataSource.getId:", dataSource.getId());
+                    return getApiOperation.getData(dataSource.getId(), PROCESSING_LEVEL, MAX_QC_VALUE, TRUE, apiKey)
+                            .onErrorReturnItem(Collections.emptyList())
+                            .map(getDataResponse -> converterFixedStation(product, dataSource, getDataResponse));
+                })
+                .orElse(Observable.just(converterFixedStation(product, new DataSource(), Collections.emptyList())));
     }
 
     private List<FixedStation> getFixedStationList(Object[] objects) {

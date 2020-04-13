@@ -83,12 +83,12 @@ public class MapFragment  extends Fragment {
             coastalStationViewModel.getFixedStation().observe(
                     getViewLifecycleOwner(), this::addMarker
             );
-           /* seaLevelStationViewModel.getFixedStation().observe(
+            seaLevelStationViewModel.getFixedStation().observe(
                     getViewLifecycleOwner(), this::addMarker
             );
             weatherStationViewModel.getFixedStation().observe(
                     getViewLifecycleOwner(), this::addMarker
-            );*/
+            );
             googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter(){
                 @Override
                 public View getInfoWindow(Marker marker) {
