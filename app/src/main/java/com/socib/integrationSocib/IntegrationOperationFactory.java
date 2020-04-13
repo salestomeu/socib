@@ -30,26 +30,4 @@ public class IntegrationOperationFactory {
        }
        return retrofit;
     }
-
-    public static Retrofit getMockAdapter(Function<Request, String> responseByRequest) {
-        return IntegrationOperationFactory.getMockAdapter(new MockInterceptor(responseByRequest));
-    }
-
-    public static Retrofit getMockAdapter(String response) {
-        return IntegrationOperationFactory.getMockAdapter(new MockInterceptor(response));
-    }
-
-    private static Retrofit getMockAdapter(MockInterceptor mockInterceptor) {
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(mockInterceptor)
-                .build();
-
-        return new Retrofit.Builder()
-                .baseUrl("http://www.mock.com/")
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
-    }
 }

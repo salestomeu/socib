@@ -1,7 +1,5 @@
 package com.socib.service.product.converter;
 
-import android.util.Log;
-
 import com.socib.commons.AbstractModelConverter;
 import com.socib.integrationSocib.model.Data;
 import com.socib.integrationSocib.model.DataSource;
@@ -10,6 +8,7 @@ import com.socib.model.FixedStation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FixedStationConverter extends AbstractModelConverter<FixedStation, Product> {
 
@@ -29,8 +28,11 @@ public class FixedStationConverter extends AbstractModelConverter<FixedStation, 
         fixedStation.setVariables( new ArrayList<>());
         if (datas != null) {
             for (Data data : datas) {
-                Log.i("data.variables:", data.getVariables().toString());
-                fixedStation.getVariables().addAll(data.getVariables());
+                System.out.println("data.variables:"+ data.getVariables().toString());
+                fixedStation.getVariables().addAll(data.getVariables()
+                        .stream()
+                        .filter(variable -> variable.getData() != null && !"NaN".equals(variable.getData()))
+                        .collect(Collectors.toList()));
             }
         }
         return fixedStation;
