@@ -17,10 +17,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import io.reactivex.Observable;
-import io.reactivex.Single;
 import retrofit2.Retrofit;
 
 public abstract class FixedStationApiService {
@@ -57,28 +55,26 @@ public abstract class FixedStationApiService {
     }
 
     private Observable<List<FixedStation>> getFixedStation(final List<Product> products) {
-        List<Observable<List<FixedStation>>> fixedStationsList = new ArrayList<>();
+        List<Observable<FixedStation>> fixedStationsList = new ArrayList<>();
         for (Product product : products) {
-             fixedStationsList.add(getApiOperation.getDataSource(product.getId(), TRUE, apiKey)
-                    .flatMap(getDataSourceResponse -> getVariableData(product, getDataSourceResponse.getResults())));
+            fixedStationsList.add(getApiOperation.getDataSource(product.getId(), TRUE, apiKey)
+                    .flatMap(getDataSourceResponse -> getVariableData(product, getDataSourceResponse.getResults()))
+                    .onErrorReturnItem(new FixedStation()));
         }
         return Observable.zip(fixedStationsList, this::getFixedStationList);
     }
 
-    private Observable<List<FixedStation>>  getVariableData(final Product product, final List<DataSource> dataSources) {
-        List<DataSource> dataSourcesWithInstrument = dataSources
+    private Observable<FixedStation> getVariableData(final Product product, final List<DataSource> dataSources) {
+        return dataSources
                 .stream()
                 .filter(dataSource -> dataSource.getInstrument() != null)
-                .collect(Collectors.toList());
-
-        List<Observable<FixedStation>> result = dataSourcesWithInstrument
-                .stream()
+                .findFirst()
                 .map(dataSource -> getApiOperation.getData(dataSource.getId(), PROCESSING_LEVEL, MAX_QC_VALUE, TRUE, apiKey)
                         .doOnError(error -> System.err.println("The error message is: " + error.getMessage()))
-                        .onErrorReturnItem(Collections.emptyList())
-                        .map(getDataResponse -> converterFixedStation(product, dataSource, getDataResponse)))
-                .collect(Collectors.toList());
-        return Observable.zip(result, this::getFixedStationList);
+                            .onErrorReturnItem(Collections.emptyList())
+                            .map(getDataResponse -> converterFixedStation(product, dataSource, getDataResponse))
+                )
+                .orElse(Observable.just(converterFixedStation(product, new DataSource(), Collections.emptyList())));
     }
 
     private List<FixedStation> getFixedStationList(final Object[] objects) {
