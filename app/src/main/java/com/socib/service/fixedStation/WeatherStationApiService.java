@@ -20,10 +20,17 @@ public class WeatherStationApiService extends FixedStationApiService {
         this.weatherStationConverter = new WeatherStationConverter();
     }
 
-    @Override
+   /* @Override
     protected FixedStation converterFixedStation(Product product, DataSource dataSource, List<Data> getDataResponse) {
         return weatherStationConverter
                 .toApiModel(fixedStationConverter
                         .toApiModel(product, dataSource, getDataResponse, FixedStation.class), WeatherStation.class);
+    }*/
+
+    @Override
+    protected FixedStation converterFixedStation(Product product, List<DataSource> dataSources) {
+        return weatherStationConverter
+                .toApiModel(fixedStationConverter
+                        .toApiModel(product, dataSources, FixedStation.class), WeatherStation.class);
     }
 }

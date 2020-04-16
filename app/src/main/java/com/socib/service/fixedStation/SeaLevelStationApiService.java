@@ -20,10 +20,17 @@ public class SeaLevelStationApiService extends FixedStationApiService {
         this.seaLevelStationConverter = new SeaLevelStationConverter();
     }
 
-    @Override
+   /* @Override
     protected FixedStation converterFixedStation(Product product, DataSource dataSource, List<Data> getDataResponse) {
         return seaLevelStationConverter
                 .toApiModel(fixedStationConverter
                         .toApiModel(product, dataSource, getDataResponse, FixedStation.class), SeaLevelStation.class);
+    }*/
+
+    @Override
+    protected FixedStation converterFixedStation(Product product, List<DataSource> dataSources) {
+        return seaLevelStationConverter
+                .toApiModel(fixedStationConverter
+                        .toApiModel(product, dataSources, FixedStation.class), SeaLevelStation.class);
     }
 }

@@ -29,7 +29,8 @@ public abstract class FixedStationApiService {
 
     protected FixedStationConverter fixedStationConverter;
 
-    protected abstract FixedStation converterFixedStation(final Product product, final DataSource dataSource, final List<Data> getDataResponse);
+    //protected abstract FixedStation converterFixedStation(final Product product, final DataSource dataSource, final List<Data> getDataResponse);
+    protected abstract FixedStation converterFixedStation(final Product product, final List<DataSource> dataSources);
 
     private GetApiOperation getApiOperation;
     private SchedulerProvider schedulerProvider;
@@ -58,13 +59,16 @@ public abstract class FixedStationApiService {
         List<Observable<FixedStation>> fixedStationsList = new ArrayList<>();
         for (Product product : products) {
             fixedStationsList.add(getApiOperation.getDataSource(product.getId(), TRUE, apiKey)
-                    .flatMap(getDataSourceResponse -> getVariableData(product, getDataSourceResponse.getResults()))
-                    .onErrorReturnItem(new FixedStation()));
+                    .doOnError(error -> {
+                        System.out.println("Error get datasource from product:"+product.getId());
+                        System.out.println(error);
+                    })
+                    .map(getDataSourceResponse -> converterFixedStation(product, getDataSourceResponse.getResults())));
         }
         return Observable.zip(fixedStationsList, this::getFixedStationList);
     }
 
-    private Observable<FixedStation> getVariableData(final Product product, final List<DataSource> dataSources) {
+   /* private Observable<FixedStation> getVariableData(final Product product, final List<DataSource> dataSources) {
         return dataSources
                 .stream()
                 .filter(dataSource -> dataSource.getInstrument() != null)
@@ -75,13 +79,13 @@ public abstract class FixedStationApiService {
                             .map(getDataResponse -> converterFixedStation(product, dataSource, getDataResponse))
                 )
                 .orElse(Observable.just(converterFixedStation(product, new DataSource(), Collections.emptyList())));
-    }
+    }*/
 
     private List<FixedStation> getFixedStationList(final Object[] objects) {
         List<FixedStation> result = Arrays.stream(objects)
                 .map(FixedStation.class::cast)
-                .filter(fixedStation -> fixedStation != null && fixedStation.getLatitude() != null && fixedStation.getLongitude() != null)
+                .filter(fixedStation -> fixedStation != null && fixedStation.getLatitude() != null && fixedStation.getLongitude() != null && !fixedStation.getDataSourceId().isEmpty())
                 .collect(Collectors.toList());
-        return  result;
+        return result;
     }
 }

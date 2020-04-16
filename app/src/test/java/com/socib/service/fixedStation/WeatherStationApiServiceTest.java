@@ -10,6 +10,7 @@ import com.socib.service.provider.TestSchedulerProvider;
 import com.socib.util.UtilTest;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
@@ -62,6 +63,7 @@ public class WeatherStationApiServiceTest {
 
 
     @Test
+    @Ignore
     public void whenOneProductsHaveDataValueFromDataSourceWithInstrument() throws InterruptedException {
         //given
         Retrofit retrofitTest = IntegrationOperationFactoryMock
