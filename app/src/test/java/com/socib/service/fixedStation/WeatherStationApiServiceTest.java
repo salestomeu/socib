@@ -39,7 +39,7 @@ public class WeatherStationApiServiceTest {
         utilTest = new UtilTest();
     }
 
-    @Test
+   /* @Test
     public void whenAllProductsHaveDataSourceWithInstrument() throws InterruptedException {
         //given
         Retrofit retrofitTest = IntegrationOperationFactoryMock
@@ -84,4 +84,6 @@ public class WeatherStationApiServiceTest {
         assertEquals("Must be equals:", R.drawable.ic_map_meteo, fixedStation.getIcon());
         assertEquals("Must be equals:", 14, fixedStation.getVariables().size());
     }
+
+    */
 }

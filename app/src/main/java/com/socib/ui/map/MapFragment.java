@@ -14,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,6 +33,7 @@ import com.socib.model.FixedStation;
 import com.socib.ui.util.Device;
 import com.socib.viewmodel.CoastalStationViewModel;
 import com.socib.viewmodel.SeaLevelStationViewModel;
+import com.socib.viewmodel.VariableStationViewModel;
 import com.socib.viewmodel.WeatherStationViewModel;
 
 import java.util.HashMap;
@@ -46,6 +49,7 @@ public class MapFragment  extends Fragment {
     private MapView mMapView;
     private GoogleMap googleMap;
     private Map<String, FixedStation> mapFixedStations;
+    //private VariableStationViewModel variableStationViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState){
@@ -56,6 +60,7 @@ public class MapFragment  extends Fragment {
         CoastalStationViewModel coastalStationViewModel = ViewModelProviders.of(this).get(CoastalStationViewModel.class);
         SeaLevelStationViewModel seaLevelStationViewModel = ViewModelProviders.of(this).get(SeaLevelStationViewModel.class);
         WeatherStationViewModel weatherStationViewModel = ViewModelProviders.of(this).get(WeatherStationViewModel.class);
+      //  variableStationViewModel = ViewModelProviders.of(this).get(VariableStationViewModel.class);
         mMapView.onResume(); // needed to get the map to display immediately
 
         MapsInitializer.initialize(Objects.requireNonNull(getActivity()).getApplicationContext());
@@ -107,20 +112,31 @@ public class MapFragment  extends Fragment {
                     name.setText(fixedStation.getName());
                     type.setText(fixedStation.getType());
                     lastUpdated.setText("Updated: "+fixedStation.getLastUpdateDate());
-                    LinearLayout listVariables = view.findViewById(R.id.listVariables);
+                   /* LinearLayout listVariables = view.findViewById(R.id.listVariables);
+                    fixedStation.getDataSourceId().forEach(dataSourceId ->{
+                        variableStationViewModel
+                                .getVariablesStation(dataSourceId)
+                                .observe( getViewLifecycleOwner(),
+                                response -> this.addVariables(response, dataSourceId, listVariables));
 
-                   /*if(fixedStation.getVariables() != null) {
-                       for (Variable var: fixedStation.getVariables()) {
-                           Log.i("Variable:",var.toString());
-                           View viewVariable = getLayoutInflater().inflate(R.layout.infowindow_variable, null, false);
-                           TextView variableName =  viewVariable.findViewById(R.id.name);
-                           TextView variableValue = viewVariable.findViewById(R.id.value);
-                           variableName.setText(var.getLong_name()!=null?var.getLong_name():var.getStandard_name());
-                           variableValue.setText(var.getData()+" "+var.getUnits());
-                           listVariables.addView(viewVariable);
-                       }
-                   }*/
+                    });*/
+
                     return view;
+                }
+
+                private void addVariables(Map<String, List<Variable>> stringListMap, String dataSourceId, LinearLayout listVariables) {
+                    List<Variable> variableStationList = stringListMap.get(dataSourceId);
+                    if (variableStationList != null) {
+                       /* variableStationList.forEach(var -> {
+                            View viewVariable = getLayoutInflater().inflate(R.layout.infowindow_variable, null, false);
+                            TextView variableName =  viewVariable.findViewById(R.id.name);
+                            TextView variableValue = viewVariable.findViewById(R.id.value);
+                            variableName.setText(var.getLong_name()!=null?var.getLong_name():var.getStandard_name());
+                            variableValue.setText(var.getData()+" "+var.getUnits());
+                            listVariables.addView(viewVariable);
+                        });*/
+                    }
+
                 }
             });
         });
@@ -129,8 +145,10 @@ public class MapFragment  extends Fragment {
         return rootView;
     }
 
+
+
     private void addMarker(final List<FixedStation> fixedStations) {
-        Log.i("addMarker fixedStations.size:",fixedStations.get(0).getType()+","+ fixedStations.size());
+        Log.i("addMarker fixedStations.size:", String.valueOf(fixedStations.size()));
         fixedStations.forEach(
                 fixedStation -> {
                     googleMap.addMarker(new MarkerOptions()

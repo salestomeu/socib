@@ -39,7 +39,7 @@ public class SeaLevelStationApiServiceTest {
         utilTest = new UtilTest();
     }
 
-    @Test
+  /*  @Test
     public void whenAllProductsHaveDataSourceWithInstrument() throws InterruptedException {
         //given
         Retrofit retrofitTest = IntegrationOperationFactoryMock
@@ -83,5 +83,5 @@ public class SeaLevelStationApiServiceTest {
         assertNotNull("Must be not null:",  fixedStation.getLastUpdateDate());
         assertEquals("Must be equals:", R.drawable.ic_map_sea_level, fixedStation.getIcon());
         assertEquals("Must be equals:", 14, fixedStation.getVariables().size());
-    }
+    }*/
 }
