@@ -103,12 +103,13 @@ public class MapFragment  extends Fragment {
                     TextView lastUpdated = view.findViewById(R.id.textLastUpdated);
 
                     FixedStation fixedStation = mapFixedStations.get(marker.getTitle());
+                    Log.i("infoName:",fixedStation.getName());
                     name.setText(fixedStation.getName());
                     type.setText(fixedStation.getType());
                     lastUpdated.setText("Updated: "+fixedStation.getLastUpdateDate());
                     LinearLayout listVariables = view.findViewById(R.id.listVariables);
 
-                   if(fixedStation.getVariables() != null) {
+                   /*if(fixedStation.getVariables() != null) {
                        for (Variable var: fixedStation.getVariables()) {
                            Log.i("Variable:",var.toString());
                            View viewVariable = getLayoutInflater().inflate(R.layout.infowindow_variable, null, false);
@@ -118,7 +119,7 @@ public class MapFragment  extends Fragment {
                            variableValue.setText(var.getData()+" "+var.getUnits());
                            listVariables.addView(viewVariable);
                        }
-                   }
+                   }*/
                     return view;
                 }
             });

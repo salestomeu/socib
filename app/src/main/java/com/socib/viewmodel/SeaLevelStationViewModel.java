@@ -11,13 +11,12 @@ import com.socib.integrationSocib.IntegrationOperationFactory;
 import com.socib.model.FixedStation;
 import com.socib.model.StationType;
 import com.socib.service.fixedStation.FixedStationApiService;
-import com.socib.service.fixedStation.SeaLevelStationApiService;
 import com.socib.service.provider.SchedulerProviderImpl;
 
 import java.util.List;
 
 public class SeaLevelStationViewModel extends AndroidViewModel {
-    private LiveData<List<FixedStation>> fixedStations;
+    private MutableLiveData<List<FixedStation>> fixedStations;
     private FixedStationApiService seaLevelStationApiService;
 
     public SeaLevelStationViewModel(@NonNull Application application) {
@@ -27,9 +26,10 @@ public class SeaLevelStationViewModel extends AndroidViewModel {
     public LiveData<List<FixedStation>> getFixedStation() {
         if (fixedStations == null){
             fixedStations = new MutableLiveData<>();
-            seaLevelStationApiService = new SeaLevelStationApiService(IntegrationOperationFactory.getAdapter(), new SchedulerProviderImpl());
+            seaLevelStationApiService = new FixedStationApiService(IntegrationOperationFactory.getAdapter(), new SchedulerProviderImpl());
         }
-        fixedStations = seaLevelStationApiService.getFixedStationsLiveData(StationType.SEALEVEL.stationType());
+        seaLevelStationApiService.getFixedStationsLiveData(StationType.SEALEVEL)
+                .subscribe(fixedStations::setValue);
         return fixedStations;
     }
 }

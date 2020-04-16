@@ -15,6 +15,12 @@ public class AbstractModelConverter<A, D> {
         return apiModel != null ? getModelMapper().map(apiModel, domainClass) : null;
     }
 
+    public void mapApiToDomainModel(A apiModel, D domainModel) {
+        if(apiModel != null && domainModel != null){
+            getModelMapper().map(apiModel, domainModel);
+        }
+    }
+
     private static ModelMapper getModelMapper() {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);

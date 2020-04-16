@@ -5,6 +5,7 @@ import com.socib.integrationSocib.model.Variable;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +23,7 @@ public class FixedStation {
     private String name;
     private Double latitude;
     private Double longitude;
-    private String dataSourceId;
+    private Set<String> dataSourceId;
     private int icon;
     private String type;
     private Date lastUpdateDate;
