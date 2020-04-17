@@ -1,5 +1,7 @@
 package com.socib.service.fixedStation;
 
+import android.util.Log;
+
 import com.socib.integrationSocib.GetApiOperation;
 import com.socib.integrationSocib.model.DataSource;
 import com.socib.integrationSocib.model.GetProductsResponse;
@@ -18,13 +20,10 @@ import io.reactivex.Observable;
 import retrofit2.Retrofit;
 
 public class FixedStationApiService {
-    private static final String TRUE = "true";
-    private static final String apiKey = "cF0znGPFcamKiA2p7ze5lKmVHRQlrksI";
+    public static final String TRUE = "true";
+    public static final String apiKey = "cF0znGPFcamKiA2p7ze5lKmVHRQlrksI";
 
     private FixedStationConverter fixedStationConverter;
-
-    //protected abstract FixedStation converterFixedStation(final Product product, final DataSource dataSource, final List<Data> getDataResponse);
-
     private GetApiOperation getApiOperation;
     private SchedulerProvider schedulerProvider;
 
@@ -37,35 +36,36 @@ public class FixedStationApiService {
 
     }
 
-    public Observable<List<FixedStation>> getFixedStationsLiveData(StationType stationType) {
+    public Observable<List<FixedStation>> getFixedStations(StationType stationType) {
+        Log.i("FixedStationApiService.getFixedStationsLiveData: ", stationType.stationType());
         return getApiOperation.getProducts(stationType.stationType(), TRUE, apiKey)
                 .subscribeOn(this.schedulerProvider.getSchedulerIo())
+                .doOnError(error -> Log.e("Error get datasource from product:",stationType.stationType(),error))
                 .map(GetProductsResponse::getResults)
-                .flatMap(products -> this.getFixedStation(products, stationType))
+                .flatMap(products -> this.getFixedStationFromProduct(products, stationType))
                 .observeOn(this.schedulerProvider.getSchedulerUi());
     }
 
-    private Observable<List<FixedStation>> getFixedStation(final List<Product> products, final StationType stationType) {
+    private Observable<List<FixedStation>> getFixedStationFromProduct(final List<Product> products, final StationType stationType) {
         List<Observable<FixedStation>> fixedStationsList = new ArrayList<>();
         for (Product product : products) {
             fixedStationsList.add(getApiOperation.getDataSource(product.getId(), TRUE, apiKey)
-                    .doOnError(error -> {
-                        System.out.println("Error get datasource from product:"+product.getId());
-                        System.out.println(error.getMessage());
-                    })
-                    .map(getDataSourceResponse -> converterFixedStation(product, getDataSourceResponse.getResults(), stationType)));
+                    .doOnError(error -> Log.e("Error get datasource from product:",product.getId(),error))
+                    .map(getDataSourceResponse -> converterFixedStationFromDataSource(product, getDataSourceResponse.getResults(), stationType)));
         }
         return Observable.zip(fixedStationsList, this::getFixedStationList);
     }
 
     private List<FixedStation> getFixedStationList(final Object[] objects) {
-        return Arrays.stream(objects)
+        List<FixedStation> result = Arrays.stream(objects)
                 .map(FixedStation.class::cast)
-                .filter(fixedStation -> fixedStation != null && fixedStation.getLatitude() != null && fixedStation.getLongitude() != null && !fixedStation.getDataSourceId().isEmpty())
+                .filter(fixedStation -> fixedStation!= null && fixedStation.isValid())
                 .collect(Collectors.toList());
+        Log.i("FixedStationApiService.getFixedStationList:",String.valueOf(result.size()));
+        return  result;
     }
 
-    private FixedStation converterFixedStation(final Product product, final List<DataSource> dataSources, StationType stationType){
+    private FixedStation converterFixedStationFromDataSource(final Product product, final List<DataSource> dataSources, StationType stationType){
         return fixedStationConverter.toDomainModel(product, dataSources, stationType);
     }
 }

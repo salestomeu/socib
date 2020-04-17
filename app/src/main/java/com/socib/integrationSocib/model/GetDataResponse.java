@@ -13,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Data {
+public class GetDataResponse {
     private String feature_type;
     private List<Variable> variables;
     private String data_mode;

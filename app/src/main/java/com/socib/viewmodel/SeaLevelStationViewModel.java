@@ -28,7 +28,7 @@ public class SeaLevelStationViewModel extends AndroidViewModel {
             fixedStations = new MutableLiveData<>();
             seaLevelStationApiService = new FixedStationApiService(IntegrationOperationFactory.getAdapter(), new SchedulerProviderImpl());
         }
-        seaLevelStationApiService.getFixedStationsLiveData(StationType.SEALEVEL)
+        seaLevelStationApiService.getFixedStations(StationType.SEALEVEL)
                 .subscribe(fixedStations::setValue);
         return fixedStations;
     }

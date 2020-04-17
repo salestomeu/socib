@@ -27,7 +27,7 @@ public class WeatherStationViewModel extends AndroidViewModel {
             fixedStations = new MutableLiveData<>();
             weatherStationApiService = new FixedStationApiService(IntegrationOperationFactory.getAdapter(), new SchedulerProviderImpl());
         }
-        weatherStationApiService.getFixedStationsLiveData(StationType.WEATHERSTATION)
+        weatherStationApiService.getFixedStations(StationType.WEATHERSTATION)
                 .subscribe(fixedStations::setValue);
         return  fixedStations;
     }
