@@ -1,0 +1,212 @@
+{
+  "count": 5,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": "station-esporles",
+      "name": "Station Esporles data",
+      "info": {
+        "json_ld": {
+          "publisher": {
+            "name": "Balearic Islands Coastal Observing and Forecasting System, SOCIB",
+            "@type": "Organization"
+          },
+          "name": "Station Esporles data",
+          "author": [],
+          "url": "apps.socib.es/data-catalog/station-esporles",
+          "encodingFormat": "application/x-netcdf",
+          "datePublished": 2014,
+          "inLanguage": "en-US",
+          "editor": [],
+          "context": "http://schema.org",
+          "additionalType": "Dataset",
+          "schemaVersion": "http://datacite.org/schema/kernel-4",
+          "funder": [
+            {
+              "name": "Ministerio de ciencia, innovación y universidades (http://www.ciencia.gob.es/)",
+              "@type": "Organization"
+            },
+            {
+              "name": "Govern de les Illes Balears (http://www.caib.es/)",
+              "@type": "Organization"
+            }
+          ],
+          "identifier": null,
+          "@id": null,
+          "@type": "Dataset",
+          "description": "Data produced in the platform Station Esporles. It's compound by: Weather Station data"
+        },
+        "citation": null,
+        "how_to_cite": null
+      },
+      "description": "Data produced in the platform Station Esporles. It's compound by: Weather Station data",
+      "data_sources": "http://api.socib.es/data-sources/?data_product=station-esporles",
+      "entries": "http://api.socib.es/entries/?data_product=station-esporles"
+    },
+    {
+      "id": "station-estellencs",
+      "name": "Station Estellencs data",
+      "info": {
+        "json_ld": {
+          "publisher": {
+            "name": "Balearic Islands Coastal Observing and Forecasting System, SOCIB",
+            "@type": "Organization"
+          },
+          "name": "Station Estellencs data",
+          "author": [],
+          "url": "apps.socib.es/data-catalog/station-estellencs",
+          "encodingFormat": "application/x-netcdf",
+          "datePublished": 2015,
+          "inLanguage": "en-US",
+          "editor": [],
+          "context": "http://schema.org",
+          "additionalType": "Dataset",
+          "schemaVersion": "http://datacite.org/schema/kernel-4",
+          "funder": [
+            {
+              "name": "Ministerio de ciencia, innovación y universidades (http://www.ciencia.gob.es/)",
+              "@type": "Organization"
+            },
+            {
+              "name": "Govern de les Illes Balears (http://www.caib.es/)",
+              "@type": "Organization"
+            }
+          ],
+          "identifier": null,
+          "@id": null,
+          "@type": "Dataset",
+          "description": "Data produced in the platform Station Estellencs. It's compound by: Weather Station data"
+        },
+        "citation": null,
+        "how_to_cite": null
+      },
+      "description": "Data produced in the platform Station Estellencs. It's compound by: Weather Station data",
+      "data_sources": "http://api.socib.es/data-sources/?data_product=station-estellencs",
+      "entries": "http://api.socib.es/entries/?data_product=station-estellencs"
+    },
+    {
+      "id": "station-galfi",
+      "name": "Station Galfi data",
+      "info": {
+        "json_ld": {
+          "publisher": {
+            "name": "Balearic Islands Coastal Observing and Forecasting System, SOCIB",
+            "@type": "Organization"
+          },
+          "name": "Station Galfi data",
+          "author": [],
+          "url": "apps.socib.es/data-catalog/station-galfi",
+          "encodingFormat": "application/x-netcdf",
+          "datePublished": 2017,
+          "inLanguage": "en-US",
+          "editor": [],
+          "context": "http://schema.org",
+          "additionalType": "Dataset",
+          "schemaVersion": "http://datacite.org/schema/kernel-4",
+          "funder": [
+            {
+              "name": "Ministerio de ciencia, innovación y universidades (http://www.ciencia.gob.es/)",
+              "@type": "Organization"
+            },
+            {
+              "name": "Govern de les Illes Balears (http://www.caib.es/)",
+              "@type": "Organization"
+            }
+          ],
+          "identifier": null,
+          "@id": null,
+          "@type": "Dataset",
+          "description": "Data produced in the platform Station Galfi. It's compound by: Weather Station data"
+        },
+        "citation": null,
+        "how_to_cite": null
+      },
+      "description": "Data produced in the platform Station Galfi. It's compound by: Weather Station data",
+      "data_sources": "http://api.socib.es/data-sources/?data_product=station-galfi",
+      "entries": "http://api.socib.es/entries/?data_product=station-galfi"
+    },
+    {
+      "id": "station-parcbit",
+      "name": "Station ParcBit data",
+      "info": {
+        "json_ld": {
+          "publisher": {
+            "name": "Balearic Islands Coastal Observing and Forecasting System, SOCIB",
+            "@type": "Organization"
+          },
+          "name": "Station ParcBit data",
+          "author": [],
+          "url": "apps.socib.es/data-catalog/station-parcbit",
+          "encodingFormat": "application/x-netcdf",
+          "datePublished": 2012,
+          "inLanguage": "en-US",
+          "editor": [],
+          "context": "http://schema.org",
+          "additionalType": "Dataset",
+          "schemaVersion": "http://datacite.org/schema/kernel-4",
+          "funder": [
+            {
+              "name": "Ministerio de ciencia, innovación y universidades (http://www.ciencia.gob.es/)",
+              "@type": "Organization"
+            },
+            {
+              "name": "Govern de les Illes Balears (http://www.caib.es/)",
+              "@type": "Organization"
+            }
+          ],
+          "identifier": null,
+          "@id": null,
+          "@type": "Dataset",
+          "description": "Data produced in the platform Station ParcBit. It's compound by: Weather Station data"
+        },
+        "citation": null,
+        "how_to_cite": null
+      },
+      "description": "Data produced in the platform Station ParcBit. It's compound by: Weather Station data",
+      "data_sources": "http://api.socib.es/data-sources/?data_product=station-parcbit",
+      "entries": "http://api.socib.es/entries/?data_product=station-parcbit"
+    },
+    {
+      "id": "station-salines",
+      "name": "Station Salines data",
+      "info": {
+        "json_ld": {
+          "publisher": {
+            "name": "Balearic Islands Coastal Observing and Forecasting System, SOCIB",
+            "@type": "Organization"
+          },
+          "name": "Station Salines data",
+          "author": [],
+          "url": "apps.socib.es/data-catalog/station-salines",
+          "encodingFormat": "application/x-netcdf",
+          "datePublished": 2011,
+          "inLanguage": "en-US",
+          "editor": [],
+          "context": "http://schema.org",
+          "additionalType": "Dataset",
+          "schemaVersion": "http://datacite.org/schema/kernel-4",
+          "funder": [
+            {
+              "name": "Ministerio de ciencia, innovación y universidades (http://www.ciencia.gob.es/)",
+              "@type": "Organization"
+            },
+            {
+              "name": "Govern de les Illes Balears (http://www.caib.es/)",
+              "@type": "Organization"
+            }
+          ],
+          "identifier": null,
+          "@id": null,
+          "@type": "Dataset",
+          "description": "Data produced in the platform Station Salines. It's compound by: Weather Station data"
+        },
+        "citation": null,
+        "how_to_cite": null
+      },
+      "description": "Data produced in the platform Station Salines. It's compound by: Weather Station data",
+      "data_sources": "http://api.socib.es/data-sources/?data_product=station-salines",
+      "entries": "http://api.socib.es/entries/?data_product=station-salines"
+    }
+  ]
+}
