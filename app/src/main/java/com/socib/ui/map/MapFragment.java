@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,7 +36,6 @@ import com.socib.viewmodel.WeatherStationViewModel;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class MapFragment  extends Fragment {
     private static final String[] INITIAL_PERMS={
@@ -124,12 +120,11 @@ public class MapFragment  extends Fragment {
                     return view;
                 }
 
-                private void addVariables(Map<String, List<Variable>> stringListMap, String dataSourceId, LinearLayout listVariables) {
+                private void addVariables(List<Variable> variablesStationList, String dataSourceId, LinearLayout listVariables) {
                     Log.i("addVariables dataSourceId:", dataSourceId);
-                    List<Variable> variableStationList = stringListMap.get(dataSourceId);
-                    if (variableStationList != null) {
-                        Log.i("variableStationList.size:",String.valueOf(variableStationList.size()));
-                        variableStationList.forEach(var -> {
+                    if (variablesStationList != null) {
+                        Log.i("variableStationList.size:",String.valueOf(variablesStationList.size()));
+                        variablesStationList.forEach(var -> {
                             View viewVariable = getLayoutInflater().inflate(R.layout.infowindow_variable, null, false);
                             TextView variableName =  viewVariable.findViewById(R.id.name);
                             TextView variableValue = viewVariable.findViewById(R.id.value);

@@ -9,30 +9,26 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.socib.integrationSocib.IntegrationOperationFactory;
 import com.socib.integrationSocib.model.Variable;
-import com.socib.model.FixedStation;
 import com.socib.service.fixedStation.VariableStationApiServie;
 import com.socib.service.provider.SchedulerProviderImpl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class VariableStationViewModel extends AndroidViewModel {
 
-    private MutableLiveData<Map<String, List<Variable>>> variablesStation;
+    private MutableLiveData<List<Variable>> variablesStation;
     private VariableStationApiServie variableStationApiServie;
     public VariableStationViewModel(@NonNull Application application) {
         super(application);
     }
 
-    public LiveData<Map<String, List<Variable>>> getVariablesStation(String dataSourceId){
+    public LiveData<List<Variable>> getVariablesStation(String dataSourceId){
         if(variablesStation == null){
             variablesStation = new MutableLiveData<>();
-            variablesStation.setValue(new HashMap<>());
             variableStationApiServie = new VariableStationApiServie(IntegrationOperationFactory.getAdapter(), new SchedulerProviderImpl());
         }
         variableStationApiServie.getVariables(dataSourceId)
-                .subscribe(response -> variablesStation.getValue().put(dataSourceId, response));
+                .subscribe(variablesStation::setValue);
         return variablesStation;
     }
 }
