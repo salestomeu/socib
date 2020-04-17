@@ -49,7 +49,7 @@ public class MapFragment  extends Fragment {
     private MapView mMapView;
     private GoogleMap googleMap;
     private Map<String, FixedStation> mapFixedStations;
-    //private VariableStationViewModel variableStationViewModel;
+    private VariableStationViewModel variableStationViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState){
@@ -60,7 +60,7 @@ public class MapFragment  extends Fragment {
         CoastalStationViewModel coastalStationViewModel = ViewModelProviders.of(this).get(CoastalStationViewModel.class);
         SeaLevelStationViewModel seaLevelStationViewModel = ViewModelProviders.of(this).get(SeaLevelStationViewModel.class);
         WeatherStationViewModel weatherStationViewModel = ViewModelProviders.of(this).get(WeatherStationViewModel.class);
-      //  variableStationViewModel = ViewModelProviders.of(this).get(VariableStationViewModel.class);
+        variableStationViewModel = ViewModelProviders.of(this).get(VariableStationViewModel.class);
         mMapView.onResume(); // needed to get the map to display immediately
 
         MapsInitializer.initialize(Objects.requireNonNull(getActivity()).getApplicationContext());
@@ -112,29 +112,31 @@ public class MapFragment  extends Fragment {
                     name.setText(fixedStation.getName());
                     type.setText(fixedStation.getType());
                     lastUpdated.setText("Updated: "+fixedStation.getLastUpdateDate());
-                   /* LinearLayout listVariables = view.findViewById(R.id.listVariables);
+                    LinearLayout listVariables = view.findViewById(R.id.listVariables);
                     fixedStation.getDataSourceId().forEach(dataSourceId ->{
                         variableStationViewModel
                                 .getVariablesStation(dataSourceId)
                                 .observe( getViewLifecycleOwner(),
                                 response -> this.addVariables(response, dataSourceId, listVariables));
 
-                    });*/
+                    });
 
                     return view;
                 }
 
                 private void addVariables(Map<String, List<Variable>> stringListMap, String dataSourceId, LinearLayout listVariables) {
+                    Log.i("addVariables dataSourceId:", dataSourceId);
                     List<Variable> variableStationList = stringListMap.get(dataSourceId);
                     if (variableStationList != null) {
-                       /* variableStationList.forEach(var -> {
+                        Log.i("variableStationList.size:",String.valueOf(variableStationList.size()));
+                        variableStationList.forEach(var -> {
                             View viewVariable = getLayoutInflater().inflate(R.layout.infowindow_variable, null, false);
                             TextView variableName =  viewVariable.findViewById(R.id.name);
                             TextView variableValue = viewVariable.findViewById(R.id.value);
                             variableName.setText(var.getLong_name()!=null?var.getLong_name():var.getStandard_name());
                             variableValue.setText(var.getData()+" "+var.getUnits());
                             listVariables.addView(viewVariable);
-                        });*/
+                        });
                     }
 
                 }
