@@ -26,8 +26,6 @@ public class MockInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
 
-        addDelay();
-
         String responseBody = this.getResponse(chain.request());
 
         return new Response.Builder()
@@ -37,14 +35,6 @@ public class MockInterceptor implements Interceptor {
                 .protocol(Protocol.HTTP_1_0)
                 .body(ResponseBody.create(MediaType.parse("application/json"), responseBody))
                 .build();
-    }
-
-    private void addDelay() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     private String getResponse(Request request){

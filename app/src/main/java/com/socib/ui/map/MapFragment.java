@@ -63,7 +63,7 @@ public class MapFragment  extends Fragment {
         variableStationViewModel = ViewModelProviders.of(this).get(VariableStationViewModel.class);
         mMapView.onResume(); // needed to get the map to display immediately
 
-        MapsInitializer.initialize(Objects.requireNonNull(getActivity()).getApplicationContext());
+        MapsInitializer.initialize(requireActivity().getApplicationContext());
         if(!canAccessLocation()){
             requestPermissions(INITIAL_PERMS, INITIAL_REQUEST);
         }
@@ -194,6 +194,6 @@ public class MapFragment  extends Fragment {
     }
 
     private boolean hasPermission() {
-        return(PackageManager.PERMISSION_GRANTED== ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION));
+        return(PackageManager.PERMISSION_GRANTED== ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION));
     }
 }

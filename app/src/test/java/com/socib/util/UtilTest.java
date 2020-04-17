@@ -56,7 +56,7 @@ public class UtilTest {
         return  getMockResponse(response);
     }
 
-    private  String getMockResponse(String fileName)  {
+    public  String getMockResponse(String fileName)  {
         InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(fileName);
         String response = null;
         try {

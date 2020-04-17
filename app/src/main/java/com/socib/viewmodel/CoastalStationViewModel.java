@@ -28,7 +28,7 @@ public class CoastalStationViewModel extends AndroidViewModel {
             fixedStations = new MutableLiveData<>();
             coastStationApiService = new FixedStationApiService(IntegrationOperationFactory.getAdapter(), new SchedulerProviderImpl());
         }
-        coastStationApiService.getFixedStationsLiveData(StationType.COASTALSTATION)
+        coastStationApiService.getFixedStations(StationType.COASTALSTATION)
                 .subscribe(fixedStations::setValue);
         return fixedStations;
     }

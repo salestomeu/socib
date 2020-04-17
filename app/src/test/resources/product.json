@@ -1,0 +1,41 @@
+{
+  "id": "mobims-calamillor",
+  "name": "Mobims CalaMillor data",
+  "info": {
+    "json_ld": {
+      "publisher": {
+        "name": "Balearic Islands Coastal Observing and Forecasting System, SOCIB",
+        "@type": "Organization"
+      },
+      "name": "Mobims CalaMillor data",
+      "author": [],
+      "url": "apps.socib.es/data-catalog/mobims-calamillor",
+      "encodingFormat": "application/x-netcdf",
+      "datePublished": 2011,
+      "inLanguage": "en-US",
+      "editor": [],
+      "context": "http://schema.org",
+      "additionalType": "Dataset",
+      "schemaVersion": "http://datacite.org/schema/kernel-4",
+      "funder": [
+        {
+          "name": "Ministerio de ciencia, innovación y universidades (http://www.ciencia.gob.es/)",
+          "@type": "Organization"
+        },
+        {
+          "name": "Govern de les Illes Balears (http://www.caib.es/)",
+          "@type": "Organization"
+        }
+      ],
+      "identifier": null,
+      "@id": null,
+      "@type": "Dataset",
+      "description": "Data produced in the platform Mobims CalaMillor. It's compound by: Coastal Station, Current profiler, Weather Station data"
+    },
+    "citation": null,
+    "how_to_cite": null
+  },
+  "description": "Data produced in the platform Mobims CalaMillor. It's compound by: Coastal Station, Waves recorder, Weather Station data",
+  "data_sources": "http://api.socib.es/data-sources/?data_product=mobims-calamillor",
+  "entries": "http://api.socib.es/entries/?data_product=mobims-calamillor"
+}

@@ -1,6 +1,5 @@
 package com.socib.service.fixedStation;
 
-import com.socib.R;
 import com.socib.integrationSocib.IntegrationOperationFactoryMock;
 import com.socib.model.FixedStation;
 import com.socib.model.StationType;
@@ -35,33 +34,17 @@ public class FixedStationApiServiceTest {
     private UtilTest utilTest;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         utilTest = new UtilTest();
-    }
-
-    private FixedStationApiService getFixedStationService(final String product, final String dataSource){
-        Retrofit retrofitTest = IntegrationOperationFactoryMock
-                .getMockAdapter(request ->
-                        utilTest.getReponseByRequest(request, product, dataSource));
-        return new FixedStationApiService(retrofitTest, new TestSchedulerProvider());
-    }
-
-    private FixedStation getFirstFixedStation(final Observable<List<FixedStation>> fixedStations){
-        return Objects.requireNonNull(
-                Objects.requireNonNull(
-                        fixedStations.singleOrError().blockingGet()
-                                .stream()
-                                .findFirst()
-                                .orElse(null)));
     }
 
     @Test
     public void it_should_be_subscribed_complete_and_no_errors() {
         FixedStationApiService fixedStationService = getFixedStationService(COASTAL_PRODUCT_DATA_FILE_NAME, DATA_SOURCES_FILE_NAME);
 
-        Observable<List<FixedStation>> fixedStations = fixedStationService.getFixedStationsLiveData(StationType.COASTALSTATION);
+        Observable<List<FixedStation>> fixedStations = fixedStationService.getFixedStations(StationType.COASTALSTATION);
 
-        Observable.just(fixedStations).test()
+        fixedStations.test()
                 .assertSubscribed()
                 .assertComplete()
                 .assertNoErrors();
@@ -71,90 +54,71 @@ public class FixedStationApiServiceTest {
     public void it_should_be_equal_coastal_fixed_station_list_size() {
         FixedStationApiService fixedStationService = getFixedStationService(COASTAL_PRODUCT_DATA_FILE_NAME, DATA_SOURCES_FILE_NAME);
 
-        Observable<List<FixedStation>> fixedStations = fixedStationService.getFixedStationsLiveData(StationType.COASTALSTATION);
+        Observable<List<FixedStation>> fixedStations = fixedStationService.getFixedStations(StationType.COASTALSTATION);
 
-        Single.just(fixedStations.singleOrError().blockingGet().size())
+        fixedStations.singleOrError()
                 .test()
-                .assertResult(COASTAL_STATION_SIZE_LIST);
+                .assertValue(fixedStationList -> fixedStationList.size() == COASTAL_STATION_SIZE_LIST);
     }
 
     @Test
     public void it_should_be_equal_sea_level_fixed_station_list_size() {
         FixedStationApiService fixedStationService = getFixedStationService(SEA_LEVEL_PRODUCT_DATA_FILE_NAME, DATA_SOURCES_FILE_NAME);
 
-        Observable<List<FixedStation>> fixedStations = fixedStationService.getFixedStationsLiveData(StationType.SEALEVEL);
+        Observable<List<FixedStation>> fixedStations = fixedStationService.getFixedStations(StationType.SEALEVEL);
 
-        Single.just(fixedStations.singleOrError().blockingGet().size())
+        fixedStations.singleOrError()
                 .test()
-                .assertResult(SEA_LEVEL_STATION_SIZE_LIST);
+                .assertValue(fixedStationList -> fixedStationList.size() == SEA_LEVEL_STATION_SIZE_LIST);
     }
 
     @Test
     public void it_should_be_equal_weather_fixed_station_list_size() {
         FixedStationApiService fixedStationService = getFixedStationService(WEATHER_PRODUCT_DATA_FILE_NAME, DATA_SOURCES_FILE_NAME);
 
-        Observable<List<FixedStation>> fixedStations = fixedStationService.getFixedStationsLiveData(StationType.WEATHERSTATION);
+        Observable<List<FixedStation>> fixedStations = fixedStationService.getFixedStations(StationType.WEATHERSTATION);
 
-        Single.just(fixedStations.singleOrError().blockingGet().size())
+        fixedStations.singleOrError()
                 .test()
-                .assertResult(WEATHER_STATION_SIZE_LIST);
+                .assertValue(fixedStationList -> fixedStationList.size() == WEATHER_STATION_SIZE_LIST);
     }
 
     @Test
-    public void it_should_be_equal_0_when_all_data_source_none_instrument() {
+    public void it_should_be_empty_list_when_all_data_source_none_instrument() {
         FixedStationApiService fixedStationService = getFixedStationService(WEATHER_PRODUCT_DATA_FILE_NAME, DATA_SOURCES_NONE_INSTRUMENT_FILE_NAME);
 
-        Observable<List<FixedStation>> fixedStations = fixedStationService.getFixedStationsLiveData(StationType.WEATHERSTATION);
+        Observable<List<FixedStation>> fixedStations = fixedStationService.getFixedStations(StationType.WEATHERSTATION);
 
-        Single.just(fixedStations.singleOrError().blockingGet().size())
+        fixedStations.singleOrError()
                 .test()
-                .assertResult(EMPTY_LIST);
+                .assertValue(fixedStationList -> fixedStationList.size() == EMPTY_LIST);
     }
 
     @Test
     public void it_should_be_latitude_and_longitude() {
         FixedStationApiService fixedStationService = getFixedStationService(COASTAL_PRODUCT_DATA_FILE_NAME, DATA_SOURCES_FILE_NAME);
 
-        Observable<List<FixedStation>> fixedStations = fixedStationService.getFixedStationsLiveData(StationType.COASTALSTATION);
+        Observable<List<FixedStation>> fixedStations = fixedStationService.getFixedStations(StationType.COASTALSTATION);
 
-        Single.just(getFirstFixedStation(fixedStations).getLatitude())
+        Single.just(getFirstFixedStation(fixedStations))
                 .test()
-                .assertResult(LATITUDE);
-        Single.just(getFirstFixedStation(fixedStations).getLongitude())
-                .test()
-                .assertResult(LONGITUDE);
+                .assertValue(fixedStation -> fixedStation.getLatitude().equals(LATITUDE)
+                        && fixedStation.getLongitude().equals(LONGITUDE));
     }
 
-    @Test
-    public void it_should_be_equal_coastal_fixed_station_icon() {
-        FixedStationApiService fixedStationService = getFixedStationService(COASTAL_PRODUCT_DATA_FILE_NAME, DATA_SOURCES_FILE_NAME);
-
-        Observable<List<FixedStation>> fixedStations = fixedStationService.getFixedStationsLiveData(StationType.COASTALSTATION);
-
-        Single.just(getFirstFixedStation(fixedStations).getIcon())
-                .test()
-                .assertResult(R.drawable.ic_map_station);
+    private FixedStationApiService getFixedStationService(final String product, final String dataSource) {
+        Retrofit retrofitTest = IntegrationOperationFactoryMock
+                .getMockAdapter(request ->
+                        utilTest.getReponseByRequest(request, product, dataSource));
+        return new FixedStationApiService(retrofitTest, new TestSchedulerProvider());
     }
 
-    @Test
-    public void it_should_be_equal_sea_level_fixed_station_icon() {
-        FixedStationApiService fixedStationService = getFixedStationService(SEA_LEVEL_PRODUCT_DATA_FILE_NAME, DATA_SOURCES_FILE_NAME);
-
-        Observable<List<FixedStation>> fixedStations = fixedStationService.getFixedStationsLiveData(StationType.SEALEVEL);
-
-        Single.just(getFirstFixedStation(fixedStations).getIcon())
-                .test()
-                .assertResult(R.drawable.ic_map_sea_level);
-    }
-
-    @Test
-    public void it_should_be_equal_weather_fixed_station_icon() {
-        FixedStationApiService fixedStationService = getFixedStationService(WEATHER_PRODUCT_DATA_FILE_NAME, DATA_SOURCES_FILE_NAME);
-
-        Observable<List<FixedStation>> fixedStations = fixedStationService.getFixedStationsLiveData(StationType.WEATHERSTATION);
-
-        Single.just(getFirstFixedStation(fixedStations).getIcon())
-                .test()
-                .assertResult(R.drawable.ic_map_meteo);
+    private FixedStation getFirstFixedStation(final Observable<List<FixedStation>> fixedStations) {
+        return Objects.requireNonNull(
+                Objects.requireNonNull(
+                        fixedStations.singleOrError().blockingGet()
+                                .stream()
+                                .findFirst()
+                                .orElse(null)));
     }
 }
