@@ -17,6 +17,7 @@ public class VariableStationApiServie {
 
     private static final String PROCESSING_LEVEL = "L1";
     private static final Integer MAX_QC_VALUE = 2;
+    private static final String NAN = "NaN";
 
     private GetApiOperation getApiOperation;
     private SchedulerProvider schedulerProvider;
@@ -41,6 +42,7 @@ public class VariableStationApiServie {
                 .stream()
                 .map(GetDataResponse::getVariables)
                 .flatMap(Collection::stream)
+                .filter(variable -> !NAN.equals(variable.getData()))
                 .collect(Collectors.toList());
      }
 }

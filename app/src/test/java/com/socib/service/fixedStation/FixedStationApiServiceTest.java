@@ -42,7 +42,7 @@ public class FixedStationApiServiceTest {
     private FixedStationApiService getFixedStationService(final String product, final String dataSource){
         Retrofit retrofitTest = IntegrationOperationFactoryMock
                 .getMockAdapter(request ->
-                        utilTest.getReponseByRequest(request, product, dataSource, null));
+                        utilTest.getReponseByRequest(request, product, dataSource));
         return new FixedStationApiService(retrofitTest, new TestSchedulerProvider());
     }
 

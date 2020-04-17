@@ -43,15 +43,17 @@ public class UtilTest {
         return result.toString("UTF-8");
     }
 
-    public String getReponseByRequest(Request request, String responseProduct, String responseDataSource, String responseData){
+    public String getReponseByRequest(Request request, String responseProduct, String responseDataSource){
         if(request.url().uri().getPath().startsWith("/" + GetApiOperation.DATA_PRODUCTS_PATH)){
             return getMockResponse(responseProduct);
-        } else if (request.url().uri().getPath().contains("/data/")){
-            return getMockResponse(responseData);
         } else if(request.url().uri().getPath().startsWith("/" + GetApiOperation.DATA_SOURCES_PATH)){
             return  getMockResponse(responseDataSource);
         }
         return null;
+    }
+
+    public String getReponseByRequest(Request request, String response){
+        return  getMockResponse(response);
     }
 
     private  String getMockResponse(String fileName)  {
