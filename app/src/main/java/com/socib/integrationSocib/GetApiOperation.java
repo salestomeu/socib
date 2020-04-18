@@ -35,11 +35,4 @@ public interface GetApiOperation {
                                               @Query("latest") String latest,
                                               @Header("api_key") String apiKey);
 
-    @GET(DATA_SOURCES_PATH)
-    Observable<GetDataSourceResponse> getExpedition(@Query("platform_type") String platformType,
-                                                    @Query("is_active") String isActive,
-                                                    @Header("api_key") String apiKey);
-
-
-
 }

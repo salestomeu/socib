@@ -9,7 +9,9 @@ import static java.util.stream.Collectors.toMap;
 public enum StationType {
     COASTALSTATION("Coastal Station"),
     SEALEVEL("Sea Level"),
-    WEATHERSTATION("Weather Station");
+    WEATHERSTATION("Weather Station"),
+    GLIDER("Glider")
+    ;
 
     private String value;
 
