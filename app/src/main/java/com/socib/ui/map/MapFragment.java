@@ -11,8 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -27,15 +29,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.socib.R;
 import com.socib.integrationSocib.model.Variable;
 import com.socib.model.FixedStation;
+import com.socib.model.StationType;
+import com.socib.service.fixedStation.factory.FixedStationFactory;
 import com.socib.ui.util.Device;
-import com.socib.viewmodel.CoastalStationViewModel;
-import com.socib.viewmodel.SeaLevelStationViewModel;
+import com.socib.viewmodel.FixedStationViewModel;
 import com.socib.viewmodel.VariableStationViewModel;
-import com.socib.viewmodel.WeatherStationViewModel;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 public class MapFragment  extends Fragment {
     private static final String[] INITIAL_PERMS={
@@ -45,18 +49,40 @@ public class MapFragment  extends Fragment {
     private MapView mMapView;
     private GoogleMap googleMap;
     private Map<String, FixedStation> mapFixedStations;
+
+    private FixedStationViewModel coastalStationViewModel;
+    private FixedStationViewModel seaLevelStationViewModel;
+    private FixedStationViewModel weatherStationViewModel;
     private VariableStationViewModel variableStationViewModel;
+
+   /* @Inject
+    ViewModelProvider.Factory viewModelFactory;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        coastalStationViewModel = new ViewModelProvider(
+                getViewModelStore(),
+                viewModelFactory).get(FixedStationViewModel.class);
+    }*/
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState){
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
         mMapView = rootView.findViewById(R.id.mapView);
-        mapFixedStations = new HashMap<>();
         mMapView.onCreate(savedInstanceState);
-        CoastalStationViewModel coastalStationViewModel = ViewModelProviders.of(this).get(CoastalStationViewModel.class);
-        SeaLevelStationViewModel seaLevelStationViewModel = ViewModelProviders.of(this).get(SeaLevelStationViewModel.class);
-        WeatherStationViewModel weatherStationViewModel = ViewModelProviders.of(this).get(WeatherStationViewModel.class);
-        variableStationViewModel = ViewModelProviders.of(this).get(VariableStationViewModel.class);
+
+        mapFixedStations = new HashMap<>();
+
+        coastalStationViewModel = ViewModelProviders.of(this).get(FixedStationViewModel.class);
+        seaLevelStationViewModel = ViewModelProviders.of(this).get(FixedStationViewModel.class);
+        weatherStationViewModel = ViewModelProviders.of(this).get(FixedStationViewModel.class);
+        //variableStationViewModel = ViewModelProviders.of(this).get(VariableStationViewModel.class);
+
+        coastalStationViewModel.fetchFixedStation(StationType.COASTALSTATION);
+        seaLevelStationViewModel.fetchFixedStation(StationType.SEALEVEL);
+        weatherStationViewModel.fetchFixedStation(StationType.WEATHERSTATION);
+
         mMapView.onResume(); // needed to get the map to display immediately
 
         MapsInitializer.initialize(requireActivity().getApplicationContext());
@@ -109,13 +135,14 @@ public class MapFragment  extends Fragment {
                     type.setText(fixedStation.getType());
                     lastUpdated.setText("Updated: "+fixedStation.getLastUpdateDate());
                     LinearLayout listVariables = view.findViewById(R.id.listVariables);
-                    fixedStation.getDataSourceId().forEach(dataSourceId ->{
+                   /* fixedStation.getDataSourceId().forEach(dataSourceId ->{
+                        variableStationViewModel.fetchVariablesStation(dataSourceId);
                         variableStationViewModel
-                                .getVariablesStation(dataSourceId)
+                                .getVariablesStation()
                                 .observe( getViewLifecycleOwner(),
                                 response -> this.addVariables(response, dataSourceId, listVariables));
 
-                    });
+                    });*/
 
                     return view;
                 }

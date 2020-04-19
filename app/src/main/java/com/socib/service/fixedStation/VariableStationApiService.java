@@ -10,31 +10,29 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 import retrofit2.Retrofit;
 
-public class VariableStationApiServie {
+public class VariableStationApiService {
 
     private static final String PROCESSING_LEVEL = "L1";
     private static final Integer MAX_QC_VALUE = 2;
     private static final String NAN = "NaN";
 
-    private GetApiOperation getApiOperation;
-    private SchedulerProvider schedulerProvider;
+    private final GetApiOperation getApiOperation;
 
-    public VariableStationApiServie(Retrofit retrofit,
-                                    SchedulerProvider schedulerProvider) {
-        this.getApiOperation = retrofit.create(GetApiOperation.class);
-        this.schedulerProvider = schedulerProvider;
+    @Inject
+    public VariableStationApiService(GetApiOperation getApiOperation) {
+        this.getApiOperation = getApiOperation;
 
     }
     public Observable<List<Variable>> getVariables(String dataSourceId){
         return getApiOperation.getData(dataSourceId, PROCESSING_LEVEL, MAX_QC_VALUE, FixedStationApiService.TRUE, FixedStationApiService.apiKey)
-                .subscribeOn(this.schedulerProvider.getSchedulerIo())
                 .doOnError(error -> System.err.println("The error message is: " + error.getMessage()))
                 .map(this::converterListVariable)
-                .onErrorReturnItem(Collections.emptyList())
-                .observeOn(this.schedulerProvider.getSchedulerUi());
+                .onErrorReturnItem(Collections.emptyList());
     }
 
     private List<Variable> converterListVariable(List<GetDataResponse> responseData) {
