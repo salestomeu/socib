@@ -4,11 +4,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.socib.integrationSocib.IntegrationOperationFactory;
 import com.socib.model.FixedStation;
 import com.socib.model.StationType;
 import com.socib.service.fixedStation.FixedStationApiService;
-import com.socib.service.provider.SchedulerProviderImpl;
+import com.socib.service.provider.SchedulerProvider;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,12 +18,14 @@ import io.reactivex.disposables.CompositeDisposable;
 
 public class FixedStationViewModel extends ViewModel {
     private CompositeDisposable disposable;
-    private MutableLiveData<List<FixedStation>> fixedStations;
+    private MutableLiveData<List<FixedStation>> fixedStations = new MutableLiveData<>();
     private final FixedStationApiService fixedStationApiService;
+    private final SchedulerProvider schedulerProvider;
 
     @Inject
-    public FixedStationViewModel(){
-        this.fixedStationApiService = new FixedStationApiService(IntegrationOperationFactory.getAdapter(), new SchedulerProviderImpl());
+    public FixedStationViewModel(FixedStationApiService fixedStationApiService, SchedulerProvider schedulerProvider){
+        this.fixedStationApiService = fixedStationApiService;
+        this.schedulerProvider = schedulerProvider;
         disposable = new CompositeDisposable();
     }
 
@@ -33,11 +34,8 @@ public class FixedStationViewModel extends ViewModel {
     }
 
     public void fetchFixedStation(StationType stationType) {
-        if (fixedStations == null){
-            fixedStations = new MutableLiveData<>();
-            //fixedStationApiService = new FixedStationApiService(IntegrationOperationFactory.getAdapter(), new SchedulerProviderImpl());
-        }
         disposable.add(fixedStationApiService.getFixedStations(stationType)
+                .compose(schedulerProvider.applySchedulers())
                 .subscribe(this::onSuccess, this::onError));
     }
 

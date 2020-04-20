@@ -1,20 +1,26 @@
 package com.socib.service.fixedStation;
 
-import com.socib.integrationSocib.IntegrationOperationFactoryMock;
+import com.google.gson.Gson;
+import com.socib.integrationSocib.GetApiOperation;
+import com.socib.integrationSocib.model.GetDataSourceResponse;
+import com.socib.integrationSocib.model.GetProductsResponse;
 import com.socib.model.FixedStation;
 import com.socib.model.StationType;
-import com.socib.service.provider.TestSchedulerProvider;
 import com.socib.util.UtilTest;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import retrofit2.Retrofit;
+
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 public class FixedStationApiServiceTest {
 
@@ -32,10 +38,16 @@ public class FixedStationApiServiceTest {
 
 
     private UtilTest utilTest;
+    private Gson gson;
+
+    @Mock
+    private GetApiOperation getApiOperation;
 
     @Before
     public void setUp() {
+        MockitoAnnotations.initMocks(this);
         utilTest = new UtilTest();
+        gson = new Gson();
     }
 
     @Test
@@ -56,7 +68,7 @@ public class FixedStationApiServiceTest {
 
         Observable<List<FixedStation>> fixedStations = fixedStationService.getFixedStations(StationType.COASTALSTATION);
 
-        fixedStations.singleOrError()
+        fixedStations
                 .test()
                 .assertValue(fixedStationList -> fixedStationList.size() == COASTAL_STATION_SIZE_LIST);
     }
@@ -67,7 +79,7 @@ public class FixedStationApiServiceTest {
 
         Observable<List<FixedStation>> fixedStations = fixedStationService.getFixedStations(StationType.SEALEVEL);
 
-        fixedStations.singleOrError()
+        fixedStations
                 .test()
                 .assertValue(fixedStationList -> fixedStationList.size() == SEA_LEVEL_STATION_SIZE_LIST);
     }
@@ -78,7 +90,7 @@ public class FixedStationApiServiceTest {
 
         Observable<List<FixedStation>> fixedStations = fixedStationService.getFixedStations(StationType.WEATHERSTATION);
 
-        fixedStations.singleOrError()
+        fixedStations
                 .test()
                 .assertValue(fixedStationList -> fixedStationList.size() == WEATHER_STATION_SIZE_LIST);
     }
@@ -89,7 +101,7 @@ public class FixedStationApiServiceTest {
 
         Observable<List<FixedStation>> fixedStations = fixedStationService.getFixedStations(StationType.WEATHERSTATION);
 
-        fixedStations.singleOrError()
+        fixedStations
                 .test()
                 .assertValue(fixedStationList -> fixedStationList.size() == EMPTY_LIST);
     }
@@ -107,10 +119,11 @@ public class FixedStationApiServiceTest {
     }
 
     private FixedStationApiService getFixedStationService(final String product, final String dataSource) {
-        Retrofit retrofitTest = IntegrationOperationFactoryMock
-                .getMockAdapter(request ->
-                        utilTest.getReponseByRequest(request, product, dataSource));
-        return new FixedStationApiService(retrofitTest, new TestSchedulerProvider());
+        GetProductsResponse productResponse = gson.fromJson(utilTest.getMockResponse(product), GetProductsResponse.class);
+        GetDataSourceResponse dataSourceResponse = gson.fromJson(utilTest.getMockResponse(dataSource), GetDataSourceResponse.class);
+        when(getApiOperation.getProducts(anyString(), anyString(), anyString())).thenReturn(Observable.just(productResponse));
+        when(getApiOperation.getDataSource(anyString(), anyString(), anyString())).thenReturn(Observable.just(dataSourceResponse));
+        return new FixedStationApiService(getApiOperation);
     }
 
     private FixedStation getFirstFixedStation(final Observable<List<FixedStation>> fixedStations) {

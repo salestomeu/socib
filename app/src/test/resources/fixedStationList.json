@@ -1,0 +1,14 @@
+[
+  {
+    "id": "station-ciutadella",
+    "name": "Station Ciutadella data",
+    "latitude": "3.383145",
+    "longitude":"39.596277"
+  },
+  {
+    "id": "station-lamola",
+    "name": "Station LaMola data",
+    "latitude": "3.383145",
+    "longitude":"39.596277"
+  }
+]

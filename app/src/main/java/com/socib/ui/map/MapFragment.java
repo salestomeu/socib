@@ -27,13 +27,20 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.socib.R;
+import com.socib.integrationSocib.GetApiOperation;
+import com.socib.integrationSocib.IntegrationOperationFactory;
 import com.socib.integrationSocib.model.Variable;
 import com.socib.model.FixedStation;
 import com.socib.model.StationType;
+import com.socib.service.fixedStation.FixedStationApiService;
+import com.socib.service.fixedStation.VariableStationApiService;
 import com.socib.service.fixedStation.factory.FixedStationFactory;
+import com.socib.service.provider.SchedulerProviderImpl;
 import com.socib.ui.util.Device;
 import com.socib.viewmodel.FixedStationViewModel;
+import com.socib.viewmodel.FixedStationViewModelFactory;
 import com.socib.viewmodel.VariableStationViewModel;
+import com.socib.viewmodel.VariableStationViewModelFactory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -74,10 +81,26 @@ public class MapFragment  extends Fragment {
 
         mapFixedStations = new HashMap<>();
 
-        coastalStationViewModel = ViewModelProviders.of(this).get(FixedStationViewModel.class);
-        seaLevelStationViewModel = ViewModelProviders.of(this).get(FixedStationViewModel.class);
-        weatherStationViewModel = ViewModelProviders.of(this).get(FixedStationViewModel.class);
-        //variableStationViewModel = ViewModelProviders.of(this).get(VariableStationViewModel.class);
+        coastalStationViewModel = ViewModelProviders.of(this,
+                new FixedStationViewModelFactory(new FixedStationApiService(IntegrationOperationFactory
+                .getAdapter()
+                .create(GetApiOperation.class)),
+                        new SchedulerProviderImpl())).get(FixedStationViewModel.class);
+        seaLevelStationViewModel = ViewModelProviders.of(this,
+                new FixedStationViewModelFactory(new FixedStationApiService(IntegrationOperationFactory
+                        .getAdapter()
+                        .create(GetApiOperation.class)),
+                        new SchedulerProviderImpl())).get(FixedStationViewModel.class);;
+        weatherStationViewModel = ViewModelProviders.of(this,
+                new FixedStationViewModelFactory(new FixedStationApiService(IntegrationOperationFactory
+                        .getAdapter()
+                        .create(GetApiOperation.class)),
+                        new SchedulerProviderImpl())).get(FixedStationViewModel.class);;
+        variableStationViewModel = ViewModelProviders.of(this,
+                new VariableStationViewModelFactory(new VariableStationApiService(IntegrationOperationFactory
+                        .getAdapter()
+                        .create(GetApiOperation.class)),
+                        new SchedulerProviderImpl())).get(VariableStationViewModel.class);
 
         coastalStationViewModel.fetchFixedStation(StationType.COASTALSTATION);
         seaLevelStationViewModel.fetchFixedStation(StationType.SEALEVEL);
@@ -135,14 +158,14 @@ public class MapFragment  extends Fragment {
                     type.setText(fixedStation.getType());
                     lastUpdated.setText("Updated: "+fixedStation.getLastUpdateDate());
                     LinearLayout listVariables = view.findViewById(R.id.listVariables);
-                   /* fixedStation.getDataSourceId().forEach(dataSourceId ->{
+                    fixedStation.getDataSourceId().forEach(dataSourceId ->{
                         variableStationViewModel.fetchVariablesStation(dataSourceId);
                         variableStationViewModel
                                 .getVariablesStation()
                                 .observe( getViewLifecycleOwner(),
                                 response -> this.addVariables(response, dataSourceId, listVariables));
 
-                    });*/
+                    });
 
                     return view;
                 }

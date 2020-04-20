@@ -4,16 +4,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.socib.integrationSocib.GetApiOperation;
-import com.socib.integrationSocib.IntegrationOperationFactory;
 import com.socib.integrationSocib.model.Variable;
 import com.socib.service.fixedStation.VariableStationApiService;
 import com.socib.service.provider.SchedulerProvider;
-import com.socib.service.provider.SchedulerProviderImpl;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
