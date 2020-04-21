@@ -32,6 +32,7 @@ import com.socib.model.StationType;
 import com.socib.model.VariableStation;
 import com.socib.service.fixedStation.FixedStationApiService;
 import com.socib.service.fixedStation.VariableStationApiService;
+import com.socib.service.provider.SchedulerProvider;
 import com.socib.service.provider.SchedulerProviderImpl;
 import com.socib.ui.util.Device;
 import com.socib.viewmodel.FixedStationViewModel;
@@ -43,6 +44,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class MapFragment extends Fragment {
     private static final String[] INITIAL_PERMS = {
@@ -56,7 +58,9 @@ public class MapFragment extends Fragment {
     private FixedStationViewModel coastalStationViewModel;
     private FixedStationViewModel seaLevelStationViewModel;
     private FixedStationViewModel weatherStationViewModel;
-    private VariableStationViewModel variableStationViewModel;
+    private VariableStationViewModel variableCoastalStationViewModel;
+    private VariableStationViewModel variableSeaLevelStationViewModel;
+    private VariableStationViewModel variableWeatherStationViewModel;
 
    /* @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -77,28 +81,7 @@ public class MapFragment extends Fragment {
 
         mapFixedStations = new HashMap<>();
 
-        coastalStationViewModel = ViewModelProviders.of(this,
-                new FixedStationViewModelFactory(new FixedStationApiService(IntegrationOperationFactory
-                        .getAdapter()
-                        .create(GetApiOperation.class)),
-                        new SchedulerProviderImpl())).get(FixedStationViewModel.class);
-        seaLevelStationViewModel = ViewModelProviders.of(this,
-                new FixedStationViewModelFactory(new FixedStationApiService(IntegrationOperationFactory
-                        .getAdapter()
-                        .create(GetApiOperation.class)),
-                        new SchedulerProviderImpl())).get(FixedStationViewModel.class);
-        ;
-        weatherStationViewModel = ViewModelProviders.of(this,
-                new FixedStationViewModelFactory(new FixedStationApiService(IntegrationOperationFactory
-                        .getAdapter()
-                        .create(GetApiOperation.class)),
-                        new SchedulerProviderImpl())).get(FixedStationViewModel.class);
-        ;
-        variableStationViewModel = ViewModelProviders.of(this,
-                new VariableStationViewModelFactory(new VariableStationApiService(IntegrationOperationFactory
-                        .getAdapter()
-                        .create(GetApiOperation.class)),
-                        new SchedulerProviderImpl())).get(VariableStationViewModel.class);
+        createViewModelInsantces();
 
         coastalStationViewModel.fetchFixedStation(StationType.COASTALSTATION);
         seaLevelStationViewModel.fetchFixedStation(StationType.SEALEVEL);
@@ -129,13 +112,14 @@ public class MapFragment extends Fragment {
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
             coastalStationViewModel.getFixedStation().observe(
-                    getViewLifecycleOwner(), this::addMarker
+                    getViewLifecycleOwner(), fixedStationList -> fetchDataVariablesStation(fixedStationList, variableCoastalStationViewModel)
+
             );
             seaLevelStationViewModel.getFixedStation().observe(
-                    getViewLifecycleOwner(), this::addMarker
+                    getViewLifecycleOwner(), fixedStationList -> fetchDataVariablesStation(fixedStationList, variableSeaLevelStationViewModel)
             );
             weatherStationViewModel.getFixedStation().observe(
-                    getViewLifecycleOwner(), this::addMarker
+                    getViewLifecycleOwner(), fixedStationList -> fetchDataVariablesStation(fixedStationList, variableWeatherStationViewModel)
             );
             googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
                 @Override
@@ -152,43 +136,99 @@ public class MapFragment extends Fragment {
 
                     FixedStation fixedStation = mapFixedStations.get(marker.getTitle());
                     if (fixedStation != null) {
-                        variableStationViewModel.fetchVariablesStation(fixedStation.getDataSourceId());
                         Log.i("infoName:", fixedStation.getName());
                         name.setText(fixedStation.getName());
                         type.setText(fixedStation.getType());
                         lastUpdated.setText("Updated: " + fixedStation.getLastUpdateDate());
                         LinearLayout listVariables = view.findViewById(R.id.listVariables);
-                        variableStationViewModel
-                                .getVariablesStation()
-                                .observe(getViewLifecycleOwner(),
-                                        response -> this.addVariables(response, listVariables));
-
-
+                        switch (fixedStation.getIcon()) {
+                            case R.drawable.ic_map_station:
+                                variableCoastalStationViewModel
+                                        .getVariablesStation()
+                                        .observe(getViewLifecycleOwner(),
+                                                response -> addVariables(fixedStation, response, listVariables));
+                                break;
+                            case R.drawable.ic_map_sea_level:
+                                variableSeaLevelStationViewModel
+                                        .getVariablesStation()
+                                        .observe(getViewLifecycleOwner(),
+                                                response -> addVariables(fixedStation, response, listVariables));
+                                break;
+                            case R.drawable.ic_map_meteo:
+                                variableWeatherStationViewModel
+                                        .getVariablesStation()
+                                        .observe(getViewLifecycleOwner(),
+                                                response -> addVariables(fixedStation, response, listVariables));
+                                break;
+                        }
                     }
                     return view;
                 }
 
-                private void addVariables(Set<VariableStation> variablesStationList, LinearLayout listVariables) {
-                    if (variablesStationList != null) {
-                        Log.i("variableStationList.size:", String.valueOf(variablesStationList.size()));
-                        variablesStationList.forEach(var -> {
-                            View viewVariable = getLayoutInflater().inflate(R.layout.infowindow_variable, null, false);
-                            TextView variableName = viewVariable.findViewById(R.id.name);
-                            TextView variableValue = viewVariable.findViewById(R.id.value);
-                            variableName.setText(var.getName());
-                            variableValue.setText(var.getData() + " " + var.getUnits());
-                            listVariables.addView(viewVariable);
-                        });
-                    }
 
-                }
             });
         });
-
-
         return rootView;
     }
 
+    private void createViewModelInsantces() {
+        FixedStationApiService fixedStationApiSerive = new FixedStationApiService(IntegrationOperationFactory
+                .getAdapter()
+                .create(GetApiOperation.class));
+        VariableStationApiService variableStationApiService = new VariableStationApiService(IntegrationOperationFactory
+                .getAdapter()
+                .create(GetApiOperation.class));
+        SchedulerProvider shedulerProvider = new SchedulerProviderImpl();
+        coastalStationViewModel = ViewModelProviders.of(this,
+                new FixedStationViewModelFactory(fixedStationApiSerive,
+                        shedulerProvider)).get(FixedStationViewModel.class);
+        seaLevelStationViewModel = ViewModelProviders.of(this,
+                new FixedStationViewModelFactory(fixedStationApiSerive,
+                        shedulerProvider)).get(FixedStationViewModel.class);
+        ;
+        weatherStationViewModel = ViewModelProviders.of(this,
+                new FixedStationViewModelFactory(fixedStationApiSerive,
+                        shedulerProvider)).get(FixedStationViewModel.class);
+        ;
+        variableCoastalStationViewModel = ViewModelProviders.of(this,
+                new VariableStationViewModelFactory(variableStationApiService,
+                        shedulerProvider)).get(VariableStationViewModel.class);
+        variableSeaLevelStationViewModel = ViewModelProviders.of(this,
+                new VariableStationViewModelFactory(variableStationApiService,
+                        shedulerProvider)).get(VariableStationViewModel.class);
+        variableWeatherStationViewModel = ViewModelProviders.of(this,
+                new VariableStationViewModelFactory(variableStationApiService,
+                        shedulerProvider)).get(VariableStationViewModel.class);
+    }
+
+
+    private void addVariables(final FixedStation fixedStation, final Set<VariableStation> variablesStationList, LinearLayout listVariables) {
+        if (variablesStationList != null) {
+            Set<VariableStation> selectedVariables = variablesStationList
+                    .stream()
+                    .filter(variableStation -> fixedStation.getDataSourceId().contains(variableStation.getDataSourceId()))
+                    .collect(Collectors.toSet());
+            Log.i("variableStationList.size:", String.valueOf(selectedVariables.size()));
+            selectedVariables.forEach(var -> {
+                View viewVariable = getLayoutInflater().inflate(R.layout.infowindow_variable, null, false);
+                TextView variableName = viewVariable.findViewById(R.id.name);
+                TextView variableValue = viewVariable.findViewById(R.id.value);
+                variableName.setText(var.getName());
+                variableValue.setText(var.getData() + " " + var.getUnits());
+                listVariables.addView(viewVariable);
+            });
+        }
+
+    }
+
+    private void fetchDataVariablesStation(final List<FixedStation> fixedStations, final VariableStationViewModel variableStationViewModel) {
+        addMarker(fixedStations);
+        Set<String> allDataSources = fixedStations.stream()
+                .map(FixedStation::getDataSourceId)
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet());
+        variableStationViewModel.fetchVariablesStation(allDataSources);
+    }
 
     private void addMarker(final List<FixedStation> fixedStations) {
         Log.i("addMarker fixedStations.size:", String.valueOf(fixedStations.size()));
@@ -201,8 +241,6 @@ public class MapFragment extends Fragment {
                     );
                     mapFixedStations.put(fixedStation.getId(), fixedStation);
                 });
-
-        int icon = R.drawable.ic_map_station;
     }
 
 

@@ -15,17 +15,20 @@ public class VariableStation {
     private String data;
     private String units;
     private Boolean standard;
+    private String dataSourceId;
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         VariableStation that = (VariableStation) o;
-        return name.equals(that.name);
+        return name.equals(that.name) &&
+                dataSourceId.equals(that.dataSourceId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(name, dataSourceId);
     }
 }

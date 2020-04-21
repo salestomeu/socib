@@ -25,7 +25,6 @@ public class FixedStationConverter extends AbstractModelConverter<Product, Fixed
     public FixedStation toDomainModel(Product apiModel, List<DataSource> dataSources, StationType stationType) {
         FixedStation fixedStation = this.fixedStationFactory.get(stationType);
         super.mapApiToDomainModel(apiModel, fixedStation);
-        fixedStation.setVariables(new ArrayList<>());
         fixedStation.setDataSourceId(new HashSet<>());
         dataSources.forEach(dataSource -> {
             if (dataSource.getInstrument() != null) {

@@ -36,32 +36,32 @@ public class VariableStationApiService {
     }
 
     @SuppressLint("CheckResult")
-    public Observable<Set<VariableStation>> getVariables(Set<String> dataSourceIds) {
+    public Observable<Set<VariableStation>> getVariables(final Set<String> dataSourceIds) {
         List<Observable<Set<VariableStation>>> result = new ArrayList<>();
         for (String dataSourceId : dataSourceIds) {
             result.add(getApiOperation.getData(dataSourceId, PROCESSING_LEVEL, MAX_QC_VALUE, FixedStationApiService.TRUE, FixedStationApiService.apiKey)
-                    .doOnError(error -> System.err.println("The error message is: " + error.getMessage()))
-                    .map(this::converterListVariable)
+                    .doOnError(error -> System.err.println("getVariables dataSourceId: "+dataSourceId+" The error message is: " + error.getMessage()))
+                    .map(dataResponse-> this.converterListVariable(dataResponse, dataSourceId))
                     .onErrorReturnItem(Collections.emptySet()));
         }
         return Observable.zip(result, this::getVariableStationSet);
     }
 
-    private Set<VariableStation> getVariableStationSet(Object[] objects) {
-        Set<VariableStation> result2 = new HashSet<>();
+    private Set<VariableStation> getVariableStationSet(final Object[] objects) {
+        Set<VariableStation> result = new HashSet<>();
         for (Object object : objects) {
-            result2.addAll((Collection<? extends VariableStation>) object);
+            result.addAll((Collection<? extends VariableStation>) object);
         }
-        return result2;
+        return result;
     }
 
-    private Set<VariableStation> converterListVariable(List<GetDataResponse> responseData) {
+    private Set<VariableStation> converterListVariable(final List<GetDataResponse> responseData, final String dataSourceId) {
         Set<VariableStation> result = responseData
                 .stream()
                 .map(GetDataResponse::getVariables)
                 .flatMap(Collection::stream)
                 .filter(variable -> !NAN.equals(variable.getData()))
-                .map(variable -> variableStationConverter.toDomainModel(variable, VariableStation.class))
+                .map(variable -> variableStationConverter.toDomainModel(variable, dataSourceId, VariableStation.class))
                 .collect(Collectors.toSet());
         return result;
     }
