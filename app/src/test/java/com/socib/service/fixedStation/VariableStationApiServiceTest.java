@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.socib.integrationSocib.GetApiOperation;
 import com.socib.integrationSocib.model.GetDataResponse;
-import com.socib.integrationSocib.model.Variable;
+import com.socib.model.VariableStation;
 import com.socib.util.UtilTest;
 
 import org.junit.Before;
@@ -14,7 +14,9 @@ import org.mockito.MockitoAnnotations;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import io.reactivex.Observable;
 
@@ -31,6 +33,7 @@ public class VariableStationApiServiceTest {
 
     private UtilTest utilTest;
     private Gson gson;
+    private Set<String> dataSources;
 
     @Mock
     private GetApiOperation getApiOperation;
@@ -40,13 +43,15 @@ public class VariableStationApiServiceTest {
         MockitoAnnotations.initMocks(this);
         gson = new Gson();
         utilTest = new UtilTest();
+        dataSources = new HashSet<>();
+        dataSources.add("aaa");
     }
 
     @Test
     public void it_should_be_subscribed_complete_and_no_errors() {
         VariableStationApiService variableStationApiService = getVariableStationApiService(DATA_FILE_NAME);
 
-        Observable<List<Variable>> variablesStations = variableStationApiService.getVariables("2");
+        Observable<Set<VariableStation>> variablesStations = variableStationApiService.getVariables(dataSources);
 
         Observable.just(variablesStations).test()
                 .assertSubscribed()
@@ -58,7 +63,7 @@ public class VariableStationApiServiceTest {
     public void it_should_be_equal_variable_station_list_size() {
         VariableStationApiService variableStationApiService = getVariableStationApiService(DATA_FILE_NAME);
 
-        Observable<List<Variable>> variablesStations = variableStationApiService.getVariables("2");
+        Observable<Set<VariableStation>> variablesStations = variableStationApiService.getVariables(dataSources);
 
         variablesStations
                 .test()
@@ -69,7 +74,7 @@ public class VariableStationApiServiceTest {
     public void it_should_be_equal_variable_station_list_nan_size() {
         VariableStationApiService variableStationApiService = getVariableStationApiService(DATA_NAN_VALUE_FILE_NAME);
 
-        Observable<List<Variable>> variablesStations = variableStationApiService.getVariables("2");
+        Observable<Set<VariableStation>> variablesStations = variableStationApiService.getVariables(dataSources);
 
         variablesStations
                 .test()

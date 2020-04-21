@@ -1,0 +1,20 @@
+[
+  {
+  "name": "WIN_SPE",
+  "data": "5.6",
+  "units": "m s-1",
+  "standard": true
+ },
+  {
+    "name": "RAIN_ACC",
+    "data": "0.0",
+    "units": "mm",
+    "standard": false
+  },
+  {
+    "name": "REL_HUM",
+    "data": "72.0",
+    "units": "%",
+    "standard": true
+  }
+]

@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.socib.integrationSocib.model.Variable;
+import com.socib.model.VariableStation;
 import com.socib.service.fixedStation.VariableStationApiService;
 import com.socib.service.provider.SchedulerProvider;
 
 import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -18,7 +18,7 @@ import io.reactivex.disposables.CompositeDisposable;
 public class VariableStationViewModel extends ViewModel {
 
     private CompositeDisposable disposable;
-    private MutableLiveData<List<Variable>> variablesStation = new MutableLiveData<>();
+    private MutableLiveData<Set<VariableStation>> variablesStation = new MutableLiveData<>();
     private final VariableStationApiService variableStationApiService;
     private final SchedulerProvider schedulerProvider;
 
@@ -30,22 +30,22 @@ public class VariableStationViewModel extends ViewModel {
     }
 
 
-    public void fetchVariablesStation(String dataSourceId){
-        disposable.add(variableStationApiService.getVariables(dataSourceId)
+    public void fetchVariablesStation(Set<String> dataSourceIds){
+        disposable.add(variableStationApiService.getVariables(dataSourceIds)
                 .compose(schedulerProvider.applySchedulers())
                 .subscribe(this::onSuccess,this::onError));
     }
 
-    public LiveData<List<Variable>> getVariablesStation(){
+    public LiveData<Set<VariableStation>> getVariablesStation(){
         return variablesStation;
     }
 
-    private void onSuccess(List<Variable> variableList) {
+    private void onSuccess(Set<VariableStation> variableList) {
         variablesStation.postValue(variableList);
     }
 
     private void onError(Throwable error) {
-        variablesStation.postValue(Collections.emptyList());
+        variablesStation.postValue(Collections.emptySet());
     }
 
     @Override
