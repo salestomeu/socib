@@ -64,7 +64,7 @@ public class AbstractVariableStationViewModelTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         lifecycle = new LifecycleRegistry(lifecycleOwner);
-        abstractVariableStationviewModel = new AbstractVariableStationViewModel(variableStationApiService, new TestSchedulerProvider());
+        abstractVariableStationviewModel = new VariableCosatalStationViewModel(variableStationApiService, new TestSchedulerProvider());
         abstractVariableStationviewModel.getVariablesStation().observeForever(observer);
         utilTest = new UtilTest();
         gson = new Gson();
