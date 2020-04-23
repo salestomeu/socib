@@ -3,7 +3,6 @@ package com.socib.service.fixedStation.converter;
 import com.google.gson.Gson;
 import com.socib.integrationSocib.model.DataSource;
 import com.socib.integrationSocib.model.GetDataSourceResponse;
-import com.socib.integrationSocib.model.GetProductsResponse;
 import com.socib.integrationSocib.model.Product;
 import com.socib.model.FixedStation;
 import com.socib.model.StationType;
@@ -12,8 +11,6 @@ import com.socib.util.UtilTest;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Date;
 
 public class FixedStationConverterTest {
     private static final String PRODUCT_DATA_FILE_NAME = "product.json";

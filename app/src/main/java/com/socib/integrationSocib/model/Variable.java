@@ -17,4 +17,5 @@ public class Variable {
     private String data;
     private String precision;
     private String standard_name;
+    private String param_name;
 }

@@ -9,7 +9,6 @@ import com.socib.integrationSocib.model.Product;
 import com.socib.model.FixedStation;
 import com.socib.model.StationType;
 import com.socib.service.fixedStation.converter.FixedStationConverter;
-import com.socib.service.provider.SchedulerProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,33 +16,27 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import io.reactivex.Observable;
-import retrofit2.Retrofit;
 
 public class FixedStationApiService {
     public static final String TRUE = "true";
     public static final String apiKey = "cF0znGPFcamKiA2p7ze5lKmVHRQlrksI";
 
     private FixedStationConverter fixedStationConverter;
-    private GetApiOperation getApiOperation;
-    private SchedulerProvider schedulerProvider;
+    private final GetApiOperation getApiOperation;
 
 
-    public FixedStationApiService(Retrofit retrofit,
-                                  SchedulerProvider schedulerProvider) {
-        this.getApiOperation = retrofit.create(GetApiOperation.class);
+    public FixedStationApiService(GetApiOperation getApiOperation) {
+        this.getApiOperation = getApiOperation;
         this.fixedStationConverter = new FixedStationConverter();
-        this.schedulerProvider = schedulerProvider;
 
     }
 
     public Observable<List<FixedStation>> getFixedStations(StationType stationType) {
         Log.i("FixedStationApiService.getFixedStationsLiveData: ", stationType.stationType());
         return getApiOperation.getProducts(stationType.stationType(), TRUE, apiKey)
-                .subscribeOn(this.schedulerProvider.getSchedulerIo())
                 .doOnError(error -> Log.e("Error get datasource from product:",stationType.stationType(),error))
                 .map(GetProductsResponse::getResults)
-                .flatMap(products -> this.getFixedStationFromProduct(products, stationType))
-                .observeOn(this.schedulerProvider.getSchedulerUi());
+                .flatMap(products -> this.getFixedStationFromProduct(products, stationType));
     }
 
     private Observable<List<FixedStation>> getFixedStationFromProduct(final List<Product> products, final StationType stationType) {

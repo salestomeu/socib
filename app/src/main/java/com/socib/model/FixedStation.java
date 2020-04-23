@@ -27,7 +27,6 @@ public class FixedStation {
     private int icon;
     private String type;
     private Date lastUpdateDate;
-    private List<Variable> variables;
 
     public boolean isValid(){
         return  latitude != null  && longitude != null && !dataSourceId.isEmpty();

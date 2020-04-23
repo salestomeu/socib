@@ -25,42 +25,72 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.socib.R;
-import com.socib.integrationSocib.model.Variable;
+import com.socib.integrationSocib.GetApiOperation;
+import com.socib.integrationSocib.IntegrationOperationFactory;
 import com.socib.model.FixedStation;
+import com.socib.model.StationType;
+import com.socib.model.VariableStation;
+import com.socib.service.fixedStation.FixedStationApiService;
+import com.socib.service.fixedStation.VariableStationApiService;
+import com.socib.service.provider.SchedulerProvider;
+import com.socib.service.provider.SchedulerProviderImpl;
 import com.socib.ui.util.Device;
-import com.socib.viewmodel.CoastalStationViewModel;
-import com.socib.viewmodel.SeaLevelStationViewModel;
+import com.socib.viewmodel.FixedStationViewModel;
+import com.socib.viewmodel.FixedStationViewModelFactory;
 import com.socib.viewmodel.VariableStationViewModel;
-import com.socib.viewmodel.WeatherStationViewModel;
+import com.socib.viewmodel.VariableStationViewModelFactory;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-public class MapFragment  extends Fragment {
-    private static final String[] INITIAL_PERMS={
+public class MapFragment extends Fragment {
+    private static final String[] INITIAL_PERMS = {
             Manifest.permission.ACCESS_FINE_LOCATION
     };
-    private static final int INITIAL_REQUEST=1337;
+    private static final int INITIAL_REQUEST = 1337;
     private MapView mMapView;
     private GoogleMap googleMap;
     private Map<String, FixedStation> mapFixedStations;
-    private VariableStationViewModel variableStationViewModel;
+
+    private FixedStationViewModel coastalStationViewModel;
+    private FixedStationViewModel seaLevelStationViewModel;
+    private FixedStationViewModel weatherStationViewModel;
+    private VariableStationViewModel variableCoastalStationViewModel;
+    private VariableStationViewModel variableSeaLevelStationViewModel;
+    private VariableStationViewModel variableWeatherStationViewModel;
+
+   /* @Inject
+    ViewModelProvider.Factory viewModelFactory;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        coastalStationViewModel = new ViewModelProvider(
+                getViewModelStore(),
+                viewModelFactory).get(FixedStationViewModel.class);
+    }*/
 
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState){
+                             ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
         mMapView = rootView.findViewById(R.id.mapView);
-        mapFixedStations = new HashMap<>();
         mMapView.onCreate(savedInstanceState);
-        CoastalStationViewModel coastalStationViewModel = ViewModelProviders.of(this).get(CoastalStationViewModel.class);
-        SeaLevelStationViewModel seaLevelStationViewModel = ViewModelProviders.of(this).get(SeaLevelStationViewModel.class);
-        WeatherStationViewModel weatherStationViewModel = ViewModelProviders.of(this).get(WeatherStationViewModel.class);
-        variableStationViewModel = ViewModelProviders.of(this).get(VariableStationViewModel.class);
+
+        mapFixedStations = new HashMap<>();
+
+        createViewModelInsantces();
+
+        coastalStationViewModel.fetchFixedStation(StationType.COASTALSTATION);
+        seaLevelStationViewModel.fetchFixedStation(StationType.SEALEVEL);
+        weatherStationViewModel.fetchFixedStation(StationType.WEATHERSTATION);
+
         mMapView.onResume(); // needed to get the map to display immediately
 
         MapsInitializer.initialize(requireActivity().getApplicationContext());
-        if(!canAccessLocation()){
+        if (!canAccessLocation()) {
             requestPermissions(INITIAL_PERMS, INITIAL_REQUEST);
         }
         mMapView.getMapAsync(mMap -> {
@@ -82,15 +112,16 @@ public class MapFragment  extends Fragment {
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
             coastalStationViewModel.getFixedStation().observe(
-                    getViewLifecycleOwner(), this::addMarker
+                    getViewLifecycleOwner(), fixedStationList -> fetchDataVariablesStation(fixedStationList, variableCoastalStationViewModel)
+
             );
             seaLevelStationViewModel.getFixedStation().observe(
-                    getViewLifecycleOwner(), this::addMarker
+                    getViewLifecycleOwner(), fixedStationList -> fetchDataVariablesStation(fixedStationList, variableSeaLevelStationViewModel)
             );
             weatherStationViewModel.getFixedStation().observe(
-                    getViewLifecycleOwner(), this::addMarker
+                    getViewLifecycleOwner(), fixedStationList -> fetchDataVariablesStation(fixedStationList, variableWeatherStationViewModel)
             );
-            googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter(){
+            googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
                 @Override
                 public View getInfoWindow(Marker marker) {
                     return null;
@@ -104,59 +135,112 @@ public class MapFragment  extends Fragment {
                     TextView lastUpdated = view.findViewById(R.id.textLastUpdated);
 
                     FixedStation fixedStation = mapFixedStations.get(marker.getTitle());
-                    Log.i("infoName:",fixedStation.getName());
-                    name.setText(fixedStation.getName());
-                    type.setText(fixedStation.getType());
-                    lastUpdated.setText("Updated: "+fixedStation.getLastUpdateDate());
-                    LinearLayout listVariables = view.findViewById(R.id.listVariables);
-                    fixedStation.getDataSourceId().forEach(dataSourceId ->{
-                        variableStationViewModel
-                                .getVariablesStation(dataSourceId)
-                                .observe( getViewLifecycleOwner(),
-                                response -> this.addVariables(response, dataSourceId, listVariables));
-
-                    });
-
+                    if (fixedStation != null) {
+                        Log.i("infoName:", fixedStation.getName());
+                        name.setText(fixedStation.getName());
+                        type.setText(fixedStation.getType());
+                        lastUpdated.setText("Updated: " + fixedStation.getLastUpdateDate());
+                        LinearLayout listVariables = view.findViewById(R.id.listVariables);
+                        switch (fixedStation.getIcon()) {
+                            case R.drawable.ic_map_station:
+                                variableCoastalStationViewModel
+                                        .getVariablesStation()
+                                        .observe(getViewLifecycleOwner(),
+                                                response -> addVariables(fixedStation, response, listVariables));
+                                break;
+                            case R.drawable.ic_map_sea_level:
+                                variableSeaLevelStationViewModel
+                                        .getVariablesStation()
+                                        .observe(getViewLifecycleOwner(),
+                                                response -> addVariables(fixedStation, response, listVariables));
+                                break;
+                            case R.drawable.ic_map_meteo:
+                                variableWeatherStationViewModel
+                                        .getVariablesStation()
+                                        .observe(getViewLifecycleOwner(),
+                                                response -> addVariables(fixedStation, response, listVariables));
+                                break;
+                        }
+                    }
                     return view;
                 }
 
-                private void addVariables(List<Variable> variablesStationList, String dataSourceId, LinearLayout listVariables) {
-                    Log.i("addVariables dataSourceId:", dataSourceId);
-                    if (variablesStationList != null) {
-                        Log.i("variableStationList.size:",String.valueOf(variablesStationList.size()));
-                        variablesStationList.forEach(var -> {
-                            View viewVariable = getLayoutInflater().inflate(R.layout.infowindow_variable, null, false);
-                            TextView variableName =  viewVariable.findViewById(R.id.name);
-                            TextView variableValue = viewVariable.findViewById(R.id.value);
-                            variableName.setText(var.getLong_name()!=null?var.getLong_name():var.getStandard_name());
-                            variableValue.setText(var.getData()+" "+var.getUnits());
-                            listVariables.addView(viewVariable);
-                        });
-                    }
 
-                }
             });
         });
-
-
         return rootView;
     }
 
+    private void createViewModelInsantces() {
+        FixedStationApiService fixedStationApiSerive = new FixedStationApiService(IntegrationOperationFactory
+                .getAdapter()
+                .create(GetApiOperation.class));
+        VariableStationApiService variableStationApiService = new VariableStationApiService(IntegrationOperationFactory
+                .getAdapter()
+                .create(GetApiOperation.class));
+        SchedulerProvider shedulerProvider = new SchedulerProviderImpl();
+        coastalStationViewModel = ViewModelProviders.of(this,
+                new FixedStationViewModelFactory(fixedStationApiSerive,
+                        shedulerProvider)).get(FixedStationViewModel.class);
+        seaLevelStationViewModel = ViewModelProviders.of(this,
+                new FixedStationViewModelFactory(fixedStationApiSerive,
+                        shedulerProvider)).get(FixedStationViewModel.class);
+        ;
+        weatherStationViewModel = ViewModelProviders.of(this,
+                new FixedStationViewModelFactory(fixedStationApiSerive,
+                        shedulerProvider)).get(FixedStationViewModel.class);
+        ;
+        variableCoastalStationViewModel = ViewModelProviders.of(this,
+                new VariableStationViewModelFactory(variableStationApiService,
+                        shedulerProvider)).get(VariableStationViewModel.class);
+        variableSeaLevelStationViewModel = ViewModelProviders.of(this,
+                new VariableStationViewModelFactory(variableStationApiService,
+                        shedulerProvider)).get(VariableStationViewModel.class);
+        variableWeatherStationViewModel = ViewModelProviders.of(this,
+                new VariableStationViewModelFactory(variableStationApiService,
+                        shedulerProvider)).get(VariableStationViewModel.class);
+    }
 
+
+    private void addVariables(final FixedStation fixedStation, final Set<VariableStation> variablesStationList, LinearLayout listVariables) {
+        if (variablesStationList != null) {
+            Set<VariableStation> selectedVariables = variablesStationList
+                    .stream()
+                    .filter(variableStation -> fixedStation.getDataSourceId().contains(variableStation.getDataSourceId()))
+                    .collect(Collectors.toSet());
+            Log.i("variableStationList.size:", String.valueOf(selectedVariables.size()));
+            selectedVariables.forEach(var -> {
+                View viewVariable = getLayoutInflater().inflate(R.layout.infowindow_variable, null, false);
+                TextView variableName = viewVariable.findViewById(R.id.name);
+                TextView variableValue = viewVariable.findViewById(R.id.value);
+                variableName.setText(var.getName());
+                variableValue.setText(var.getData() + " " + var.getUnits());
+                listVariables.addView(viewVariable);
+            });
+        }
+
+    }
+
+    private void fetchDataVariablesStation(final List<FixedStation> fixedStations, final VariableStationViewModel variableStationViewModel) {
+        addMarker(fixedStations);
+        Set<String> allDataSources = fixedStations.stream()
+                .map(FixedStation::getDataSourceId)
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet());
+        variableStationViewModel.fetchVariablesStation(allDataSources);
+    }
 
     private void addMarker(final List<FixedStation> fixedStations) {
         Log.i("addMarker fixedStations.size:", String.valueOf(fixedStations.size()));
         fixedStations.forEach(
                 fixedStation -> {
                     googleMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(fixedStation.getLatitude(), fixedStation.getLongitude()))
-                        .title(fixedStation.getId())
-                        .icon(BitmapDescriptorFactory.fromResource(fixedStation.getIcon()))
+                            .position(new LatLng(fixedStation.getLatitude(), fixedStation.getLongitude()))
+                            .title(fixedStation.getId())
+                            .icon(BitmapDescriptorFactory.fromResource(fixedStation.getIcon()))
                     );
                     mapFixedStations.put(fixedStation.getId(), fixedStation);
                 });
-
-        int icon = R.drawable.ic_map_station;
     }
 
 
@@ -185,10 +269,10 @@ public class MapFragment  extends Fragment {
     }
 
     private boolean canAccessLocation() {
-        return(hasPermission());
+        return (hasPermission());
     }
 
     private boolean hasPermission() {
-        return(PackageManager.PERMISSION_GRANTED== ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION));
+        return (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION));
     }
 }
