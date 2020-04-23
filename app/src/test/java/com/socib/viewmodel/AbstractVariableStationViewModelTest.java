@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.socib.model.FixedStation;
 import com.socib.model.VariableStation;
 import com.socib.service.fixedStation.VariableStationApiService;
 import com.socib.service.provider.TestSchedulerProvider;
@@ -37,7 +38,7 @@ import static org.mockito.Mockito.when;
 
 
 @RunWith(JUnit4.class)
-public class VariableStationViewModelTest {
+public class AbstractVariableStationViewModelTest {
 
     private static final String VARIABLE_STATION_FILE_NAME = "variableStation.json";
 
@@ -55,38 +56,42 @@ public class VariableStationViewModelTest {
     private Lifecycle lifecycle;
     private UtilTest utilTest;
     private Gson gson;
-    private VariableStationViewModel variableStationviewModel;
-    private Set<String> dataSources = new HashSet<>();
+    private AbstractVariableStationViewModel abstractVariableStationviewModel;
+    private Set<String> dataSources;
+    private List<FixedStation> fixedStations;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         lifecycle = new LifecycleRegistry(lifecycleOwner);
-        variableStationviewModel = new VariableStationViewModel(variableStationApiService, new TestSchedulerProvider());
-        variableStationviewModel.getVariablesStation().observeForever(observer);
+        abstractVariableStationviewModel = new AbstractVariableStationViewModel(variableStationApiService, new TestSchedulerProvider());
+        abstractVariableStationviewModel.getVariablesStation().observeForever(observer);
         utilTest = new UtilTest();
         gson = new Gson();
+        dataSources = new HashSet<>();
+        fixedStations = new ArrayList<>();
     }
 
     @Test
     public void it_should_be_result_not_null_and_has_observers() {
 
         when(variableStationApiService.getVariables(dataSources)).thenReturn(null);
-        assertNotNull(variableStationviewModel.getVariablesStation());
-        assertTrue(variableStationviewModel.getVariablesStation().hasObservers());
+        assertNotNull(abstractVariableStationviewModel.getVariablesStation());
+        assertTrue(abstractVariableStationviewModel.getVariablesStation().hasObservers());
     }
 
     @Test
     public void it_should_be_api_fetch_data_success() {
         Type listType = new TypeToken<ArrayList<VariableStation>>() {
         }.getType();
-        List<VariableStation> variableStations = gson.fromJson(utilTest.getMockResponse(VARIABLE_STATION_FILE_NAME), listType);
+        List<VariableStation> variableStationList = gson.fromJson(utilTest.getMockResponse(VARIABLE_STATION_FILE_NAME), listType);
 
-        when(variableStationApiService.getVariables(dataSources)).thenReturn(Observable.just(new HashSet<>(variableStations)));
+        HashSet<VariableStation> variableStations = new HashSet<>(variableStationList);
+        when(variableStationApiService.getVariables(dataSources)).thenReturn(Observable.just(variableStations));
 
-        variableStationviewModel.fetchVariablesStation(dataSources);
+        abstractVariableStationviewModel.fetchVariablesStation(fixedStations);
 
-        //verify(observer).onChanged(variableStations);
+        verify(observer).onChanged(variableStations);
     }
 
     @Test
@@ -94,7 +99,7 @@ public class VariableStationViewModelTest {
         Set<VariableStation> variables = new HashSet<>();
         when(variableStationApiService.getVariables(dataSources)).thenReturn(Observable.error(new Throwable("Api error")));
 
-        variableStationviewModel.fetchVariablesStation(dataSources);
+        abstractVariableStationviewModel.fetchVariablesStation(fixedStations);
 
         verify(observer).onChanged(variables);
     }
@@ -102,6 +107,6 @@ public class VariableStationViewModelTest {
     @After
     public void tear_down() {
         variableStationApiService = null;
-        variableStationviewModel = null;
+        abstractVariableStationviewModel = null;
     }
 }

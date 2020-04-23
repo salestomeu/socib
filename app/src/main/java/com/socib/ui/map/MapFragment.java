@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,17 +28,21 @@ import com.socib.R;
 import com.socib.integrationSocib.GetApiOperation;
 import com.socib.integrationSocib.IntegrationOperationFactory;
 import com.socib.model.FixedStation;
-import com.socib.model.StationType;
 import com.socib.model.VariableStation;
 import com.socib.service.fixedStation.FixedStationApiService;
 import com.socib.service.fixedStation.VariableStationApiService;
 import com.socib.service.provider.SchedulerProvider;
 import com.socib.service.provider.SchedulerProviderImpl;
 import com.socib.ui.util.Device;
-import com.socib.viewmodel.FixedStationViewModel;
+import com.socib.viewmodel.AbstractVariableStationViewModel;
+import com.socib.viewmodel.CoastalFixedStationViewModel;
 import com.socib.viewmodel.FixedStationViewModelFactory;
-import com.socib.viewmodel.VariableStationViewModel;
+import com.socib.viewmodel.SeaLevelFixedStationViewModel;
+import com.socib.viewmodel.VariableCosatalStationViewModel;
+import com.socib.viewmodel.VariableSeaLevelStationViewModel;
 import com.socib.viewmodel.VariableStationViewModelFactory;
+import com.socib.viewmodel.VariableWeatherStationViewModel;
+import com.socib.viewmodel.WeatherFixedStationViewModel;
 
 import java.util.HashMap;
 import java.util.List;
@@ -55,12 +59,12 @@ public class MapFragment extends Fragment {
     private GoogleMap googleMap;
     private Map<String, FixedStation> mapFixedStations;
 
-    private FixedStationViewModel coastalStationViewModel;
-    private FixedStationViewModel seaLevelStationViewModel;
-    private FixedStationViewModel weatherStationViewModel;
-    private VariableStationViewModel variableCoastalStationViewModel;
-    private VariableStationViewModel variableSeaLevelStationViewModel;
-    private VariableStationViewModel variableWeatherStationViewModel;
+    private CoastalFixedStationViewModel coastalStationViewModel;
+    private SeaLevelFixedStationViewModel seaLevelStationViewModel;
+    private WeatherFixedStationViewModel weatherStationViewModel;
+    private AbstractVariableStationViewModel variableCoastalStationViewModel;
+    private AbstractVariableStationViewModel variableSeaLevelStationViewModel;
+    private AbstractVariableStationViewModel variableWeatherStationViewModel;
 
    /* @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -81,11 +85,11 @@ public class MapFragment extends Fragment {
 
         mapFixedStations = new HashMap<>();
 
-        createViewModelInsantces();
+        createViewModelInstances();
 
-        coastalStationViewModel.fetchFixedStation(StationType.COASTALSTATION);
-        seaLevelStationViewModel.fetchFixedStation(StationType.SEALEVEL);
-        weatherStationViewModel.fetchFixedStation(StationType.WEATHERSTATION);
+        coastalStationViewModel.fetchFixedStation();
+        seaLevelStationViewModel.fetchFixedStation();
+        weatherStationViewModel.fetchFixedStation();
 
         mMapView.onResume(); // needed to get the map to display immediately
 
@@ -113,7 +117,6 @@ public class MapFragment extends Fragment {
 
             coastalStationViewModel.getFixedStation().observe(
                     getViewLifecycleOwner(), fixedStationList -> fetchDataVariablesStation(fixedStationList, variableCoastalStationViewModel)
-
             );
             seaLevelStationViewModel.getFixedStation().observe(
                     getViewLifecycleOwner(), fixedStationList -> fetchDataVariablesStation(fixedStationList, variableSeaLevelStationViewModel)
@@ -171,34 +174,28 @@ public class MapFragment extends Fragment {
         return rootView;
     }
 
-    private void createViewModelInsantces() {
+    private void createViewModelInstances() {
         FixedStationApiService fixedStationApiSerive = new FixedStationApiService(IntegrationOperationFactory
                 .getAdapter()
                 .create(GetApiOperation.class));
+        SchedulerProvider shedulerProvider = new SchedulerProviderImpl();
+        FixedStationViewModelFactory fixedStationViewModelFactory =
+                new FixedStationViewModelFactory(fixedStationApiSerive,
+                        shedulerProvider);
+        ViewModelProvider viewModelProviderFixedStation = new ViewModelProvider(this, fixedStationViewModelFactory);
+        coastalStationViewModel = viewModelProviderFixedStation.get(CoastalFixedStationViewModel.class);
+        seaLevelStationViewModel = viewModelProviderFixedStation.get(SeaLevelFixedStationViewModel.class);
+        weatherStationViewModel = viewModelProviderFixedStation.get(WeatherFixedStationViewModel.class);
+
         VariableStationApiService variableStationApiService = new VariableStationApiService(IntegrationOperationFactory
                 .getAdapter()
                 .create(GetApiOperation.class));
-        SchedulerProvider shedulerProvider = new SchedulerProviderImpl();
-        coastalStationViewModel = ViewModelProviders.of(this,
-                new FixedStationViewModelFactory(fixedStationApiSerive,
-                        shedulerProvider)).get(FixedStationViewModel.class);
-        seaLevelStationViewModel = ViewModelProviders.of(this,
-                new FixedStationViewModelFactory(fixedStationApiSerive,
-                        shedulerProvider)).get(FixedStationViewModel.class);
-        ;
-        weatherStationViewModel = ViewModelProviders.of(this,
-                new FixedStationViewModelFactory(fixedStationApiSerive,
-                        shedulerProvider)).get(FixedStationViewModel.class);
-        ;
-        variableCoastalStationViewModel = ViewModelProviders.of(this,
-                new VariableStationViewModelFactory(variableStationApiService,
-                        shedulerProvider)).get(VariableStationViewModel.class);
-        variableSeaLevelStationViewModel = ViewModelProviders.of(this,
-                new VariableStationViewModelFactory(variableStationApiService,
-                        shedulerProvider)).get(VariableStationViewModel.class);
-        variableWeatherStationViewModel = ViewModelProviders.of(this,
-                new VariableStationViewModelFactory(variableStationApiService,
-                        shedulerProvider)).get(VariableStationViewModel.class);
+        VariableStationViewModelFactory variableStationViewModelFactory =
+                new VariableStationViewModelFactory(variableStationApiService, shedulerProvider);
+        ViewModelProvider viewModelProvider = new ViewModelProvider(this, variableStationViewModelFactory);
+        variableCoastalStationViewModel = viewModelProvider.get(VariableCosatalStationViewModel.class);
+        variableSeaLevelStationViewModel = viewModelProvider.get(VariableSeaLevelStationViewModel.class);
+        variableWeatherStationViewModel = viewModelProvider.get(VariableWeatherStationViewModel.class);
     }
 
 
@@ -221,13 +218,10 @@ public class MapFragment extends Fragment {
 
     }
 
-    private void fetchDataVariablesStation(final List<FixedStation> fixedStations, final VariableStationViewModel variableStationViewModel) {
+    private void fetchDataVariablesStation(final List<FixedStation> fixedStations, final AbstractVariableStationViewModel abstractVariableStationViewModel) {
         addMarker(fixedStations);
-        Set<String> allDataSources = fixedStations.stream()
-                .map(FixedStation::getDataSourceId)
-                .flatMap(Set::stream)
-                .collect(Collectors.toSet());
-        variableStationViewModel.fetchVariablesStation(allDataSources);
+
+        abstractVariableStationViewModel.fetchVariablesStation(fixedStations);
     }
 
     private void addMarker(final List<FixedStation> fixedStations) {

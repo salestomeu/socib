@@ -12,18 +12,15 @@ import com.socib.service.provider.SchedulerProvider;
 import java.util.Collections;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import io.reactivex.disposables.CompositeDisposable;
 
-public class FixedStationViewModel extends ViewModel {
+public abstract class AbstractFixedStationViewModel extends ViewModel {
     private CompositeDisposable disposable;
     private MutableLiveData<List<FixedStation>> fixedStations = new MutableLiveData<>();
     private final FixedStationApiService fixedStationApiService;
     private final SchedulerProvider schedulerProvider;
 
-    @Inject
-    public FixedStationViewModel(FixedStationApiService fixedStationApiService, SchedulerProvider schedulerProvider){
+    public AbstractFixedStationViewModel(FixedStationApiService fixedStationApiService, SchedulerProvider schedulerProvider){
         this.fixedStationApiService = fixedStationApiService;
         this.schedulerProvider = schedulerProvider;
         disposable = new CompositeDisposable();
@@ -33,11 +30,13 @@ public class FixedStationViewModel extends ViewModel {
         return fixedStations;
     }
 
-    public void fetchFixedStation(StationType stationType) {
-        disposable.add(fixedStationApiService.getFixedStations(stationType)
+    public void fetchFixedStation() {
+        disposable.add(fixedStationApiService.getFixedStations(getStationType())
                 .compose(schedulerProvider.applySchedulers())
                 .subscribe(this::onSuccess, this::onError));
     }
+
+    protected abstract StationType getStationType();
 
     private void onSuccess(List<FixedStation> fixedStationList){
         fixedStations.postValue(fixedStationList);

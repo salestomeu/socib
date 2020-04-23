@@ -32,7 +32,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class FixedStationViewModelTest {
+public class CoastalFixedStationViewModelTest {
     private static final String FIXED_STATION_FILE_NAME = "fixedStationList.json";
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
@@ -48,13 +48,13 @@ public class FixedStationViewModelTest {
     private Lifecycle lifecycle;
     private UtilTest utilTest;
     private Gson gson;
-    private FixedStationViewModel fixedStationviewModel;
+    private AbstractFixedStationViewModel fixedStationviewModel;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         lifecycle = new LifecycleRegistry(lifecycleOwner);
-        fixedStationviewModel = new FixedStationViewModel(fixedStationApiService, new TestSchedulerProvider());
+        fixedStationviewModel = new CoastalFixedStationViewModel(fixedStationApiService, new TestSchedulerProvider());
         fixedStationviewModel.getFixedStation().observeForever(observer);
         utilTest = new UtilTest();
         gson = new Gson();
@@ -76,7 +76,7 @@ public class FixedStationViewModelTest {
 
         when(fixedStationApiService.getFixedStations(StationType.COASTALSTATION)).thenReturn(Observable.just(fixedStations));
 
-        fixedStationviewModel.fetchFixedStation(StationType.COASTALSTATION);
+        fixedStationviewModel.fetchFixedStation();
 
         verify(observer).onChanged(fixedStations);
     }
@@ -86,7 +86,7 @@ public class FixedStationViewModelTest {
         List<FixedStation> fixedStations = new ArrayList<>();
         when(fixedStationApiService.getFixedStations(StationType.COASTALSTATION)).thenReturn(Observable.error(new Throwable("Api error")));
 
-        fixedStationviewModel.fetchFixedStation(StationType.COASTALSTATION);
+        fixedStationviewModel.fetchFixedStation();
 
         verify(observer).onChanged(fixedStations);
     }
