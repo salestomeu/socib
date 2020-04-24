@@ -1,7 +1,10 @@
 package com.socib.service.fixedStation;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
+import com.socib.R;
+import com.socib.SocibApplication;
 import com.socib.integrationSocib.GetApiOperation;
 import com.socib.integrationSocib.model.GetDataResponse;
 import com.socib.model.VariableStation;
@@ -24,6 +27,7 @@ public class VariableStationApiService {
     private static final String PROCESSING_LEVEL = "L1";
     private static final Integer MAX_QC_VALUE = 2;
     private static final String NAN = "NaN";
+    private static final String TRUE = "true";
 
     private final GetApiOperation getApiOperation;
     private final VariableStationConverter variableStationConverter;
@@ -39,8 +43,8 @@ public class VariableStationApiService {
     public Observable<Set<VariableStation>> getVariables(final Set<String> dataSourceIds) {
         List<Observable<Set<VariableStation>>> result = new ArrayList<>();
         for (String dataSourceId : dataSourceIds) {
-            result.add(getApiOperation.getData(dataSourceId, PROCESSING_LEVEL, MAX_QC_VALUE, FixedStationApiService.TRUE, FixedStationApiService.apiKey)
-                    .doOnError(error -> System.err.println("getVariables dataSourceId: "+dataSourceId+" The error message is: " + error.getMessage()))
+            result.add(getApiOperation.getData(dataSourceId, PROCESSING_LEVEL, MAX_QC_VALUE, TRUE, getApiKey())
+                    .doOnError(error -> Log.e("getVariables dataSourceId: " , String.valueOf(dataSourceId) , error))
                     .map(dataResponse-> this.converterListVariable(dataResponse, dataSourceId))
                     .onErrorReturnItem(Collections.emptySet()));
         }
@@ -64,5 +68,9 @@ public class VariableStationApiService {
                 .map(variable -> variableStationConverter.toDomainModel(variable, dataSourceId, VariableStation.class))
                 .collect(Collectors.toSet());
         return result;
+    }
+
+    private String getApiKey(){
+        return SocibApplication.getContext().getString(R.string.api_key);
     }
 }

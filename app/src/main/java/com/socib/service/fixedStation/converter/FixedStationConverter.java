@@ -1,7 +1,5 @@
 package com.socib.service.fixedStation.converter;
 
-import android.util.Log;
-
 import com.socib.commons.AbstractModelConverter;
 import com.socib.integrationSocib.model.DataSource;
 import com.socib.integrationSocib.model.Product;
@@ -9,7 +7,6 @@ import com.socib.model.FixedStation;
 import com.socib.model.StationType;
 import com.socib.service.fixedStation.factory.FixedStationFactory;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +38,6 @@ public class FixedStationConverter extends AbstractModelConverter<Product, Fixed
                 }
             }
         });
-        Log.i("fixedStation:", fixedStation.toString());
         return fixedStation;
     }
 }

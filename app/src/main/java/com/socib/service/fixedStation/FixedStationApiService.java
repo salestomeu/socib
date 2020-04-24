@@ -2,6 +2,8 @@ package com.socib.service.fixedStation;
 
 import android.util.Log;
 
+import com.socib.R;
+import com.socib.SocibApplication;
 import com.socib.integrationSocib.GetApiOperation;
 import com.socib.integrationSocib.model.DataSource;
 import com.socib.integrationSocib.model.GetProductsResponse;
@@ -18,8 +20,7 @@ import java.util.stream.Collectors;
 import io.reactivex.Observable;
 
 public class FixedStationApiService {
-    public static final String TRUE = "true";
-    public static final String apiKey = "cF0znGPFcamKiA2p7ze5lKmVHRQlrksI";
+    private static final String TRUE = "true";
 
     private FixedStationConverter fixedStationConverter;
     private final GetApiOperation getApiOperation;
@@ -32,9 +33,8 @@ public class FixedStationApiService {
     }
 
     public Observable<List<FixedStation>> getFixedStations(StationType stationType) {
-        Log.i("FixedStationApiService.getFixedStationsLiveData: ", stationType.stationType());
-        return getApiOperation.getProducts(stationType.stationType(), TRUE, apiKey)
-                .doOnError(error -> Log.e("Error get datasource from product:",stationType.stationType(),error))
+        return getApiOperation.getProducts(stationType.stationType(), TRUE, getApiKey())
+                .doOnError(error -> Log.e("Error get fixedStation from product:",stationType.stationType(),error))
                 .map(GetProductsResponse::getResults)
                 .flatMap(products -> this.getFixedStationFromProduct(products, stationType));
     }
@@ -42,23 +42,25 @@ public class FixedStationApiService {
     private Observable<List<FixedStation>> getFixedStationFromProduct(final List<Product> products, final StationType stationType) {
         List<Observable<FixedStation>> fixedStationsList = new ArrayList<>();
         for (Product product : products) {
-            fixedStationsList.add(getApiOperation.getDataSource(product.getId(), TRUE, apiKey)
-                    .doOnError(error -> Log.e("Error get datasource from product:",product.getId(),error))
+            fixedStationsList.add(getApiOperation.getDataSource(product.getId(), TRUE, getApiKey())
+                    .doOnError(error -> Log.e("Error get dataSource from product:",product.getId(),error))
                     .map(getDataSourceResponse -> converterFixedStationFromDataSource(product, getDataSourceResponse.getResults(), stationType)));
         }
         return Observable.zip(fixedStationsList, this::getFixedStationList);
     }
 
     private List<FixedStation> getFixedStationList(final Object[] objects) {
-        List<FixedStation> result = Arrays.stream(objects)
+        return Arrays.stream(objects)
                 .map(FixedStation.class::cast)
                 .filter(fixedStation -> fixedStation!= null && fixedStation.isValid())
                 .collect(Collectors.toList());
-        Log.i("FixedStationApiService.getFixedStationList:",String.valueOf(result.size()));
-        return  result;
     }
 
     private FixedStation converterFixedStationFromDataSource(final Product product, final List<DataSource> dataSources, StationType stationType){
         return fixedStationConverter.toDomainModel(product, dataSources, stationType);
+    }
+
+    private String getApiKey(){
+        return SocibApplication.getContext().getString(R.string.api_key);
     }
 }
