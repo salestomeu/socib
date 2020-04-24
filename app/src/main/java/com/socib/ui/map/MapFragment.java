@@ -3,6 +3,7 @@ package com.socib.ui.map;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.socib.R;
+import com.socib.SocibApplication;
 import com.socib.integrationSocib.GetApiOperation;
 import com.socib.integrationSocib.IntegrationOperationFactory;
 import com.socib.model.FixedStation;
@@ -44,6 +46,7 @@ import com.socib.viewmodel.VariableStationViewModelFactory;
 import com.socib.viewmodel.VariableWeatherStationViewModel;
 import com.socib.viewmodel.WeatherFixedStationViewModel;
 
+import java.text.DateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -142,7 +145,10 @@ public class MapFragment extends Fragment {
                         Log.i("infoName:", fixedStation.getName());
                         name.setText(fixedStation.getName());
                         type.setText(fixedStation.getType());
-                        lastUpdated.setText("Updated: " + fixedStation.getLastUpdateDate());
+                        String lastUpdateText = getString(R.string.title_last_updated) +
+                                DateUtils.formatDateTime(SocibApplication.getContext(), fixedStation.getLastUpdateDate().getTime(),
+                                        DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_DATE);
+                        lastUpdated.setText(lastUpdateText);
                         LinearLayout listVariables = view.findViewById(R.id.listVariables);
                         switch (fixedStation.getIcon()) {
                             case R.drawable.ic_map_station:
@@ -211,7 +217,7 @@ public class MapFragment extends Fragment {
                 TextView variableName = viewVariable.findViewById(R.id.name);
                 TextView variableValue = viewVariable.findViewById(R.id.value);
                 variableName.setText(var.getName());
-                variableValue.setText(var.getData() + " " + var.getUnits());
+                variableValue.setText(var.getValue());
                 listVariables.addView(viewVariable);
             });
         }

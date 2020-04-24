@@ -18,6 +18,14 @@ public class VariableStation {
     private String dataSourceId;
 
 
+    public String getValue(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(data);
+        sb.append(" ");
+        sb.append(units);
+        return sb.toString();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

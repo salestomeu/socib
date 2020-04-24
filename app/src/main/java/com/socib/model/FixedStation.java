@@ -1,5 +1,6 @@
 package com.socib.model;
 
+import com.socib.R;
 import com.socib.integrationSocib.model.Variable;
 
 import java.time.LocalDateTime;
