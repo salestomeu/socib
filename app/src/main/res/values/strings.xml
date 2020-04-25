@@ -8,4 +8,19 @@
     <string name="title_map">Map</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_last_updated">Updated: </string>
+    <string name="AIR_PRE">Air pressure</string>
+    <string name="AIR_PRE_NO_SL">Air pressure no sl</string>
+    <string name="AIR_TEM">Air temperature</string>
+    <string name="REL_HUM">Relative humidity</string>
+    <string name="RAIN_INT_PEAK">Rain peak intensity</string>
+    <string name="RAIN_ACC">Rain accumulation</string>
+    <string name="RAIN_INT">Rain intensity</string>
+    <string name="RAIN_DUR">Rain duration</string>
+    <string name="VOLT">Voltage</string>
+    <string name="WIN_DIR">"Wind from direction average</string>
+    <string name="WIN_DIR_GUS">Maximum wind from direction</string>
+    <string name="WIN_SPE_GUS">"Maximum wind speed</string>
+    <string name="WIN_SPE">Wind speed average</string>
+    <string name="WTR_TEM">Water temperature</string>
+    <string name="WTR_PRE">Water pressure</string>
 </resources>

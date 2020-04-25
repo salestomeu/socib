@@ -18,7 +18,7 @@ public class VariableStation {
     private String dataSourceId;
 
 
-    public String getValue(){
+    public String getValue() {
         StringBuilder sb = new StringBuilder();
         sb.append(data);
         sb.append(" ");

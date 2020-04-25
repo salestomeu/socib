@@ -1,6 +1,7 @@
 package com.socib.ui.map;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -36,17 +37,17 @@ import com.socib.service.fixedStation.VariableStationApiService;
 import com.socib.service.provider.SchedulerProvider;
 import com.socib.service.provider.SchedulerProviderImpl;
 import com.socib.ui.util.Device;
-import com.socib.viewmodel.variableStation.AbstractVariableStationViewModel;
+import com.socib.viewmodel.factory.FixedStationViewModelFactory;
+import com.socib.viewmodel.factory.VariableStationViewModelFactory;
 import com.socib.viewmodel.fixedStation.BuoyFixedStationViewModel;
 import com.socib.viewmodel.fixedStation.CoastalFixedStationViewModel;
-import com.socib.viewmodel.factory.FixedStationViewModelFactory;
 import com.socib.viewmodel.fixedStation.SeaLevelFixedStationViewModel;
+import com.socib.viewmodel.fixedStation.WeatherFixedStationViewModel;
+import com.socib.viewmodel.variableStation.AbstractVariableStationViewModel;
 import com.socib.viewmodel.variableStation.VariableBuoyStationViewModel;
 import com.socib.viewmodel.variableStation.VariableCosatalStationViewModel;
 import com.socib.viewmodel.variableStation.VariableSeaLevelStationViewModel;
-import com.socib.viewmodel.factory.VariableStationViewModelFactory;
 import com.socib.viewmodel.variableStation.VariableWeatherStationViewModel;
-import com.socib.viewmodel.fixedStation.WeatherFixedStationViewModel;
 
 import java.util.HashMap;
 import java.util.List;
@@ -149,7 +150,6 @@ public class MapFragment extends Fragment {
 
                     FixedStation fixedStation = mapFixedStations.get(marker.getTitle());
                     if (fixedStation != null) {
-                        Log.i("infoName:", fixedStation.getName());
                         name.setText(fixedStation.getName());
                         type.setText(fixedStation.getType());
                         String lastUpdateText = getString(R.string.title_last_updated) +
@@ -230,12 +230,20 @@ public class MapFragment extends Fragment {
                 View viewVariable = getLayoutInflater().inflate(R.layout.infowindow_variable, null, false);
                 TextView variableName = viewVariable.findViewById(R.id.name);
                 TextView variableValue = viewVariable.findViewById(R.id.value);
-                variableName.setText(var.getName());
+
+                variableName.setText(getVariableNameDescription(var.getName()));
                 variableValue.setText(var.getValue());
                 listVariables.addView(viewVariable);
             });
         }
 
+    }
+
+    private String getVariableNameDescription(String name){
+        int idVariableName = getResources().getIdentifier(name,
+                "string",
+                this.requireActivity().getPackageName());
+         return idVariableName==0?name:getString(idVariableName);
     }
 
     private void fetchDataVariablesStation(final List<FixedStation> fixedStations, final AbstractVariableStationViewModel abstractVariableStationViewModel) {
