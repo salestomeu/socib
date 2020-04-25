@@ -44,7 +44,7 @@ public class VariableStationApiService {
         List<Observable<Set<VariableStation>>> result = new ArrayList<>();
         for (String dataSourceId : dataSourceIds) {
             result.add(getApiOperation.getData(dataSourceId, PROCESSING_LEVEL, MAX_QC_VALUE, TRUE, getApiKey())
-                    .doOnError(error -> Log.e("getVariables dataSourceId: " , String.valueOf(dataSourceId) , error))
+                    .doOnError(error -> Log.e("getVariables dataSourceId: " , String.valueOf(dataSourceId) +" "+error.getMessage()))
                     .map(dataResponse-> this.converterListVariable(dataResponse, dataSourceId))
                     .onErrorReturnItem(Collections.emptySet()));
         }

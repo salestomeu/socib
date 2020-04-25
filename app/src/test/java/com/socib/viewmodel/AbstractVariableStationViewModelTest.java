@@ -13,6 +13,8 @@ import com.socib.model.VariableStation;
 import com.socib.service.fixedStation.VariableStationApiService;
 import com.socib.service.provider.TestSchedulerProvider;
 import com.socib.util.UtilTest;
+import com.socib.viewmodel.variableStation.AbstractVariableStationViewModel;
+import com.socib.viewmodel.variableStation.VariableCosatalStationViewModel;
 
 import org.junit.After;
 import org.junit.Before;

@@ -1,4 +1,4 @@
-package com.socib.viewmodel;
+package com.socib.viewmodel.variableStation;
 
 import com.socib.service.fixedStation.VariableStationApiService;
 import com.socib.service.provider.SchedulerProvider;

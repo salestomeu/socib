@@ -1,4 +1,4 @@
-package com.socib.viewmodel;
+package com.socib.viewmodel.factory;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
@@ -6,6 +6,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.socib.service.fixedStation.VariableStationApiService;
 import com.socib.service.provider.SchedulerProvider;
+import com.socib.viewmodel.variableStation.VariableBuoyStationViewModel;
+import com.socib.viewmodel.variableStation.VariableCosatalStationViewModel;
+import com.socib.viewmodel.variableStation.VariableSeaLevelStationViewModel;
+import com.socib.viewmodel.variableStation.VariableWeatherStationViewModel;
 
 import java.util.HashMap;
 import java.util.function.Supplier;
@@ -22,7 +26,7 @@ public class VariableStationViewModelFactory implements ViewModelProvider.Factor
         this.variableStationViewModelMap.put(VariableCosatalStationViewModel.class, this::createVariableCostalFixedStationViewModel);
         this.variableStationViewModelMap.put(VariableSeaLevelStationViewModel.class, this::createVariableSeaLevelStationViewModel);
         this.variableStationViewModelMap.put(VariableWeatherStationViewModel.class, this::createVariableWeatherFixedStationViewModel);
-
+        this.variableStationViewModelMap.put(VariableBuoyStationViewModel.class, this::createVariableBuoyFixedStationViewModel);
     }
 
     @NonNull
@@ -42,5 +46,8 @@ public class VariableStationViewModelFactory implements ViewModelProvider.Factor
     }
     public ViewModel createVariableWeatherFixedStationViewModel(){
         return new VariableWeatherStationViewModel(this.variableStationApiService, this.schedulerProvider);
+    }
+    public ViewModel createVariableBuoyFixedStationViewModel(){
+        return new VariableBuoyStationViewModel(this.variableStationApiService, this.schedulerProvider);
     }
 }
