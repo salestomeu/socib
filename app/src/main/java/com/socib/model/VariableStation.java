@@ -2,12 +2,12 @@ package com.socib.model;
 
 import java.util.Objects;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Setter
-@Getter
-public class VariableStation {
+@Data
+@NoArgsConstructor
+public class VariableStation implements Comparable<VariableStation>{
 
     public static final String NONE = "__NONE__";
 
@@ -16,7 +16,16 @@ public class VariableStation {
     private String units;
     private Boolean standard;
     private String dataSourceId;
+    private String description;
 
+
+    public String getValue() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(data);
+        sb.append(" ");
+        sb.append(units);
+        return sb.toString();
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -30,5 +39,10 @@ public class VariableStation {
     @Override
     public int hashCode() {
         return Objects.hash(name, dataSourceId);
+    }
+
+    @Override
+    public int compareTo(VariableStation o) {
+        return description.compareTo(o.description);
     }
 }

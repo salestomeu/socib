@@ -1,4 +1,4 @@
-package com.socib.viewmodel;
+package com.socib.viewmodel.variableStation;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

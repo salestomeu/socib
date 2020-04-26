@@ -1,23 +1,14 @@
 package com.socib.model;
 
-import com.socib.integrationSocib.model.Variable;
-
-import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
-@ToString
+
 public class FixedStation {
     private String id;
     private String name;

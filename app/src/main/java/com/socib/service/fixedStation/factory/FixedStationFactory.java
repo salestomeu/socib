@@ -15,6 +15,7 @@ public class FixedStationFactory {
         fixedStationEnumSet.put(StationType.COASTALSTATION, this::getCoastalStation);
         fixedStationEnumSet.put(StationType.SEALEVEL, this::getSeaLevelStation);
         fixedStationEnumSet.put(StationType.WEATHERSTATION, this::getWeatherStation);
+        fixedStationEnumSet.put(StationType.BUOY,this::getBuoyStation);
     }
 
     public FixedStation get(StationType stationType){
@@ -42,6 +43,13 @@ public class FixedStationFactory {
         FixedStation fixedStation = new FixedStation();
         fixedStation.setIcon(R.drawable.ic_map_meteo);
         fixedStation.setType(StationType.WEATHERSTATION.stationType());
+        return fixedStation;
+    }
+
+    private FixedStation getBuoyStation() {
+        FixedStation fixedStation = new FixedStation();
+        fixedStation.setIcon(R.drawable.ic_map_buoy);
+        fixedStation.setType(StationType.BUOY.stationType());
         return fixedStation;
     }
 }

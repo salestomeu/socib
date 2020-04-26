@@ -10,8 +10,9 @@ public enum StationType {
     COASTALSTATION("Coastal Station"),
     SEALEVEL("Sea Level"),
     WEATHERSTATION("Weather Station"),
-    GLIDER("Glider")
-    ;
+    BUOY("Oceanographic Buoy"),
+    GLIDER("Glider");
+
 
     private String value;
 

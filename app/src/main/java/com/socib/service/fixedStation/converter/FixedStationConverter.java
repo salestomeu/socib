@@ -1,7 +1,5 @@
 package com.socib.service.fixedStation.converter;
 
-import android.util.Log;
-
 import com.socib.commons.AbstractModelConverter;
 import com.socib.integrationSocib.model.DataSource;
 import com.socib.integrationSocib.model.Product;
@@ -9,12 +7,13 @@ import com.socib.model.FixedStation;
 import com.socib.model.StationType;
 import com.socib.service.fixedStation.factory.FixedStationFactory;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
 public class FixedStationConverter extends AbstractModelConverter<Product, FixedStation> {
+
+    private static final String TIME_SERIES = "timeSeries";
 
     private FixedStationFactory fixedStationFactory;
 
@@ -27,7 +26,7 @@ public class FixedStationConverter extends AbstractModelConverter<Product, Fixed
         super.mapApiToDomainModel(apiModel, fixedStation);
         fixedStation.setDataSourceId(new HashSet<>());
         dataSources.forEach(dataSource -> {
-            if (dataSource.getInstrument() != null) {
+            if (dataSource.getInstrument() != null && dataSource.getFeature_types().stream().anyMatch(TIME_SERIES::equals)) {
                 fixedStation.getDataSourceId().add(dataSource.getId());
                 if (fixedStation.getLastUpdateDate() == null) {
                     fixedStation.setLastUpdateDate(dataSource.getEnd_datetime());
@@ -41,7 +40,6 @@ public class FixedStationConverter extends AbstractModelConverter<Product, Fixed
                 }
             }
         });
-        Log.i("fixedStation:", fixedStation.toString());
         return fixedStation;
     }
 }

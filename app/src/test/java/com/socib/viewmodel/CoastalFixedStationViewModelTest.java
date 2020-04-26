@@ -13,6 +13,8 @@ import com.socib.model.StationType;
 import com.socib.service.fixedStation.FixedStationApiService;
 import com.socib.service.provider.TestSchedulerProvider;
 import com.socib.util.UtilTest;
+import com.socib.viewmodel.fixedStation.AbstractFixedStationViewModel;
+import com.socib.viewmodel.fixedStation.CoastalFixedStationViewModel;
 
 import org.junit.After;
 import org.junit.Before;
