@@ -2,8 +2,6 @@ package com.socib.service.fixedStation;
 
 import android.util.Log;
 
-import com.socib.R;
-import com.socib.SocibApplication;
 import com.socib.integrationSocib.GetApiOperation;
 import com.socib.integrationSocib.model.DataSource;
 import com.socib.integrationSocib.model.GetProductsResponse;
@@ -24,16 +22,18 @@ public class FixedStationApiService {
 
     private FixedStationConverter fixedStationConverter;
     private final GetApiOperation getApiOperation;
+    private final String apiKey;
 
 
-    public FixedStationApiService(GetApiOperation getApiOperation) {
+    public FixedStationApiService(GetApiOperation getApiOperation, String apiKey) {
         this.getApiOperation = getApiOperation;
+        this.apiKey = apiKey;
         this.fixedStationConverter = new FixedStationConverter();
 
     }
 
     public Observable<List<FixedStation>> getFixedStations(StationType stationType) {
-        return getApiOperation.getProducts(stationType.stationType(), TRUE, getApiKey())
+        return getApiOperation.getProducts(stationType.stationType(), TRUE, apiKey)
                 .doOnError(error -> Log.e("Error get fixedStation from product:",stationType.stationType(),error))
                 .map(GetProductsResponse::getResults)
                 .flatMap(products -> this.getFixedStationFromProduct(products, stationType));
@@ -42,7 +42,7 @@ public class FixedStationApiService {
     private Observable<List<FixedStation>> getFixedStationFromProduct(final List<Product> products, final StationType stationType) {
         List<Observable<FixedStation>> fixedStationsList = new ArrayList<>();
         for (Product product : products) {
-            fixedStationsList.add(getApiOperation.getDataSource(product.getId(), TRUE, getApiKey())
+            fixedStationsList.add(getApiOperation.getDataSource(product.getId(), TRUE, apiKey)
                     .doOnError(error -> Log.e("Error get dataSource from product:",product.getId(),error))
                     .map(getDataSourceResponse -> converterFixedStationFromDataSource(product, getDataSourceResponse.getResults(), stationType)));
         }
@@ -58,9 +58,5 @@ public class FixedStationApiService {
 
     private FixedStation converterFixedStationFromDataSource(final Product product, final List<DataSource> dataSources, StationType stationType){
         return fixedStationConverter.toDomainModel(product, dataSources, stationType);
-    }
-
-    private String getApiKey(){
-        return SocibApplication.getContext().getString(R.string.api_key);
     }
 }

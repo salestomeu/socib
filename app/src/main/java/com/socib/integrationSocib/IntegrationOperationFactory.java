@@ -15,12 +15,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class IntegrationOperationFactory {
     private static Retrofit retrofit;
     private static final String BASE_URL = "http://api.socib.es/";
-    private static final long cacheSize = (5 * 1024 * 1024);
+    private static final long CACHE_SIZE_MB = (5 * 1024 * 1024);
 
     public static Retrofit getAdapter() {
        if (retrofit == null) {
            File httpCacheDir = new File(SocibApplication.getContext().getCacheDir(), "response");
-           Cache myCache = new Cache(httpCacheDir, cacheSize);
+           Cache myCache = new Cache(httpCacheDir, CACHE_SIZE_MB);
            CacheInterceptor cacheInterceptor = new CacheInterceptor();
            Gson gson = new GsonBuilder()
                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")

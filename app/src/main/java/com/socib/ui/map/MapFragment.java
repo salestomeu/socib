@@ -1,11 +1,9 @@
 package com.socib.ui.map;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -53,6 +52,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class MapFragment extends Fragment {
@@ -88,6 +88,11 @@ public class MapFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
         mMapView = rootView.findViewById(R.id.mapView);
+
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        final TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
+        mTitle.setText(R.string.title_map);
+
         mMapView.onCreate(savedInstanceState);
 
         mapFixedStations = new HashMap<>();
@@ -194,12 +199,12 @@ public class MapFragment extends Fragment {
     }
 
     private void createViewModelInstances() {
-        FixedStationApiService fixedStationApiSerive = new FixedStationApiService(IntegrationOperationFactory
+        FixedStationApiService fixedStationApiService = new FixedStationApiService(IntegrationOperationFactory
                 .getAdapter()
-                .create(GetApiOperation.class));
+                .create(GetApiOperation.class), getString(R.string.api_key));
         SchedulerProvider schedulerProvider = new SchedulerProviderImpl();
         FixedStationViewModelFactory fixedStationViewModelFactory =
-                new FixedStationViewModelFactory(fixedStationApiSerive,
+                new FixedStationViewModelFactory(fixedStationApiService,
                         schedulerProvider);
         ViewModelProvider viewModelProviderFixedStation = new ViewModelProvider(this, fixedStationViewModelFactory);
         coastalStationViewModel = viewModelProviderFixedStation.get(CoastalFixedStationViewModel.class);
@@ -209,7 +214,7 @@ public class MapFragment extends Fragment {
 
         VariableStationApiService variableStationApiService = new VariableStationApiService(IntegrationOperationFactory
                 .getAdapter()
-                .create(GetApiOperation.class));
+                .create(GetApiOperation.class), getString(R.string.api_key));
         VariableStationViewModelFactory variableStationViewModelFactory =
                 new VariableStationViewModelFactory(variableStationApiService, schedulerProvider);
         ViewModelProvider viewModelProvider = new ViewModelProvider(this, variableStationViewModelFactory);
@@ -219,13 +224,13 @@ public class MapFragment extends Fragment {
         variableBuoyStationViewModel = viewModelProvider.get(VariableBuoyStationViewModel.class);
     }
 
-
     private void addVariables(final FixedStation fixedStation, final Set<VariableStation> variablesStationList, LinearLayout listVariables) {
         if (variablesStationList != null) {
             Set<VariableStation> selectedVariables = variablesStationList
                     .stream()
                     .filter(variableStation -> fixedStation.getDataSourceId().contains(variableStation.getDataSourceId()))
-                    .collect(Collectors.toSet());
+                    .map(this::converterVariableStationWithDescription)
+                    .collect(Collectors.toCollection(TreeSet::new));
             selectedVariables.forEach(var -> {
                 View viewVariable = getLayoutInflater().inflate(R.layout.infowindow_variable, null, false);
                 TextView variableName = viewVariable.findViewById(R.id.name);
@@ -237,6 +242,11 @@ public class MapFragment extends Fragment {
             });
         }
 
+    }
+
+    private VariableStation converterVariableStationWithDescription(VariableStation variableStation){
+        variableStation.setDescription(getVariableNameDescription(variableStation.getName()));
+        return variableStation;
     }
 
     private String getVariableNameDescription(String name){

@@ -87,6 +87,6 @@ public class VariableStationApiServiceTest {
         List<GetDataResponse> dataResponse = gson.fromJson(utilTest.getMockResponse(data), listType);
         when(getApiOperation.getData(anyString(), anyString(), anyInt(), anyString(), anyString())).thenReturn(Observable.just(dataResponse));
 
-        return new VariableStationApiService(getApiOperation);
+        return new VariableStationApiService(getApiOperation, "Test");
     }
 }

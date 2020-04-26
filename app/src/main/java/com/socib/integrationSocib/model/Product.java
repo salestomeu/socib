@@ -1,12 +1,8 @@
 package com.socib.integrationSocib.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 public class Product {
     private String id;
     private String name;

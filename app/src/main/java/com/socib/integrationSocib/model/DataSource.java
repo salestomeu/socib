@@ -1,22 +1,18 @@
 package com.socib.integrationSocib.model;
 
 import java.util.Date;
+import java.util.List;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
-@ToString
 public class DataSource {
     private String id;
     private String instrument;
     private Date end_datetime;
     private CoverageBoundingBox coverage_bounding_box;
+    private List<String> feature_types;
 
 }

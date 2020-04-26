@@ -13,14 +13,18 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class CacheInterceptor implements Interceptor {
+
+    private static int SECONDS_EXPIRE_CACHE_WITH_INTERNET = 60;
+    private static int SECONDS_EXPIRE_CACHE_WITHOUT_INTERNET = 60 * 60 * 24 * 7;
+
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
         if (hasNetwork()){
-            request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build();
+            request.newBuilder().header("Cache-Control", "public, max-age=" + SECONDS_EXPIRE_CACHE_WITH_INTERNET).build();
         }
         else{
-            request.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build();
+            request.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + SECONDS_EXPIRE_CACHE_WITHOUT_INTERNET).build();
         }
         return  chain.proceed(request);
     }

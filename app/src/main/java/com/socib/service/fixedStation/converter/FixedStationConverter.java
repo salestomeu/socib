@@ -13,6 +13,8 @@ import java.util.Optional;
 
 public class FixedStationConverter extends AbstractModelConverter<Product, FixedStation> {
 
+    private static final String TIME_SERIES = "timeSeries";
+
     private FixedStationFactory fixedStationFactory;
 
     public FixedStationConverter() {
@@ -24,7 +26,7 @@ public class FixedStationConverter extends AbstractModelConverter<Product, Fixed
         super.mapApiToDomainModel(apiModel, fixedStation);
         fixedStation.setDataSourceId(new HashSet<>());
         dataSources.forEach(dataSource -> {
-            if (dataSource.getInstrument() != null) {
+            if (dataSource.getInstrument() != null && dataSource.getFeature_types().stream().anyMatch(TIME_SERIES::equals)) {
                 fixedStation.getDataSourceId().add(dataSource.getId());
                 if (fixedStation.getLastUpdateDate() == null) {
                     fixedStation.setLastUpdateDate(dataSource.getEnd_datetime());

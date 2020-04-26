@@ -16,7 +16,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
@@ -31,10 +33,12 @@ public class VariableStationApiService {
 
     private final GetApiOperation getApiOperation;
     private final VariableStationConverter variableStationConverter;
+    private final String apiKey;
 
     @Inject
-    public VariableStationApiService(GetApiOperation getApiOperation) {
+    public VariableStationApiService(GetApiOperation getApiOperation, String apiKey) {
         this.getApiOperation = getApiOperation;
+        this.apiKey = apiKey;
         this.variableStationConverter = new VariableStationConverter();
 
     }
@@ -43,7 +47,7 @@ public class VariableStationApiService {
     public Observable<Set<VariableStation>> getVariables(final Set<String> dataSourceIds) {
         List<Observable<Set<VariableStation>>> result = new ArrayList<>();
         for (String dataSourceId : dataSourceIds) {
-            result.add(getApiOperation.getData(dataSourceId, PROCESSING_LEVEL, MAX_QC_VALUE, TRUE, getApiKey())
+            result.add(getApiOperation.getData(dataSourceId, PROCESSING_LEVEL, MAX_QC_VALUE, TRUE, apiKey)
                     .doOnError(error -> Log.e("getVariables dataSourceId: " , String.valueOf(dataSourceId) +" "+error.getMessage()))
                     .map(dataResponse-> this.converterListVariable(dataResponse, dataSourceId))
                     .onErrorReturnItem(Collections.emptySet()));
@@ -60,17 +64,12 @@ public class VariableStationApiService {
     }
 
     private Set<VariableStation> converterListVariable(final List<GetDataResponse> responseData, final String dataSourceId) {
-        Set<VariableStation> result = responseData
+        return  responseData
                 .stream()
                 .map(GetDataResponse::getVariables)
                 .flatMap(Collection::stream)
                 .filter(variable -> !NAN.equals(variable.getData()))
                 .map(variable -> variableStationConverter.toDomainModel(variable, dataSourceId, VariableStation.class))
                 .collect(Collectors.toSet());
-        return result;
-    }
-
-    private String getApiKey(){
-        return SocibApplication.getContext().getString(R.string.api_key);
     }
 }
