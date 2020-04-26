@@ -26,7 +26,8 @@ public class FixedStationConverter extends AbstractModelConverter<Product, Fixed
         super.mapApiToDomainModel(apiModel, fixedStation);
         fixedStation.setDataSourceId(new HashSet<>());
         dataSources.forEach(dataSource -> {
-            if (dataSource.getInstrument() != null && dataSource.getFeature_types().stream().anyMatch(TIME_SERIES::equals)) {
+            if (dataSource.getInstrument() != null &&
+                    isBuoyFeatureTypeTimeSeries(fixedStation.getType(), dataSource.getFeature_types())) {
                 fixedStation.getDataSourceId().add(dataSource.getId());
                 if (fixedStation.getLastUpdateDate() == null) {
                     fixedStation.setLastUpdateDate(dataSource.getEnd_datetime());
@@ -41,5 +42,10 @@ public class FixedStationConverter extends AbstractModelConverter<Product, Fixed
             }
         });
         return fixedStation;
+    }
+
+    private boolean isBuoyFeatureTypeTimeSeries(String type, List<String> featureTypes){
+        return  !StationType.BUOY.stationType().equals(type)
+                || featureTypes.stream().anyMatch(TIME_SERIES::equals);
     }
 }

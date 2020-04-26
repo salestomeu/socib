@@ -4,9 +4,7 @@ import com.google.gson.Gson;
 import com.socib.integrationSocib.GetApiOperation;
 import com.socib.integrationSocib.model.GetDataSourceResponse;
 import com.socib.integrationSocib.model.GetProductsResponse;
-import com.socib.model.MobileStation;
 import com.socib.model.StationType;
-import com.socib.service.mobileStation.MobileStationApiService;
 import com.socib.util.UtilTest;
 
 import org.junit.Before;

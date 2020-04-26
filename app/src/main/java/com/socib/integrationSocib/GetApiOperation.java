@@ -27,12 +27,19 @@ public interface GetApiOperation {
     @GET(DATA_SOURCES_PATH)
     Observable<GetDataSourceResponse> getDataSource(@Query("data_product") String dataProduct,
                                                     @Query("is_active") String isActive,
+                                                    @Query("initial_datetime") String initialDateTime,
                                                     @Header("api_key") String apiKey);
     @GET(DATA_PATH)
     Observable<List<GetDataResponse>> getData(@Path("id") String id,
                                               @Query("processing_level") String processingLevel,
                                               @Query("max_qc_value") Integer maxQcValue,
                                               @Query("latest") String latest,
+                                              @Header("api_key") String apiKey);
+
+    @GET(DATA_PATH)
+    Observable<List<GetDataResponse>> getTrajectory(@Path("id") String id,
+                                              @Query("processing_level") String processingLevel,
+                                              @Query("max_qc_value") Integer maxQcValue,
                                               @Header("api_key") String apiKey);
 
 }

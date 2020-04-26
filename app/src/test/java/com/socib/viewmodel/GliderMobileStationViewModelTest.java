@@ -7,9 +7,7 @@ import androidx.lifecycle.LifecycleRegistry;
 import androidx.lifecycle.Observer;
 
 import com.google.gson.Gson;
-import com.socib.model.MobileStation;
 import com.socib.model.StationType;
-import com.socib.service.mobileStation.MobileStationApiService;
 import com.socib.service.provider.TestSchedulerProvider;
 import com.socib.util.UtilTest;
 

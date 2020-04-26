@@ -13,14 +13,6 @@
             android:layout_height="40dp"
             android:paddingTop="10dp"
             android:src="@drawable/ic_station" />
-
-        <ImageView
-            android:id="@+id/imageLight"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="0dp"
-            android:src="@drawable/ic_light_green" />
     </RelativeLayout>
 
     <LinearLayout
