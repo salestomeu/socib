@@ -1,0 +1,253 @@
+{
+  "count": 6,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": "mobims-calamillor",
+      "name": "Mobims CalaMillor data",
+      "info": {
+        "json_ld": {
+          "publisher": {
+            "name": "Balearic Islands Coastal Observing and Forecasting System, SOCIB",
+            "@type": "Organization"
+          },
+          "name": "Mobims CalaMillor data",
+          "author": [],
+          "url": "apps.socib.es/data-catalog/mobims-calamillor",
+          "encodingFormat": "application/x-netcdf",
+          "datePublished": 2011,
+          "inLanguage": "en-US",
+          "editor": [],
+          "context": "http://schema.org",
+          "additionalType": "Dataset",
+          "schemaVersion": "http://datacite.org/schema/kernel-4",
+          "funder": [
+            {
+              "name": "Ministerio de ciencia, innovación y universidades (http://www.ciencia.gob.es/)",
+              "@type": "Organization"
+            },
+            {
+              "name": "Govern de les Illes Balears (http://www.caib.es/)",
+              "@type": "Organization"
+            }
+          ],
+          "identifier": null,
+          "@id": null,
+          "@type": "Dataset",
+          "description": "Data produced in the platform Mobims CalaMillor. It's compound by: Coastal Station, Current profiler, Weather Station data"
+        },
+        "citation": null,
+        "how_to_cite": null
+      },
+      "description": "Data produced in the platform Mobims CalaMillor. It's compound by: Coastal Station, Waves recorder, Weather Station data",
+      "data_sources": "http://api.socib.es/data-sources/?data_product=mobims-calamillor",
+      "entries": "http://api.socib.es/entries/?data_product=mobims-calamillor"
+    },
+    {
+      "id": "mobims-playadepalma",
+      "name": "Mobims PlayaDePalma data",
+      "info": {
+        "json_ld": {
+          "publisher": {
+            "name": "Balearic Islands Coastal Observing and Forecasting System, SOCIB",
+            "@type": "Organization"
+          },
+          "name": "Mobims PlayaDePalma data",
+          "author": [],
+          "url": "apps.socib.es/data-catalog/mobims-playadepalma",
+          "encodingFormat": "application/x-netcdf",
+          "datePublished": 2012,
+          "inLanguage": "en-US",
+          "editor": [],
+          "context": "http://schema.org",
+          "additionalType": "Dataset",
+          "schemaVersion": "http://datacite.org/schema/kernel-4",
+          "funder": [
+            {
+              "name": "Ministerio de ciencia, innovación y universidades (http://www.ciencia.gob.es/)",
+              "@type": "Organization"
+            },
+            {
+              "name": "Govern de les Illes Balears (http://www.caib.es/)",
+              "@type": "Organization"
+            }
+          ],
+          "identifier": null,
+          "@id": null,
+          "@type": "Dataset",
+          "description": "Data produced in the platform Mobims PlayaDePalma. It's compound by: Coastal Station, Weather Station data"
+        },
+        "citation": null,
+        "how_to_cite": null
+      },
+      "description": "Data produced in the platform Mobims PlayaDePalma. It's compound by: Coastal Station, Waves recorder, Weather Station data",
+      "data_sources": "http://api.socib.es/data-sources/?data_product=mobims-playadepalma",
+      "entries": "http://api.socib.es/entries/?data_product=mobims-playadepalma"
+    },
+    {
+      "id": "mobims-sonbou",
+      "name": "Mobims SonBou data",
+      "info": {
+        "json_ld": {
+          "publisher": {
+            "name": "Balearic Islands Coastal Observing and Forecasting System, SOCIB",
+            "@type": "Organization"
+          },
+          "name": "Mobims SonBou data",
+          "author": [],
+          "url": "apps.socib.es/data-catalog/mobims-sonbou",
+          "encodingFormat": "application/x-netcdf",
+          "datePublished": 2011,
+          "inLanguage": "en-US",
+          "editor": [],
+          "context": "http://schema.org",
+          "additionalType": "Dataset",
+          "schemaVersion": "http://datacite.org/schema/kernel-4",
+          "funder": [
+            {
+              "name": "Ministerio de ciencia, innovación y universidades (http://www.ciencia.gob.es/)",
+              "@type": "Organization"
+            },
+            {
+              "name": "Govern de les Illes Balears (http://www.caib.es/)",
+              "@type": "Organization"
+            }
+          ],
+          "identifier": null,
+          "@id": null,
+          "@type": "Dataset",
+          "description": "Data produced in the platform Mobims SonBou. It's compound by: Coastal Station, Weather Station data"
+        },
+        "citation": null,
+        "how_to_cite": null
+      },
+      "description": "Data produced in the platform Mobims SonBou. It's compound by: Coastal Station, Waves recorder, Weather Station data",
+      "data_sources": "http://api.socib.es/data-sources/?data_product=mobims-sonbou",
+      "entries": "http://api.socib.es/entries/?data_product=mobims-sonbou"
+    },
+    {
+      "id": "station-ciutadella",
+      "name": "Station Ciutadella data",
+      "info": {
+        "json_ld": {
+          "publisher": {
+            "name": "Balearic Islands Coastal Observing and Forecasting System, SOCIB",
+            "@type": "Organization"
+          },
+          "name": "Station Ciutadella data",
+          "author": [],
+          "url": "apps.socib.es/data-catalog/station-ciutadella",
+          "encodingFormat": "application/x-netcdf",
+          "datePublished": 2018,
+          "inLanguage": "en-US",
+          "editor": [],
+          "context": "http://schema.org",
+          "additionalType": "Dataset",
+          "schemaVersion": "http://datacite.org/schema/kernel-4",
+          "funder": [
+            {
+              "name": "Ministerio de ciencia, innovación y universidades (http://www.ciencia.gob.es/)",
+              "@type": "Organization"
+            },
+            {
+              "name": "Govern de les Illes Balears (http://www.caib.es/)",
+              "@type": "Organization"
+            }
+          ],
+          "identifier": null,
+          "@id": null,
+          "@type": "Dataset",
+          "description": "Data produced in the platform Station Ciutadella. It's compound by: Barometer, Coastal Station, Current profiler data"
+        },
+        "citation": null,
+        "how_to_cite": null
+      },
+      "description": "Data produced in the platform Station Ciutadella. It's compound by: Barometer, Coastal Station, Current profiler data",
+      "data_sources": "http://api.socib.es/data-sources/?data_product=station-ciutadella",
+      "entries": "http://api.socib.es/entries/?data_product=station-ciutadella"
+    },
+    {
+      "id": "station-lamola",
+      "name": "Station LaMola data",
+      "info": {
+        "json_ld": {
+          "publisher": {
+            "name": "Balearic Islands Coastal Observing and Forecasting System, SOCIB",
+            "@type": "Organization"
+          },
+          "name": "Station LaMola data",
+          "author": [],
+          "url": "apps.socib.es/data-catalog/station-lamola",
+          "encodingFormat": "application/x-netcdf",
+          "datePublished": 2011,
+          "inLanguage": "en-US",
+          "editor": [],
+          "context": "http://schema.org",
+          "additionalType": "Dataset",
+          "schemaVersion": "http://datacite.org/schema/kernel-4",
+          "funder": [
+            {
+              "name": "Ministerio de ciencia, innovación y universidades (http://www.ciencia.gob.es/)",
+              "@type": "Organization"
+            },
+            {
+              "name": "Govern de les Illes Balears (http://www.caib.es/)",
+              "@type": "Organization"
+            }
+          ],
+          "identifier": null,
+          "@id": null,
+          "@type": "Dataset",
+          "description": "Data produced in the platform Station LaMola. It's compound by: Barometer, Coastal Station, Conductivity and Temperature Recorder, Current profiler data"
+        },
+        "citation": null,
+        "how_to_cite": null
+      },
+      "description": "Data produced in the platform Station LaMola. It's compound by: Barometer, Coastal Station, Conductivity and Temperature Recorder, Current profiler data",
+      "data_sources": "http://api.socib.es/data-sources/?data_product=station-lamola",
+      "entries": "http://api.socib.es/entries/?data_product=station-lamola"
+    },
+    {
+      "id": "station-sonblanc",
+      "name": "Station SonBlanc data",
+      "info": {
+        "json_ld": {
+          "publisher": {
+            "name": "Balearic Islands Coastal Observing and Forecasting System, SOCIB",
+            "@type": "Organization"
+          },
+          "name": "Station SonBlanc data",
+          "author": [],
+          "url": "apps.socib.es/data-catalog/station-sonblanc",
+          "encodingFormat": "application/x-netcdf",
+          "datePublished": 2018,
+          "inLanguage": "en-US",
+          "editor": [],
+          "context": "http://schema.org",
+          "additionalType": "Dataset",
+          "schemaVersion": "http://datacite.org/schema/kernel-4",
+          "funder": [
+            {
+              "name": "Ministerio de ciencia, innovación y universidades (http://www.ciencia.gob.es/)",
+              "@type": "Organization"
+            },
+            {
+              "name": "Govern de les Illes Balears (http://www.caib.es/)",
+              "@type": "Organization"
+            }
+          ],
+          "identifier": null,
+          "@id": null,
+          "@type": "Dataset",
+          "description": "Data produced in the platform Station SonBlanc. It's compound by: Coastal Station, Tide gauge, Waves recorder data"
+        },
+        "citation": null,
+        "how_to_cite": null
+      },
+      "description": "Data produced in the platform Station SonBlanc. It's compound by: Coastal Station, Tide gauge, Waves recorder data",
+      "data_sources": "http://api.socib.es/data-sources/?data_product=station-sonblanc",
+      "entries": "http://api.socib.es/entries/?data_product=station-sonblanc"
+    }
+  ]
+}

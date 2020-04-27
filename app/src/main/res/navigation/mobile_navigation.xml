@@ -3,23 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_research">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.socib.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/navigation_research"
+        android:name="com.socib.ui.research.ResearchFragment"
+        android:label="@string/title_research"
+        tools:layout="@layout/fragment_research" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.socib.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_lagrangian"
+        android:name="com.socib.ui.lagrangian.LagrangianFragment"
+        android:label="@string/title_lagrangian"
+        tools:layout="@layout/fragment_lagrangian" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.socib.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_glider"
+        android:name="com.socib.ui.glider.GliderFragment"
+        android:label="@string/title_glider"
+        tools:layout="@layout/fragment_glider" />
+
+    <fragment
+        android:id="@+id/navigation_map"
+        android:name="com.socib.ui.map.MapFragment"
+        android:label="@string/title_map"
+        tools:layout="@layout/fragment_map" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.socib.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

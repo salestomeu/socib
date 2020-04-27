@@ -1,0 +1,253 @@
+{
+  "count": 6,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": "station-andratx",
+      "name": "Station Andratx data",
+      "info": {
+        "json_ld": {
+          "publisher": {
+            "name": "Balearic Islands Coastal Observing and Forecasting System, SOCIB",
+            "@type": "Organization"
+          },
+          "name": "Station Andratx data",
+          "author": [],
+          "url": "apps.socib.es/data-catalog/station-andratx",
+          "encodingFormat": "application/x-netcdf",
+          "datePublished": 2011,
+          "inLanguage": "en-US",
+          "editor": [],
+          "context": "http://schema.org",
+          "additionalType": "Dataset",
+          "schemaVersion": "http://datacite.org/schema/kernel-4",
+          "funder": [
+            {
+              "name": "Ministerio de ciencia, innovación y universidades (http://www.ciencia.gob.es/)",
+              "@type": "Organization"
+            },
+            {
+              "name": "Govern de les Illes Balears (http://www.caib.es/)",
+              "@type": "Organization"
+            }
+          ],
+          "identifier": null,
+          "@id": null,
+          "@type": "Dataset",
+          "description": "Data produced in the platform Station Andratx. It's compound by: Barometer, Sea Level, Tide gauge data"
+        },
+        "citation": null,
+        "how_to_cite": null
+      },
+      "description": "Data produced in the platform Station Andratx. It's compound by: Barometer, Sea Level, Tide gauge data",
+      "data_sources": "http://api.socib.es/data-sources/?data_product=station-andratx",
+      "entries": "http://api.socib.es/entries/?data_product=station-andratx"
+    },
+    {
+      "id": "station-coloniasantpere",
+      "name": "Station ColoniaSantPere data",
+      "info": {
+        "json_ld": {
+          "publisher": {
+            "name": "Balearic Islands Coastal Observing and Forecasting System, SOCIB",
+            "@type": "Organization"
+          },
+          "name": "Station ColoniaSantPere data",
+          "author": [],
+          "url": "apps.socib.es/data-catalog/station-coloniasantpere",
+          "encodingFormat": "application/x-netcdf",
+          "datePublished": 2015,
+          "inLanguage": "en-US",
+          "editor": [],
+          "context": "http://schema.org",
+          "additionalType": "Dataset",
+          "schemaVersion": "http://datacite.org/schema/kernel-4",
+          "funder": [
+            {
+              "name": "Ministerio de ciencia, innovación y universidades (http://www.ciencia.gob.es/)",
+              "@type": "Organization"
+            },
+            {
+              "name": "Govern de les Illes Balears (http://www.caib.es/)",
+              "@type": "Organization"
+            }
+          ],
+          "identifier": null,
+          "@id": null,
+          "@type": "Dataset",
+          "description": "Data produced in the platform Station ColoniaSantPere. It's compound by: Barometer, Sea Level, Tide gauge data"
+        },
+        "citation": null,
+        "how_to_cite": null
+      },
+      "description": "Data produced in the platform Station ColoniaSantPere. It's compound by: Barometer, Sea Level, Tide gauge data",
+      "data_sources": "http://api.socib.es/data-sources/?data_product=station-coloniasantpere",
+      "entries": "http://api.socib.es/entries/?data_product=station-coloniasantpere"
+    },
+    {
+      "id": "station-pollensa",
+      "name": "Station Pollensa data",
+      "info": {
+        "json_ld": {
+          "publisher": {
+            "name": "Balearic Islands Coastal Observing and Forecasting System, SOCIB",
+            "@type": "Organization"
+          },
+          "name": "Station Pollensa data",
+          "author": [],
+          "url": "apps.socib.es/data-catalog/station-pollensa",
+          "encodingFormat": "application/x-netcdf",
+          "datePublished": 2011,
+          "inLanguage": "en-US",
+          "editor": [],
+          "context": "http://schema.org",
+          "additionalType": "Dataset",
+          "schemaVersion": "http://datacite.org/schema/kernel-4",
+          "funder": [
+            {
+              "name": "Ministerio de ciencia, innovación y universidades (http://www.ciencia.gob.es/)",
+              "@type": "Organization"
+            },
+            {
+              "name": "Govern de les Illes Balears (http://www.caib.es/)",
+              "@type": "Organization"
+            }
+          ],
+          "identifier": null,
+          "@id": null,
+          "@type": "Dataset",
+          "description": "Data produced in the platform Station Pollensa. It's compound by: Barometer, Sea Level, Tide gauge data"
+        },
+        "citation": null,
+        "how_to_cite": null
+      },
+      "description": "Data produced in the platform Station Pollensa. It's compound by: Barometer, Sea Level, Tide gauge data",
+      "data_sources": "http://api.socib.es/data-sources/?data_product=station-pollensa",
+      "entries": "http://api.socib.es/entries/?data_product=station-pollensa"
+    },
+    {
+      "id": "station-portocristo",
+      "name": "Station PortoCristo data",
+      "info": {
+        "json_ld": {
+          "publisher": {
+            "name": "Balearic Islands Coastal Observing and Forecasting System, SOCIB",
+            "@type": "Organization"
+          },
+          "name": "Station PortoCristo data",
+          "author": [],
+          "url": "apps.socib.es/data-catalog/station-portocristo",
+          "encodingFormat": "application/x-netcdf",
+          "datePublished": 2016,
+          "inLanguage": "en-US",
+          "editor": [],
+          "context": "http://schema.org",
+          "additionalType": "Dataset",
+          "schemaVersion": "http://datacite.org/schema/kernel-4",
+          "funder": [
+            {
+              "name": "Ministerio de ciencia, innovación y universidades (http://www.ciencia.gob.es/)",
+              "@type": "Organization"
+            },
+            {
+              "name": "Govern de les Illes Balears (http://www.caib.es/)",
+              "@type": "Organization"
+            }
+          ],
+          "identifier": null,
+          "@id": null,
+          "@type": "Dataset",
+          "description": "Data produced in the platform Station PortoCristo. It's compound by: Barometer, Sea Level, Tide gauge data"
+        },
+        "citation": null,
+        "how_to_cite": null
+      },
+      "description": "Data produced in the platform Station PortoCristo. It's compound by: Barometer, Sea Level, Tide gauge data",
+      "data_sources": "http://api.socib.es/data-sources/?data_product=station-portocristo",
+      "entries": "http://api.socib.es/entries/?data_product=station-portocristo"
+    },
+    {
+      "id": "station-santantoni",
+      "name": "Station SantAntoni data",
+      "info": {
+        "json_ld": {
+          "publisher": {
+            "name": "Balearic Islands Coastal Observing and Forecasting System, SOCIB",
+            "@type": "Organization"
+          },
+          "name": "Station SantAntoni data",
+          "author": [],
+          "url": "apps.socib.es/data-catalog/station-santantoni",
+          "encodingFormat": "application/x-netcdf",
+          "datePublished": 2015,
+          "inLanguage": "en-US",
+          "editor": [],
+          "context": "http://schema.org",
+          "additionalType": "Dataset",
+          "schemaVersion": "http://datacite.org/schema/kernel-4",
+          "funder": [
+            {
+              "name": "Ministerio de ciencia, innovación y universidades (http://www.ciencia.gob.es/)",
+              "@type": "Organization"
+            },
+            {
+              "name": "Govern de les Illes Balears (http://www.caib.es/)",
+              "@type": "Organization"
+            }
+          ],
+          "identifier": null,
+          "@id": null,
+          "@type": "Dataset",
+          "description": "Data produced in the platform Station SantAntoni. It's compound by: Barometer, Sea Level, Tide gauge data"
+        },
+        "citation": null,
+        "how_to_cite": null
+      },
+      "description": "Data produced in the platform Station SantAntoni. It's compound by: Barometer, Sea Level, Tide gauge data",
+      "data_sources": "http://api.socib.es/data-sources/?data_product=station-santantoni",
+      "entries": "http://api.socib.es/entries/?data_product=station-santantoni"
+    },
+    {
+      "id": "station-sarapita",
+      "name": "Station SaRapita data",
+      "info": {
+        "json_ld": {
+          "publisher": {
+            "name": "Balearic Islands Coastal Observing and Forecasting System, SOCIB",
+            "@type": "Organization"
+          },
+          "name": "Station SaRapita data",
+          "author": [],
+          "url": "apps.socib.es/data-catalog/station-sarapita",
+          "encodingFormat": "application/x-netcdf",
+          "datePublished": 2011,
+          "inLanguage": "en-US",
+          "editor": [],
+          "context": "http://schema.org",
+          "additionalType": "Dataset",
+          "schemaVersion": "http://datacite.org/schema/kernel-4",
+          "funder": [
+            {
+              "name": "Ministerio de ciencia, innovación y universidades (http://www.ciencia.gob.es/)",
+              "@type": "Organization"
+            },
+            {
+              "name": "Govern de les Illes Balears (http://www.caib.es/)",
+              "@type": "Organization"
+            }
+          ],
+          "identifier": null,
+          "@id": null,
+          "@type": "Dataset",
+          "description": "Data produced in the platform Station SaRapita. It's compound by: Barometer, Sea Level, Tide gauge data"
+        },
+        "citation": null,
+        "how_to_cite": null
+      },
+      "description": "Data produced in the platform Station SaRapita. It's compound by: Barometer, Sea Level, Tide gauge data",
+      "data_sources": "http://api.socib.es/data-sources/?data_product=station-sarapita",
+      "entries": "http://api.socib.es/entries/?data_product=station-sarapita"
+    }
+  ]
+}
