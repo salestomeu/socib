@@ -11,7 +11,9 @@ public enum StationType {
     SEALEVEL("Sea Level"),
     WEATHERSTATION("Weather Station"),
     BUOY("Oceanographic Buoy"),
-    GLIDER("Glider");
+    GLIDER("Glider"),
+    SURFACE("Surface Drifter"),
+    PROFILER("Profiler Drifter");
 
 
     private String value;

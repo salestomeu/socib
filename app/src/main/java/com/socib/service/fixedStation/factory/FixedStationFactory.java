@@ -2,7 +2,6 @@ package com.socib.service.fixedStation.factory;
 
 import com.socib.R;
 import com.socib.model.FixedStation;
-import com.socib.model.MobileStation;
 import com.socib.model.StationType;
 
 import java.util.EnumMap;
@@ -18,6 +17,8 @@ public class FixedStationFactory {
         fixedStationEnumSet.put(StationType.WEATHERSTATION, this::getWeatherStation);
         fixedStationEnumSet.put(StationType.BUOY,this::getBuoyStation);
         fixedStationEnumSet.put(StationType.GLIDER,this::getGliderStation);
+        fixedStationEnumSet.put(StationType.PROFILER,this::getProfilerStation);
+        fixedStationEnumSet.put(StationType.SURFACE,this::getSurfaceStation);
     }
 
     public FixedStation get(StationType stationType){
@@ -58,6 +59,18 @@ public class FixedStationFactory {
     private FixedStation getGliderStation() {
         FixedStation fixedStation = new FixedStation();
         fixedStation.setIcon(R.drawable.ic_map_glider);
+        return fixedStation;
+    }
+
+    private FixedStation getSurfaceStation() {
+        FixedStation fixedStation = new FixedStation();
+        fixedStation.setIcon(R.drawable.ic_map_drifter_surface);
+        return fixedStation;
+    }
+
+    private FixedStation getProfilerStation() {
+        FixedStation fixedStation = new FixedStation();
+        fixedStation.setIcon(R.drawable.ic_map_drifter_profiler);
         return fixedStation;
     }
 }
