@@ -42,4 +42,9 @@ public interface GetApiOperation {
                                               @Query("max_qc_value") Integer maxQcValue,
                                               @Header("api_key") String apiKey);
 
+    @GET(DATA_SOURCES_PATH)
+    Observable<GetDataSourceResponse> getMobileStation(@Query("platform_type") String platformType,
+                                                       @Query("is_active") String isActive,
+                                                       @Header("api_key") String apiKey);
+
 }

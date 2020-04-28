@@ -6,9 +6,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.socib.service.fixedStation.FixedStationApiService;
 import com.socib.service.provider.SchedulerProvider;
-import com.socib.viewmodel.GliderMobileStationViewModel;
-import com.socib.viewmodel.ProfilerMobileStationViewModel;
-import com.socib.viewmodel.SurfaceMobileStationViewModel;
 import com.socib.viewmodel.fixedStation.BuoyFixedStationViewModel;
 import com.socib.viewmodel.fixedStation.CoastalFixedStationViewModel;
 import com.socib.viewmodel.fixedStation.SeaLevelFixedStationViewModel;
@@ -30,9 +27,6 @@ public class FixedStationViewModelFactory implements ViewModelProvider.Factory {
         this.fixedStationViewModelMap.put(SeaLevelFixedStationViewModel.class, this::createSealevelFixedStationViewModel);
         this.fixedStationViewModelMap.put(WeatherFixedStationViewModel.class, this::createWeatherFixedStationViewModel);
         this.fixedStationViewModelMap.put(BuoyFixedStationViewModel.class, this::createBuoyFixedStationViewModel);
-        this.fixedStationViewModelMap.put(GliderMobileStationViewModel.class, this::createGliderMobileStationViewModel);
-        this.fixedStationViewModelMap.put(ProfilerMobileStationViewModel.class, this::createProfilerMobileStationViewModel);
-        this.fixedStationViewModelMap.put(SurfaceMobileStationViewModel.class, this::createSurfaceMobileStationViewModel);
     }
 
     @NonNull
@@ -58,17 +52,5 @@ public class FixedStationViewModelFactory implements ViewModelProvider.Factory {
 
     public ViewModel createBuoyFixedStationViewModel() {
         return new BuoyFixedStationViewModel(this.fixedStationApiService, this.schedulerProvider);
-    }
-
-    private ViewModel createGliderMobileStationViewModel() {
-        return new GliderMobileStationViewModel(this.fixedStationApiService, this.schedulerProvider);
-    }
-
-    private ViewModel createSurfaceMobileStationViewModel() {
-        return new SurfaceMobileStationViewModel(this.fixedStationApiService, this.schedulerProvider);
-    }
-
-    private ViewModel createProfilerMobileStationViewModel() {
-        return new ProfilerMobileStationViewModel(this.fixedStationApiService, this.schedulerProvider);
     }
 }

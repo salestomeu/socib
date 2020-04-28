@@ -15,11 +15,9 @@ import lombok.Setter;
 public class MobileStation {
     private String id;
     private String name;
+    private Date startDate;
     private Date lastUpdateDate;
-    private Set<String> dataSourceId;
     private Coordinates actualPosition;
-    private Coordinates initialPosition;
-    private List<Coordinates> wayPoints;
     private List<Coordinates> trajectory;
     private int icon;
 }

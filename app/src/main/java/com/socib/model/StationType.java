@@ -22,11 +22,11 @@ public enum StationType {
             .of(StationType.values())
             .collect(toMap(s -> s.value, Function.identity()));
 
-    public String stationType(){
+    public String stationType() {
         return value;
     }
 
-    StationType(String value){
+    StationType(String value) {
         this.value = value;
     }
 }

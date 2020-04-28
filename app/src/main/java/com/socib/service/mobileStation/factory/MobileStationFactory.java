@@ -1,6 +1,7 @@
 package com.socib.service.mobileStation.factory;
 
 import com.socib.R;
+import com.socib.model.FixedStation;
 import com.socib.model.MobileStation;
 import com.socib.model.StationType;
 
@@ -13,6 +14,8 @@ public class MobileStationFactory {
     public MobileStationFactory(){
         mobileStationEnumSet =  new EnumMap<>(StationType.class);
         mobileStationEnumSet.put(StationType.GLIDER, this::getGliderStation);
+        mobileStationEnumSet.put(StationType.PROFILER,this::getProfilerStation);
+        mobileStationEnumSet.put(StationType.SURFACE,this::getSurfaceStation);
     }
 
     public MobileStation get(StationType stationType){
@@ -24,7 +27,19 @@ public class MobileStationFactory {
 
     private MobileStation getGliderStation() {
         MobileStation mobileStation = new MobileStation();
-        mobileStation.setIcon(R.drawable.ic_map_station);
+        mobileStation.setIcon(R.drawable.ic_map_glider);
+        return mobileStation;
+    }
+
+    private MobileStation getSurfaceStation() {
+        MobileStation mobileStation = new MobileStation();
+        mobileStation.setIcon(R.drawable.ic_map_drifter_surface);
+        return mobileStation;
+    }
+
+    private MobileStation getProfilerStation() {
+        MobileStation mobileStation = new MobileStation();
+        mobileStation.setIcon(R.drawable.ic_map_drifter_profiler);
         return mobileStation;
     }
 }

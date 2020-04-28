@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.socib.model.StationType;
 import com.socib.service.provider.TestSchedulerProvider;
 import com.socib.util.UtilTest;
+import com.socib.viewmodel.mobileStation.AbstractMobileStationViewModel;
 
 import org.junit.After;
 import org.junit.Before;

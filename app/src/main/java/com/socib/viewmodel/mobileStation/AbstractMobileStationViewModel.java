@@ -1,4 +1,4 @@
-package com.socib.viewmodel;
+package com.socib.viewmodel.mobileStation;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -23,14 +23,17 @@ public abstract class AbstractMobileStationViewModel extends ViewModel {
     public AbstractMobileStationViewModel(MobileStationApiService mobileStationApiService, SchedulerProvider schedulerProvider) {
         this.mobileStationApiService = mobileStationApiService;
         this.schedulerProvider = schedulerProvider;
+        disposable = new CompositeDisposable();
     }
+
+    protected abstract StationType getStationType();
 
     public LiveData<List<MobileStation>> getMobileStation() {
         return  mobileStation;
     }
 
     public void fetchMobileStation() {
-        disposable.add(mobileStationApiService.getMobileStations(StationType.GLIDER)
+        disposable.add(mobileStationApiService.getMobileStations(getStationType())
                 .compose(schedulerProvider.applySchedulers())
                 .subscribe(this::onSuccess, this::OnError));
     }
