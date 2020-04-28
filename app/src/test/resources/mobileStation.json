@@ -1,0 +1,295 @@
+{
+  "count": 7,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": "598f59eddd",
+      "type": "observational",
+      "platform": "http://api.socib.es/platforms/Drifter_SVPB002",
+      "instrument": "http://api.socib.es/instruments/SCB-SVPB002",
+      "standard_variables": "http://api.socib.es/data-sources/598f59eddd/standard_variables",
+      "initial_datetime": "2019-11-27T14:00:00Z",
+      "end_datetime": "2020-04-28T10:00:00Z",
+      "coverage_bounding_box": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              0.7364,
+              37.0228
+            ],
+            [
+              0.7364,
+              39.4128
+            ],
+            [
+              8.2734,
+              39.4128
+            ],
+            [
+              8.2734,
+              37.0228
+            ],
+            [
+              0.7364,
+              37.0228
+            ]
+          ]
+        ]
+      },
+      "is_active": true,
+      "feature_types": [
+        "trajectory"
+      ],
+      "entries": "http://api.socib.es/entries/?data_source=598f59eddd"
+    },
+    {
+      "id": "0bd10f1b25",
+      "type": "observational",
+      "platform": "http://api.socib.es/platforms/Drifter_SVPB003",
+      "instrument": "http://api.socib.es/instruments/SCB-SVPB003",
+      "standard_variables": "http://api.socib.es/data-sources/0bd10f1b25/standard_variables",
+      "initial_datetime": "2019-11-27T14:00:00Z",
+      "end_datetime": "2020-04-28T10:00:00Z",
+      "coverage_bounding_box": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              0.7364,
+              37.4658
+            ],
+            [
+              0.7364,
+              40.3288
+            ],
+            [
+              13.828,
+              40.3288
+            ],
+            [
+              13.828,
+              37.4658
+            ],
+            [
+              0.7364,
+              37.4658
+            ]
+          ]
+        ]
+      },
+      "is_active": true,
+      "feature_types": [
+        "timeSeries"
+      ],
+      "entries": "http://api.socib.es/entries/?data_source=0bd10f1b25"
+    },
+    {
+      "id": "548074b13f",
+      "type": "observational",
+      "platform": "http://api.socib.es/platforms/Drifter_SVPB001",
+      "instrument": "http://api.socib.es/instruments/SCB-SVPB001",
+      "standard_variables": "http://api.socib.es/data-sources/548074b13f/standard_variables",
+      "initial_datetime": "2019-11-27T14:00:00Z",
+      "end_datetime": "2020-04-28T10:00:00Z",
+      "coverage_bounding_box": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              0.7366,
+              37.4442
+            ],
+            [
+              0.7366,
+              40.0366
+            ],
+            [
+              11.419,
+              40.0366
+            ],
+            [
+              11.419,
+              37.4442
+            ],
+            [
+              0.7366,
+              37.4442
+            ]
+          ]
+        ]
+      },
+      "is_active": true,
+      "feature_types": [
+        "trajectory"
+      ],
+      "entries": "http://api.socib.es/entries/?data_source=548074b13f"
+    },
+    {
+      "id": "b495166213",
+      "type": "observational",
+      "platform": "http://api.socib.es/platforms/Drifter_SVPB004",
+      "instrument": "http://api.socib.es/instruments/SCB-SVPB004",
+      "standard_variables": "http://api.socib.es/data-sources/b495166213/standard_variables",
+      "initial_datetime": "2020-02-13T12:00:00Z",
+      "end_datetime": "2020-04-28T10:00:00Z",
+      "coverage_bounding_box": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              0.6008,
+              38.041
+            ],
+            [
+              0.6008,
+              39.4276
+            ],
+            [
+              4.2874,
+              39.4276
+            ],
+            [
+              4.2874,
+              38.041
+            ],
+            [
+              0.6008,
+              38.041
+            ]
+          ]
+        ]
+      },
+      "is_active": true,
+      "feature_types": [
+        "trajectory"
+      ],
+      "entries": "http://api.socib.es/entries/?data_source=b495166213"
+    },
+    {
+      "id": "b48b854659",
+      "type": "observational",
+      "platform": "http://api.socib.es/platforms/Drifter_SVPB006",
+      "instrument": "http://api.socib.es/instruments/SCB-SVPB006",
+      "standard_variables": "http://api.socib.es/data-sources/b48b854659/standard_variables",
+      "initial_datetime": "2020-03-12T12:00:00Z",
+      "end_datetime": "2020-04-28T10:00:00Z",
+      "coverage_bounding_box": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              2.12,
+              39.1646
+            ],
+            [
+              2.12,
+              41.4848
+            ],
+            [
+              4.8496,
+              41.4848
+            ],
+            [
+              4.8496,
+              39.1646
+            ],
+            [
+              2.12,
+              39.1646
+            ]
+          ]
+        ]
+      },
+      "is_active": true,
+      "feature_types": [
+        "timeSeries",
+        "trajectory"
+      ],
+      "entries": "http://api.socib.es/entries/?data_source=b48b854659"
+    },
+    {
+      "id": "f3deee3fb0",
+      "type": "observational",
+      "platform": "http://api.socib.es/platforms/Drifter_SVPB007",
+      "instrument": "http://api.socib.es/instruments/SCB-SVPB007",
+      "standard_variables": "http://api.socib.es/data-sources/f3deee3fb0/standard_variables",
+      "initial_datetime": "2020-03-12T12:00:00Z",
+      "end_datetime": "2020-04-28T10:00:00Z",
+      "coverage_bounding_box": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              0.5188,
+              39.138
+            ],
+            [
+              0.5188,
+              41.0746
+            ],
+            [
+              3.2504,
+              41.0746
+            ],
+            [
+              3.2504,
+              39.138
+            ],
+            [
+              0.5188,
+              39.138
+            ]
+          ]
+        ]
+      },
+      "is_active": true,
+      "feature_types": [
+        "timeSeries"
+      ],
+      "entries": "http://api.socib.es/entries/?data_source=f3deee3fb0"
+    },
+    {
+      "id": "f3deee3fb0",
+      "type": "observational",
+      "platform": "http://api.socib.es/platforms/Drifter_SVPB007",
+      "instrument": "http://api.socib.es/instruments/SCB-SVPB007",
+      "standard_variables": "http://api.socib.es/data-sources/f3deee3fb0/standard_variables",
+      "initial_datetime": "2020-03-12T12:00:00Z",
+      "end_datetime": "2020-04-28T10:00:00Z",
+      "coverage_bounding_box": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              0.5188,
+              39.138
+            ],
+            [
+              0.5188,
+              41.0746
+            ],
+            [
+              3.2504,
+              41.0746
+            ],
+            [
+              3.2504,
+              39.138
+            ],
+            [
+              0.5188,
+              39.138
+            ]
+          ]
+        ]
+      },
+      "is_active": true,
+      "feature_types": [
+        "timeSeries"
+      ],
+      "entries": "http://api.socib.es/entries/?data_source=f3deee3fb0"
+    }
+  ]
+}

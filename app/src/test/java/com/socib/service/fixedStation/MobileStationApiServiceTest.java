@@ -3,8 +3,9 @@ package com.socib.service.fixedStation;
 import com.google.gson.Gson;
 import com.socib.integrationSocib.GetApiOperation;
 import com.socib.integrationSocib.model.GetDataSourceResponse;
-import com.socib.integrationSocib.model.GetProductsResponse;
+import com.socib.model.MobileStation;
 import com.socib.model.StationType;
+import com.socib.service.mobileStation.MobileStationApiService;
 import com.socib.util.UtilTest;
 
 import org.junit.Before;
@@ -21,13 +22,11 @@ import static org.mockito.Mockito.when;
 
 public class MobileStationApiServiceTest {
 
-    private static final String DATA_SOURCES_FILE_NAME = "dataSources.json";
-    private static final String COASTAL_PRODUCT_DATA_FILE_NAME = "CoastalProduct.json";
+    private static final String DATA_SOURCES_FILE_NAME = "mobileStation.json";
+    private static final int SIZE_LIST = 7;
 
     private UtilTest utilTest;
     private Gson gson;
-
-    private static final Double LONGITUDE = 3.383145;
 
     @Mock
     private GetApiOperation getApiOperation;
@@ -41,7 +40,7 @@ public class MobileStationApiServiceTest {
 
     @Test
     public void it_should_be_subscribed_complete_and_no_errors() {
-        MobileStationApiService mobileStationService = getFixedStationService(COASTAL_PRODUCT_DATA_FILE_NAME, DATA_SOURCES_FILE_NAME);
+        MobileStationApiService mobileStationService = getMobileStationService(DATA_SOURCES_FILE_NAME);
 
         Observable<List<MobileStation>> fixedStations = mobileStationService.getMobileStations(StationType.GLIDER);
 
@@ -51,11 +50,20 @@ public class MobileStationApiServiceTest {
                 .assertNoErrors();
     }
 
-    private MobileStationApiService getFixedStationService(final String product, final String dataSource) {
-        GetProductsResponse productResponse = gson.fromJson(utilTest.getMockResponse(product), GetProductsResponse.class);
+    @Test
+    public void it_should_be_equal_coastal_fixed_station_list_size() {
+        MobileStationApiService mobileStationService = getMobileStationService(DATA_SOURCES_FILE_NAME);
+
+        Observable<List<MobileStation>> fixedStations = mobileStationService.getMobileStations(StationType.GLIDER);
+
+        fixedStations
+                .test()
+                .assertValue(fixedStationList -> fixedStationList.size() == SIZE_LIST);
+    }
+
+    private MobileStationApiService getMobileStationService(final String dataSource) {
         GetDataSourceResponse dataSourceResponse = gson.fromJson(utilTest.getMockResponse(dataSource), GetDataSourceResponse.class);
-        when(getApiOperation.getProducts(anyString(), anyString(), anyString())).thenReturn(Observable.just(productResponse));
-        when(getApiOperation.getDataSource(anyString(), anyString(), anyString())).thenReturn(Observable.just(dataSourceResponse));
-        return new MobileStationApiService(getApiOperation);
+        when(getApiOperation.getMobileStation(anyString(), anyString(), anyString())).thenReturn(Observable.just(dataSourceResponse));
+        return new MobileStationApiService(getApiOperation, "Test");
     }
 }
