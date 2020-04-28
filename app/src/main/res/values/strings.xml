@@ -43,4 +43,23 @@
     <string name="WTR_TEM">Water temperature</string>
     <string name="WTR_TEM_SBE37">Sea water temperature</string>
     <string name="help">Help</string>
+    <string name="spinner_language_title">Language</string>
+    <string name="spinner_profile_title">Profile</string>
+    <string name="spinner_unit_title">Velocity unit</string>
+    <string name="language">Language:</string>
+    <string name="profile">Profile:</string>
+    <string name="units">Units:</string>
+    <string-array name="language_array">
+        <item>English</item>
+        <item>Spanish</item>
+        <item>Catalan</item>
+    </string-array>
+    <string-array name="profile_array">
+        <item>Scientific</item>
+    </string-array>
+    <string-array name="units_array">
+        <item>Km/h</item>
+        <item>M/s</item>
+        <item>Knots</item>
+    </string-array>
 </resources>
