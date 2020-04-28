@@ -20,13 +20,13 @@ import com.socib.R;
 import com.socib.SocibApplication;
 import com.socib.integrationSocib.GetApiOperation;
 import com.socib.integrationSocib.IntegrationOperationFactory;
-import com.socib.model.FixedStation;
-import com.socib.service.fixedStation.FixedStationApiService;
+import com.socib.model.MobileStation;
+import com.socib.service.mobileStation.MobileStationApiService;
 import com.socib.service.provider.SchedulerProvider;
 import com.socib.service.provider.SchedulerProviderImpl;
 import com.socib.ui.AbstractMapFragment;
 import com.socib.viewmodel.GliderMobileStationViewModel;
-import com.socib.viewmodel.factory.FixedStationViewModelFactory;
+import com.socib.viewmodel.factory.MobileStationViewModelFactory;
 
 import java.util.Date;
 import java.util.List;
@@ -45,7 +45,7 @@ public class GliderFragment extends AbstractMapFragment {
 
         mMapView.onCreate(savedInstanceState);
         createViewModelInstances();
-        gliderMobileStationViewModel.fetchFixedStation();
+        gliderMobileStationViewModel.fetchMobileStation();
         mMapView.onResume(); // needed to get the map to display immediately
         super.checkPermissions();
         super.paintMap();
@@ -53,32 +53,33 @@ public class GliderFragment extends AbstractMapFragment {
     }
 
     private void createViewModelInstances() {
-        FixedStationApiService fixedStationApiService = new FixedStationApiService(IntegrationOperationFactory
+        MobileStationApiService mobileStationApiService = new MobileStationApiService(IntegrationOperationFactory
                 .getAdapter()
                 .create(GetApiOperation.class), getString(R.string.api_key));
         SchedulerProvider schedulerProvider = new SchedulerProviderImpl();
-        FixedStationViewModelFactory fixedStationViewModelFactory =
-                new FixedStationViewModelFactory(fixedStationApiService,
+        MobileStationViewModelFactory mobileStationViewModelFactory =
+                new MobileStationViewModelFactory(mobileStationApiService,
                         schedulerProvider);
-        ViewModelProvider viewModelProviderFixedStation = new ViewModelProvider(this, fixedStationViewModelFactory);
+        ViewModelProvider viewModelProviderFixedStation = new ViewModelProvider(this, mobileStationViewModelFactory);
         gliderMobileStationViewModel = viewModelProviderFixedStation.get(GliderMobileStationViewModel.class);
     }
 
     @Override
     protected void paintMarkers(GoogleMap googleMap) {
         Log.i("Gliders: ","paintMarkers");
-        gliderMobileStationViewModel.getFixedStation()
+        gliderMobileStationViewModel.getMobileStation()
                 .observe(getViewLifecycleOwner(), fixedStations ->this.addMarker(fixedStations, googleMap));
     }
 
-    private void addMarker(final List<FixedStation> fixedStations, GoogleMap googleMap) {
+    private void addMarker(final List<MobileStation> fixedStations, GoogleMap googleMap) {
         Log.i("Gliders: ", String.valueOf(fixedStations.size()));
         fixedStations.forEach(
-                fixedStation -> googleMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(fixedStation.getLatitude(), fixedStation.getLongitude()))
-                        .title(fixedStation.getId())
-                        .snippet(getLastUpdateText(fixedStation.getLastUpdateDate()))
-                        .icon(BitmapDescriptorFactory.fromResource(fixedStation.getIcon()))
+                mobileStation -> googleMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(mobileStation.getActualPosition().getLatitude(),
+                                mobileStation.getActualPosition().getLongitude()))
+                        .title(mobileStation.getName())
+                        .snippet(getLastUpdateText(mobileStation.getLastUpdateDate()))
+                        .icon(BitmapDescriptorFactory.fromResource(mobileStation.getIcon()))
                 ));
     }
 

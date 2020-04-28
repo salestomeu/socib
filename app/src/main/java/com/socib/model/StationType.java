@@ -11,7 +11,9 @@ public enum StationType {
     SEALEVEL("Sea Level"),
     WEATHERSTATION("Weather Station"),
     BUOY("Oceanographic Buoy"),
-    GLIDER("Glider");
+    GLIDER("Glider"),
+    SURFACE("Surface Drifter"),
+    PROFILER("Profiler Drifter");
 
 
     private String value;
@@ -20,11 +22,11 @@ public enum StationType {
             .of(StationType.values())
             .collect(toMap(s -> s.value, Function.identity()));
 
-    public String stationType(){
+    public String stationType() {
         return value;
     }
 
-    StationType(String value){
+    StationType(String value) {
         this.value = value;
     }
 }

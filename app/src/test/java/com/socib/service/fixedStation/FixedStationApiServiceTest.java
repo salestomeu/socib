@@ -122,7 +122,7 @@ public class FixedStationApiServiceTest {
         GetProductsResponse productResponse = gson.fromJson(utilTest.getMockResponse(product), GetProductsResponse.class);
         GetDataSourceResponse dataSourceResponse = gson.fromJson(utilTest.getMockResponse(dataSource), GetDataSourceResponse.class);
         when(getApiOperation.getProducts(anyString(), anyString(), anyString())).thenReturn(Observable.just(productResponse));
-        when(getApiOperation.getDataSource(anyString(), anyString(), anyString())).thenReturn(Observable.just(dataSourceResponse));
+        when(getApiOperation.getDataSource(anyString(), anyString(), anyString(), anyString())).thenReturn(Observable.just(dataSourceResponse));
         return new FixedStationApiService(getApiOperation, "Test");
     }
 
