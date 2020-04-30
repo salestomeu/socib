@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">socib</string>
     <string name="title_home">Home</string>
-    <string name="title_research">Research Vessel</string>
+    <string name="title_research">Barco Investigación</string>
     <string name="title_lagrangian">Lagrangian</string>
     <string name="title_glider">Glider</string>
-    <string name="title_profile">Profile</string>
-    <string name="title_map">Fixed Station</string>
+    <string name="title_profile">Perfil</string>
+    <string name="title_map">Estaciones Fijas</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_last_updated">Updated: </string>
     <string name="AIR_PRE">Air pressure</string>
@@ -43,23 +43,23 @@
     <string name="WTR_TEM">Water temperature</string>
     <string name="WTR_TEM_SBE37">Sea water temperature</string>
     <string name="help">Help</string>
-    <string name="spinner_language_title">Language</string>
-    <string name="spinner_profile_title">Profile</string>
-    <string name="spinner_unit_title">Velocity unit</string>
-    <string name="language">Language:</string>
-    <string name="profile">Profile:</string>
-    <string name="units">Units:</string>
+    <string name="spinner_language_title">Idioma</string>
+    <string name="spinner_profile_title">Perfil</string>
+    <string name="spinner_unit_title">Unidades de Velocidad</string>
+    <string name="language">Idioma:</string>
+    <string name="profile">Perfil:</string>
+    <string name="units">Unidades:</string>
     <string-array name="language_array">
-        <item>English</item>
-        <item>Spanish</item>
-        <item>Catalan</item>
+        <item>Inglés</item>
+        <item>Español</item>
+        <item>Catalán</item>
     </string-array>
     <string-array name="profile_array">
-        <item>Scientific</item>
+        <item>Científico</item>
     </string-array>
     <string-array name="units_array">
         <item>M/s</item>
         <item>Km/h</item>
-        <item>Knots</item>
+        <item>Nudos</item>
     </string-array>
 </resources>

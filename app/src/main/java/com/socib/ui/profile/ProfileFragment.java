@@ -1,6 +1,9 @@
 package com.socib.ui.profile;
 
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,32 +15,27 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.socib.R;
+import com.socib.service.profile.ProfileService;
 
-public class ProfileFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+import java.util.Locale;
 
-    private ProfileViewModel profileViewModel;
+public class ProfileFragment extends Fragment {
+
+    private ProfileService profileService;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        profileViewModel =
-                ViewModelProviders.of(this).get(ProfileViewModel.class);
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
 
         Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
         final TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
         mTitle.setText(R.string.title_profile);
 
-        Spinner spinnerLanguage = root.findViewById(R.id.language_spinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapterLanguage = ArrayAdapter.createFromResource(getActivity(),
-                R.array.language_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapterLanguage.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinnerLanguage.setAdapter(adapterLanguage);
+        profileService = ProfileService.getInstance();
+
+        setSpinnerLanguage(root.findViewById(R.id.language_spinner));
 
         Spinner spinnerProfile = root.findViewById(R.id.profile_spinner);
         ArrayAdapter<CharSequence> adapterProfile = ArrayAdapter.createFromResource(getActivity(),
@@ -45,21 +43,107 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
         adapterProfile.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerProfile.setAdapter(adapterProfile);
 
-        Spinner spinnerUnits = root.findViewById(R.id.units_spinner);
+        setSpinnerUnits(root.findViewById(R.id.units_spinner));
+
+        return root;
+    }
+
+    private void setSpinnerLanguage(Spinner spinnerLanguage) {
+        ArrayAdapter<CharSequence> adapterLanguage = ArrayAdapter.createFromResource(getActivity(),
+                R.array.language_array, android.R.layout.simple_spinner_item);
+        adapterLanguage.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerLanguage.setAdapter(adapterLanguage);
+        spinnerLanguage.setSelection(getPositionLanguage());
+        spinnerLanguage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        profileService.setLanguage("en");
+                        setAppLocale("en");
+                        break;
+                    case 1:
+                        profileService.setLanguage("es");
+                        setAppLocale("es");
+                        break;
+                    case 2:
+                        profileService.setLanguage("ca");
+                        setAppLocale("ca");
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void setSpinnerUnits(Spinner spinnerUnits) {
         ArrayAdapter<CharSequence> adapterUnits = ArrayAdapter.createFromResource(getActivity(),
                 R.array.units_array, android.R.layout.simple_spinner_item);
         adapterUnits.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerUnits.setAdapter(adapterUnits);
-        return root;
+        spinnerUnits.setSelection(getPositionUnits());
+        spinnerUnits.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        profileService.getProfile().setUnits("ms");
+                        break;
+                    case 1:
+                        profileService.getProfile().setUnits("km");
+                        break;
+                    case 2:
+                        profileService.getProfile().setUnits("knots");
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+    private int getPositionLanguage() {
+        int result = 0;
+        switch (profileService.getProfile().getLanguage()) {
+            case "en":
+                result = 0;
+                break;
+            case "es":
+                result = 1;
+                break;
+            case "ca":
+                result = 2;
+                break;
+        }
+        return result;
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+    private int getPositionUnits() {
+        int result = 0;
+        switch (profileService.getProfile().getUnits()) {
+            case "ms":
+                result = 0;
+                break;
+            case "km":
+                result = 1;
+                break;
+            case "knots":
+                result = 2;
+                break;
+        }
+        return result;
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
+    private void setAppLocale(String localeCode) {
+        Resources res = getResources();
+        Configuration conf = res.getConfiguration();
+        conf.setLocale(new Locale(localeCode));
+        res.updateConfiguration(conf, res.getDisplayMetrics());
     }
 }
