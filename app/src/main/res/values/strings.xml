@@ -49,11 +49,6 @@
     <string name="language">Language:</string>
     <string name="profile">Profile:</string>
     <string name="units">Units:</string>
-    <string-array name="language_array">
-        <item>English</item>
-        <item>Spanish</item>
-        <item>Catalan</item>
-    </string-array>
     <string-array name="profile_array">
         <item>Scientific</item>
     </string-array>
