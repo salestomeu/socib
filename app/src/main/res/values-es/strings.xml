@@ -47,6 +47,10 @@
     <string name="language">Idioma:</string>
     <string name="profile">Perfil:</string>
     <string name="units">Unidades:</string>
+    <string name="help_fixed_stations_section">Help Fixed stations section</string>
+    <string name="oceanographic_buoy">Oceanographic buoy</string>
+    <string name="weather_station">Weather station</string>
+    <string name="sea_level_station">Sea level station</string>
     <string-array name="profile_array">
         <item>Científico</item>
     </string-array>

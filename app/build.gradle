@@ -47,6 +47,7 @@ dependencies {
     implementation 'org.modelmapper:modelmapper:2.3.0'
     implementation 'javax.inject:javax.inject:1'
     implementation 'com.google.dagger:dagger:2.27'
+    implementation 'androidx.wear:wear:1.0.0'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.27'
 
     testImplementation 'junit:junit:4.12'
@@ -58,4 +59,5 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
 
+    compileOnly 'com.google.android.wearable:wearable:2.4.0'
 }

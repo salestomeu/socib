@@ -1,9 +1,9 @@
 package com.socib.ui.profile;
 
-import android.content.res.Configuration;
-import android.content.res.Resources;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -12,18 +12,44 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.socib.R;
 import com.socib.service.profile.ProfileService;
 
-import java.util.Locale;
-
 public class ProfileFragment extends Fragment {
 
     private ProfileService profileService;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState){
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        if (id == R.id.help){
+            openHelp();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /*@Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        inflater.inflate(R.menu.top_nav_menu,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }*/
+
+
+    private void openHelp() {
+        Intent intent = new Intent(getActivity(), HelpProfileActivity.class);
+        startActivity(intent);
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

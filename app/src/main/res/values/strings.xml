@@ -1,12 +1,10 @@
 <resources>
     <string name="app_name">socib</string>
-    <string name="title_home">Home</string>
     <string name="title_research">Research Vessel</string>
     <string name="title_lagrangian">Lagrangian</string>
     <string name="title_glider">Glider</string>
     <string name="title_profile">Profile</string>
     <string name="title_map">Fixed Station</string>
-    <string name="title_notifications">Notifications</string>
     <string name="title_last_updated">Updated: </string>
     <string name="AIR_PRE">Air pressure</string>
     <string name="AIR_PRE_NO_SL">Air pressure no sl</string>
@@ -49,6 +47,21 @@
     <string name="language">Language:</string>
     <string name="profile">Profile:</string>
     <string name="units">Units:</string>
+    <string name="help_fixed_stations_section">Help Fixed stations section</string>
+    <string name="help_glider_section">Help Glider section</string>
+    <string name="help_lagrangian_section">Help Lagrangian section</string>
+    <string name="fixed_station_subtitle">Welcome to the fixed stations facility. Here you can explore all our fixed platforms and click on one of them to display the latest data.</string>
+    <string name="glider_subtitle">Welcome to the glider facility. Here you can explore all our gliders platforms deploy and click on one of them to display the latest update.</string>
+    <string name="lagrangian_subtitle">Welcome to the lagrangian facility. Here you can explore all our lagrangian platforms deploy and click on one of them to display the latest update.</string>
+    <string name="profile_subtitle">Welcome to the profile facility. Here you can change unity speed medition with: m/s, km/h, knots. At this moment only scientific profile is available</string>
+    <string name="icon_legend">Icon legend</string>
+    <string name="glider">Glider</string>
+    <string name="drifter_profiler">Drifter profiler</string>
+    <string name="drifter_surface">Drifter surface</string>
+    <string name="oceanographic_buoy">Oceanographic buoy</string>
+    <string name="coastal_station">Coastal station</string>
+    <string name="weather_station">Weather station</string>
+    <string name="sea_level_station">Sea level station</string>
     <string-array name="profile_array">
         <item>Scientific</item>
     </string-array>
