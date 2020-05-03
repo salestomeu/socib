@@ -23,13 +23,9 @@ public class ProfileService {
         return profile;
     }
 
-    public void setLanguage(String language){
-        this.profile.setLanguage(language);
-    }
 
     private void loadProfile() {
         this.profile = new Profile();
-        profile.setLanguage("es");
         profile.setType("Scientific");
         profile.setUnits("m/s");
     }

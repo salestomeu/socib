@@ -14,20 +14,17 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.socib.model.Profile;
 import com.socib.service.profile.ProfileService;
 
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Profile profile;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        profile = ProfileService.getInstance().getProfile();
-        setAppLocale(profile.getLanguage());
+        ProfileService.getInstance();
+       // setAppLocale(profile.getLanguage());
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         Toolbar toolbar = findViewById(R.id.toolbar);

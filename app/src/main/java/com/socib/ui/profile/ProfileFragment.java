@@ -39,13 +39,6 @@ public class ProfileFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    /*@Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
-        inflater.inflate(R.menu.top_nav_menu,menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }*/
-
-
     private void openHelp() {
         Intent intent = new Intent(getActivity(), HelpProfileActivity.class);
         startActivity(intent);

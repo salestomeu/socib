@@ -58,8 +58,8 @@
     <string name="glider">Glider</string>
     <string name="drifter_profiler">Drifter profiler</string>
     <string name="drifter_surface">Drifter surface</string>
-    <string name="oceanographic_buoy">Oceanographic buoy</string>
     <string name="coastal_station">Coastal station</string>
+    <string name="oceanographic_buoy">Oceanographic buoy</string>
     <string name="weather_station">Weather station</string>
     <string name="sea_level_station">Sea level station</string>
     <string-array name="profile_array">

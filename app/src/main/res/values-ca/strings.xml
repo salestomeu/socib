@@ -47,10 +47,21 @@
     <string name="language">Idioma:</string>
     <string name="profile">Perfil:</string>
     <string name="units">Unitats:</string>
-    <string name="help_fixed_stations_section">Help Fixed stations section</string>
-    <string name="oceanographic_buoy">Oceanographic buoy</string>
-    <string name="weather_station">Weather station</string>
-    <string name="sea_level_station">Sea level station</string>
+    <string name="help_fixed_stations_section">Ajuda secció estacions fixes</string>
+    <string name="help_glider_section">Ajuda secció Glider</string>
+    <string name="help_lagrangian_section">Ajuda secció boies a la deriva</string>
+    <string name="fixed_station_subtitle">Benvingut a la instal·lació d’estacions fixes. Aquí podeu explorar totes les nostres plataformes fixes i fer clic sobre una d’elles per mostrar les dades més recents.</string>
+    <string name="glider_subtitle">Benvingut a la instal·lació de planadors. Aquí podeu explorar totes les nostres plataformes de planificació desplegades i fer clic sobre una d’elles per mostrar la darrera actualització.</string>
+    <string name="lagrangian_subtitle">Benvingut a la instal·lació lagrangiana. Aquí podeu explorar totes les nostres plataformes lagrangianes desplegades i fer clic sobre una d’elles per mostrar la darrera actualització.</string>
+    <string name="profile_subtitle">Benvingut a la instal·lació de perfil. Aquí podeu canviar la medició de velocitat d’unitat amb: m / s, km / h, nusos. En aquest moment només hi ha un perfil científic disponible</string>
+    <string name="icon_legend">Llegenda icones</string>
+    <string name="glider">Glider</string>
+    <string name="drifter_profiler">Drifter profiler</string>
+    <string name="drifter_surface">Drifter surface</string>
+    <string name="coastal_station">Estacions de costa</string>
+    <string name="oceanographic_buoy">Boia oceanogràfica</string>
+    <string name="weather_station">Estació meteorològica</string>
+    <string name="sea_level_station">Estació de nivell del mar</string>
     <string-array name="profile_array">
         <item>Científic</item>
     </string-array>
