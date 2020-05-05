@@ -20,6 +20,7 @@ public class HelpProfileActivity extends AppCompatActivity {
         toolbar.setNavigationIcon(R.drawable.ic_arrow);
         toolbar.setNavigationOnClickListener(v -> finish());
 
+
         final TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
         mTitle.setText(R.string.help_profile_section);
     }
