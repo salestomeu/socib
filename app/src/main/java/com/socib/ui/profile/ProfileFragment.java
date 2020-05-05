@@ -3,6 +3,8 @@ package com.socib.ui.profile;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,11 @@ public class ProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        inflater.inflate(R.menu.top_about_menu,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
@@ -36,7 +43,15 @@ public class ProfileFragment extends Fragment {
         if (id == R.id.help){
             openHelp();
         }
+        if (id == R.id.about){
+            openAbout();
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openAbout() {
+        Intent intent = new Intent(getActivity(), AboutUsActivity.class);
+        startActivity(intent);
     }
 
     private void openHelp() {

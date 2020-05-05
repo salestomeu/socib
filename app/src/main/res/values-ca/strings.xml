@@ -62,6 +62,7 @@
     <string name="oceanographic_buoy">Boia oceanogràfica</string>
     <string name="weather_station">Estació meteorològica</string>
     <string name="sea_level_station">Estació de nivell del mar</string>
+    <string name="about_text">SOCIB is the Coastal Observing and Forecasting System of the Balearic Islands. It consists of a multi-platform distributed and integrated scientific and technological facility. One of its main goals is to provide streams of oceanographic data and modeling services to support marine research and operational oceanography, both oriented to tackle societal needs.</string>
     <string-array name="profile_array">
         <item>Científic</item>
     </string-array>

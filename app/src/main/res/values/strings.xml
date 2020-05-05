@@ -62,6 +62,11 @@
     <string name="oceanographic_buoy">Oceanographic buoy</string>
     <string name="weather_station">Weather station</string>
     <string name="sea_level_station">Sea level station</string>
+    <string name="about">About Us</string>
+    <string name="about_text">SOCIB is the Coastal Observing and Forecasting System of the Balearic Islands. It consists of a multi-platform distributed and integrated scientific and technological facility. One of its main goals is to provide streams of oceanographic data and modeling services to support marine research and operational oceanography, both oriented to tackle societal needs.</string>
+    <string name="about_legal">©2014 ICTS SOCIB - Sistema d’observació i predicció costaner de les Illes Balears. Parc Bit, Naorte, Bloc A 2ºp. pta. 3. Palma de Mallorca SPAIN. E-07121. Tel: +034 971 43 99 98</string>
+    <string name="help_profile_section">Help Profile section</string>
+    <string name="help_about_section">About Us</string>
     <string-array name="profile_array">
         <item>Scientific</item>
     </string-array>
