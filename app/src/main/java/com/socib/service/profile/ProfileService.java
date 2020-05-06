@@ -1,6 +1,7 @@
 package com.socib.service.profile;
 
 import com.socib.model.Profile;
+import com.socib.model.UnitType;
 
 public class ProfileService {
 
@@ -27,7 +28,7 @@ public class ProfileService {
     private void loadProfile() {
         this.profile = new Profile();
         profile.setType("Scientific");
-        profile.setUnits("m/s");
+        profile.setUnits(UnitType.METERS_SECONDS);
     }
 
 }

@@ -19,6 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.socib.R;
+import com.socib.model.UnitType;
 import com.socib.service.profile.ProfileService;
 
 public class ProfileFragment extends Fragment {
@@ -90,13 +91,13 @@ public class ProfileFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        profileService.getProfile().setUnits("ms");
+                        profileService.getProfile().setUnits(UnitType.METERS_SECONDS);
                         break;
                     case 1:
-                        profileService.getProfile().setUnits("km");
+                        profileService.getProfile().setUnits(UnitType.KILOMETERS_HOUR);
                         break;
                     case 2:
-                        profileService.getProfile().setUnits("knots");
+                        profileService.getProfile().setUnits(UnitType.KNOTS);
                         break;
                 }
             }
@@ -111,13 +112,13 @@ public class ProfileFragment extends Fragment {
     private int getPositionUnits() {
         int result = 0;
         switch (profileService.getProfile().getUnits()) {
-            case "ms":
+            case METERS_SECONDS:
                 result = 0;
                 break;
-            case "km":
+            case KILOMETERS_HOUR:
                 result = 1;
                 break;
-            case "knots":
+            case KNOTS:
                 result = 2;
                 break;
         }

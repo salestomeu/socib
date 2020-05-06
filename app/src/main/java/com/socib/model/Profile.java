@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Profile {
-    private String units;
+    private UnitType units;
     private String type;
 }
