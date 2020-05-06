@@ -1,14 +1,17 @@
 package com.socib.ui.glider;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -34,6 +37,23 @@ import java.util.List;
 public class GliderFragment extends AbstractMapFragment {
 
     private GliderMobileStationViewModel gliderMobileStationViewModel;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState){
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        if (id == R.id.help){
+            Intent intent = new Intent(getActivity(), HelpGliderActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

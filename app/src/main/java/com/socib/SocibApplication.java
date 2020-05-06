@@ -15,4 +15,6 @@ public class SocibApplication extends Application {
     public static Context getContext() {
         return SocibApplication.context;
     }
+
+
 }

@@ -1,5 +1,7 @@
 package com.socib.model;
 
+import com.socib.service.profile.ProfileService;
+
 import java.util.Objects;
 
 import lombok.Data;
@@ -7,9 +9,10 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class VariableStation implements Comparable<VariableStation>{
+public class VariableStation implements Comparable<VariableStation> {
 
     public static final String NONE = "__NONE__";
+
 
     private String name;
     private String data;
@@ -24,6 +27,7 @@ public class VariableStation implements Comparable<VariableStation>{
         sb.append(data);
         sb.append(" ");
         sb.append(units);
+
         return sb.toString();
     }
 

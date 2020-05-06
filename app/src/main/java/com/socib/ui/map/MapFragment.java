@@ -1,16 +1,19 @@
 package com.socib.ui.map;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -73,16 +76,22 @@ public class MapFragment extends Fragment {
     private AbstractVariableStationViewModel variableWeatherStationViewModel;
     private AbstractVariableStationViewModel variableBuoyStationViewModel;
 
-   /* @Inject
-    ViewModelProvider.Factory viewModelFactory;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState){
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        coastalStationViewModel = new ViewModelProvider(
-                getViewModelStore(),
-                viewModelFactory).get(FixedStationViewModel.class);
-    }*/
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        if (id == R.id.help){
+            Intent intent = new Intent(getActivity(), HelpFixedStationActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
