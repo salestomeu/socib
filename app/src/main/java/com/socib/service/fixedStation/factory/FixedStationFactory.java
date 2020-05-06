@@ -10,16 +10,16 @@ import java.util.function.Supplier;
 public class FixedStationFactory {
     private EnumMap<StationType, Supplier<? extends FixedStation>> fixedStationEnumSet;
 
-    public FixedStationFactory(){
-        fixedStationEnumSet =  new EnumMap<>(StationType.class);
+    public FixedStationFactory() {
+        fixedStationEnumSet = new EnumMap<>(StationType.class);
         fixedStationEnumSet.put(StationType.COASTALSTATION, this::getCoastalStation);
         fixedStationEnumSet.put(StationType.SEALEVEL, this::getSeaLevelStation);
         fixedStationEnumSet.put(StationType.WEATHERSTATION, this::getWeatherStation);
-        fixedStationEnumSet.put(StationType.BUOY,this::getBuoyStation);
+        fixedStationEnumSet.put(StationType.BUOY, this::getBuoyStation);
     }
 
-    public FixedStation get(StationType stationType){
-        if(!fixedStationEnumSet.containsKey(stationType)){
+    public FixedStation get(StationType stationType) {
+        if (!fixedStationEnumSet.containsKey(stationType)) {
             return null;
         }
         return fixedStationEnumSet.get(stationType).get();

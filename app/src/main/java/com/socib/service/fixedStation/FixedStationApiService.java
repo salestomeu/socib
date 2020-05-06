@@ -10,8 +10,12 @@ import com.socib.model.FixedStation;
 import com.socib.model.StationType;
 import com.socib.service.fixedStation.converter.FixedStationConverter;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,13 +27,14 @@ public class FixedStationApiService {
     private FixedStationConverter fixedStationConverter;
     private final GetApiOperation getApiOperation;
     private final String apiKey;
+    private final String yesterday;
 
 
     public FixedStationApiService(GetApiOperation getApiOperation, String apiKey) {
         this.getApiOperation = getApiOperation;
         this.apiKey = apiKey;
         this.fixedStationConverter = new FixedStationConverter();
-
+        yesterday = getYesterdayDateString();
     }
 
     public Observable<List<FixedStation>> getFixedStations(StationType stationType) {
@@ -42,7 +47,7 @@ public class FixedStationApiService {
     private Observable<List<FixedStation>> getFixedStationFromProduct(final List<Product> products, final StationType stationType) {
         List<Observable<FixedStation>> fixedStationsList = new ArrayList<>();
         for (Product product : products) {
-            fixedStationsList.add(getApiOperation.getDataSource(product.getId(), TRUE, apiKey)
+            fixedStationsList.add(getApiOperation.getDataSource(product.getId(), TRUE, yesterday, apiKey)
                     .doOnError(error -> Log.e("Error get dataSource from product:",product.getId(),error))
                     .map(getDataSourceResponse -> converterFixedStationFromDataSource(product, getDataSourceResponse.getResults(), stationType)));
         }
@@ -58,5 +63,16 @@ public class FixedStationApiService {
 
     private FixedStation converterFixedStationFromDataSource(final Product product, final List<DataSource> dataSources, StationType stationType){
         return fixedStationConverter.toDomainModel(product, dataSources, stationType);
+    }
+
+    private Date yesterday() {
+        final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        return cal.getTime();
+    }
+
+    private String getYesterdayDateString() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(yesterday());
     }
 }
