@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="160dp"
+    android:layout_height="40dp" >
+
+    <RelativeLayout
+        android:layout_width="40dp"
+        android:layout_height="40dp" >
+
+        <ImageView
+            android:id="@+id/imageStation"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:paddingTop="10dp"
+            android:src="@drawable/ic_station" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/panelParameter"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="40dp"
+        android:background="#cc000000"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="2dp" >
+
+        <ImageView
+            android:id="@+id/imageParameter"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginLeft="4dp" />
+
+        <TextView
+            android:id="@+id/textParameter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1016.7 hpa"
+            android:textColor="@color/white"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+</RelativeLayout>

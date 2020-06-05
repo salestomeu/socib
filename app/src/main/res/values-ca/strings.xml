@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">socib</string>
+    <string name="title_research">Vaixell Investigació</string>
+    <string name="title_lagrangian">Lagrangian</string>
+    <string name="title_glider">Glider</string>
+    <string name="title_profile">Perfil</string>
+    <string name="title_map">Estacions Fixes</string>
+    <string name="title_last_updated">Actualització: </string>
+    <string name="AIR_PRE">Pressió de l’aire</string>
+    <string name="AIR_PRE_NO_SL">Pressió de l’aire no sl</string>
+    <string name="AIR_TEM">Temperatura del aire</string>
+    <string name="COND_SBE37">conductivitat electrica de l’aigua</string>
+    <string name="AIRT">Temperatura de l’aire</string>
+    <string name="DEW_POI">Temperatura del punt de rosada</string>
+    <string name="HEAT_INDEX">Índex de calor</string>
+    <string name="NET_RAD">Superfície neta avall. flux radiatiu</string>
+    <string name="REL_HUM">Humitat relativa</string>
+    <string name="RAIN_INT_PEAK">Intensitat màxima de pluja</string>
+    <string name="RAIN_ACC">Pluja acumulada</string>
+    <string name="RAIN_ACC_Daily">Pluja acumulada diaria</string>
+    <string name="RAIN_ACC_Yearly">Pluja acumulada anual</string>
+    <string name="RAIN_ACC_LastMin">Pluja acumulada darrer mínut</string>
+    <string name="RAIN_DUR">Duració de la pluja</string>
+    <string name="RAIN_INT">Intensitat de la pluja</string>
+    <string name="SALT_SBE37">Salinitat de l’aigua</string>
+    <string name="VOLT">Voltage</string>
+    <string name="WAV_HEI_SIG">Onada superficial del mar</string>
+    <string name="WAV_HEI_MAX">Màxima alçada de la superfície del mar</string>
+    <string name="WAV_PER_SIG">Període significatiu de l’onada</string>
+    <string name="WAV_DIR_DIS">Direcció mitjana de l’onada</string>
+    <string name="WAV_PER_MEA">Període mitjà de l’onatge</string>
+    <string name="WAV_HEI_MEA">Mitja alçada superficial del mar</string>
+    <string name="WAV_PER_PEA">Període màxim d’ones</string>
+    <string name="WAV_FRO_DIR">Direcció de l’onada</string>
+    <string name="WIN_DIR">Vent des de la direcció mitjana</string>
+    <string name="WIN_DIR_GUS">Vent màxim de direcció</string>
+    <string name="WIN_GUS">Velocitat màxima del vent</string>
+    <string name="WIN_SPE_GUS">Velocitat màxima del vent</string>
+    <string name="WIN_SPE">Velocitat mitjana del vent</string>
+    <string name="WTR_PRE">Pressió de l’aigua</string>
+    <string name="WTR_TEM">Temperatura de l’aigua</string>
+    <string name="WTR_TEM_SBE37">Temperatura de l’aigua</string>
+    <string name="help">Ajuda</string>
+    <string name="spinner_language_title">Idioma</string>
+    <string name="spinner_profile_title">Perfil</string>
+    <string name="spinner_unit_title">Unitats de Velocitat</string>
+    <string name="language">Idioma:</string>
+    <string name="profile">Perfil:</string>
+    <string name="units">Unitats:</string>
+    <string name="help_fixed_stations_section">Ajuda secció estacions fixes</string>
+    <string name="help_glider_section">Ajuda secció Glider</string>
+    <string name="help_lagrangian_section">Ajuda secció boies a la deriva</string>
+    <string name="fixed_station_subtitle">Benvingut a la instal·lació d’estacions fixes. Aquí podeu explorar totes les nostres plataformes fixes i fer clic sobre una d’elles per mostrar les dades més recents.</string>
+    <string name="glider_subtitle">Benvingut a la instal·lació de planadors. Aquí podeu explorar totes les nostres plataformes de planificació desplegades i fer clic sobre una d’elles per mostrar la darrera actualització.</string>
+    <string name="lagrangian_subtitle">Benvingut a la instal·lació lagrangiana. Aquí podeu explorar totes les nostres plataformes lagrangianes desplegades i fer clic sobre una d’elles per mostrar la darrera actualització.</string>
+    <string name="profile_subtitle">Benvingut a la instal·lació de perfil. Aquí podeu canviar la medició de velocitat d’unitat amb: m / s, km / h, nusos. En aquest moment només hi ha un perfil científic disponible</string>
+    <string name="icon_legend">Llegenda icones</string>
+    <string name="glider">Glider</string>
+    <string name="drifter_profiler">Drifter profiler</string>
+    <string name="drifter_surface">Drifter surface</string>
+    <string name="coastal_station">Estacions de costa</string>
+    <string name="oceanographic_buoy">Boia oceanogràfica</string>
+    <string name="weather_station">Estació meteorològica</string>
+    <string name="sea_level_station">Estació de nivell del mar</string>
+    <string name="about_text">SOCIB is the Coastal Observing and Forecasting System of the Balearic Islands. It consists of a multi-platform distributed and integrated scientific and technological facility. One of its main goals is to provide streams of oceanographic data and modeling services to support marine research and operational oceanography, both oriented to tackle societal needs.</string>
+    <string-array name="profile_array">
+        <item>Científic</item>
+    </string-array>
+    <string-array name="units_array">
+        <item>M/s</item>
+        <item>Km/h</item>
+        <item>Nusos</item>
+    </string-array>
+</resources>

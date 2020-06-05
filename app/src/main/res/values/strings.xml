@@ -1,0 +1,78 @@
+<resources>
+    <string name="app_name">socib</string>
+    <string name="title_research">Research Vessel</string>
+    <string name="title_lagrangian">Lagrangian</string>
+    <string name="title_glider">Glider</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_map">Fixed Station</string>
+    <string name="title_last_updated">Updated: </string>
+    <string name="AIR_PRE">Air pressure</string>
+    <string name="AIR_PRE_NO_SL">Air pressure no sl</string>
+    <string name="AIR_TEM">Air temperature</string>
+    <string name="COND_SBE37">Sea water electrical conductivity</string>
+    <string name="AIRT">Air temperature</string>
+    <string name="DEW_POI">Dew point temperature</string>
+    <string name="HEAT_INDEX">Heat index</string>
+    <string name="NET_RAD">Surface net down. radiative flux</string>
+    <string name="REL_HUM">Relative humidity</string>
+    <string name="RAIN_INT_PEAK">Rain peak intensity</string>
+    <string name="RAIN_ACC">Rain accumulation</string>
+    <string name="RAIN_ACC_Daily">Rain accumulation daily</string>
+    <string name="RAIN_ACC_Yearly">Rain accumulation yearly</string>
+    <string name="RAIN_ACC_LastMin">Rain accumulation lastmin</string>
+    <string name="RAIN_DUR">Rain duration</string>
+    <string name="RAIN_INT">Rain intensity</string>
+    <string name="SALT_SBE37">Sea water salinity</string>
+    <string name="VOLT">Voltage</string>
+    <string name="WAV_HEI_SIG">Sea surface wave significant height</string>
+    <string name="WAV_HEI_MAX">Sea surface height maximum</string>
+    <string name="WAV_PER_SIG">Sea surface wave significant period</string>
+    <string name="WAV_DIR_DIS">Sea surf. wave mean direc. disp.</string>
+    <string name="WAV_PER_MEA">Sea surface wave mean period</string>
+    <string name="WAV_HEI_MEA">Sea surface height mean</string>
+    <string name="WAV_PER_PEA">Sea surface maximum wave period</string>
+    <string name="WAV_FRO_DIR">Sea surface wave direction</string>
+    <string name="WIN_DIR">Wind from direction average</string>
+    <string name="WIN_DIR_GUS">Maximum wind from direction</string>
+    <string name="WIN_GUS">Maximum wind speed</string>
+    <string name="WIN_SPE_GUS">Maximum wind speed</string>
+    <string name="WIN_SPE">Wind speed average</string>
+    <string name="WTR_PRE">Water pressure</string>
+    <string name="WTR_TEM">Water temperature</string>
+    <string name="WTR_TEM_SBE37">Sea water temperature</string>
+    <string name="help">Help</string>
+    <string name="spinner_language_title">Language</string>
+    <string name="spinner_profile_title">Profile</string>
+    <string name="spinner_unit_title">Velocity unit</string>
+    <string name="language">Language:</string>
+    <string name="profile">Profile:</string>
+    <string name="units">Units:</string>
+    <string name="help_fixed_stations_section">Help Fixed stations section</string>
+    <string name="help_glider_section">Help Glider section</string>
+    <string name="help_lagrangian_section">Help Lagrangian section</string>
+    <string name="fixed_station_subtitle">Welcome to the fixed stations facility. Here you can explore all our fixed platforms and click on one of them to display the latest data.</string>
+    <string name="glider_subtitle">Welcome to the glider facility. Here you can explore all our gliders platforms deploy and click on one of them to display the latest update.</string>
+    <string name="lagrangian_subtitle">Welcome to the lagrangian facility. Here you can explore all our lagrangian platforms deploy and click on one of them to display the latest update.</string>
+    <string name="profile_subtitle">Welcome to the profile facility. Here you can change unity speed medition with: m/s, km/h, knots. At this moment only scientific profile is available</string>
+    <string name="icon_legend">Icon legend</string>
+    <string name="glider">Glider</string>
+    <string name="drifter_profiler">Drifter profiler</string>
+    <string name="drifter_surface">Drifter surface</string>
+    <string name="coastal_station">Coastal station</string>
+    <string name="oceanographic_buoy">Oceanographic buoy</string>
+    <string name="weather_station">Weather station</string>
+    <string name="sea_level_station">Sea level station</string>
+    <string name="about">About Us</string>
+    <string name="about_text">SOCIB is the Coastal Observing and Forecasting System of the Balearic Islands. It consists of a multi-platform distributed and integrated scientific and technological facility. One of its main goals is to provide streams of oceanographic data and modeling services to support marine research and operational oceanography, both oriented to tackle societal needs.</string>
+    <string name="about_legal">©2014 ICTS SOCIB - Sistema d’observació i predicció costaner de les Illes Balears. Parc Bit, Naorte, Bloc A 2ºp. pta. 3. Palma de Mallorca SPAIN. E-07121. Tel: +034 971 43 99 98</string>
+    <string name="help_profile_section">Help Profile section</string>
+    <string name="help_about_section">About Us</string>
+    <string-array name="profile_array">
+        <item>Scientific</item>
+    </string-array>
+    <string-array name="units_array">
+        <item>M/s</item>
+        <item>Km/h</item>
+        <item>Knots</item>
+    </string-array>
+</resources>

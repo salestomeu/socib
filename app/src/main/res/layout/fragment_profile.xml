@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blueGreen">
+
+    <LinearLayout
+        android:id="@+id/lprofile"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dip">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:layout_marginBottom="5dp"
+            android:text="@string/profile" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lprofile2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lprofile"
+        android:orientation="horizontal"
+        android:padding="10dip">
+
+        <Spinner
+            android:id="@+id/profile_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:prompt="@string/spinner_profile_title" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/units"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lprofile2"
+        android:orientation="horizontal"
+        android:padding="10dip">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:layout_marginBottom="5dp"
+            android:text="@string/units" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/units"
+        android:orientation="horizontal"
+        android:padding="10dip">
+
+        <Spinner
+            android:id="@+id/units_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:prompt="@string/spinner_unit_title" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,19 @@
+[
+  {
+    "id": "111111",
+    "name": "sdeep01",
+    "actualPosition": {
+      "latitude": "3.383145",
+      "longitude":"39.596277"
+    }
+
+  },
+  {
+    "id": "2222",
+    "name": "teresa",
+    "actualPosition": {
+      "latitude": "3.383145",
+      "longitude": "39.596277"
+    }
+  }
+]

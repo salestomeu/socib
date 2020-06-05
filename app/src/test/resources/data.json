@@ -1,0 +1,247 @@
+[
+  {
+    "feature_type": "timeSeries",
+    "variables": [
+      {
+        "axis_y_name": "latitude",
+        "param_name": "WIN_SPE",
+        "axis_z_name": "height",
+        "axis_x_name": "longitude",
+        "precision": "0.1",
+        "axis_t_name": "time",
+        "long_name": "Wind speed average",
+        "standard_name": "wind_speed",
+        "units": "m s-1",
+        "data": 5.6
+      },
+      {
+        "axis_y_name": "latitude",
+        "param_name": "WIN_SPE_GUS",
+        "axis_z_name": "height",
+        "axis_x_name": "longitude",
+        "precision": "0.1",
+        "axis_t_name": "time",
+        "long_name": "Maximum wind speed",
+        "standard_name": "wind_speed_of_gust",
+        "units": "m s-1",
+        "data": 6.1
+      },
+      {
+        "axis_y_name": "latitude",
+        "param_name": "RAIN_ACC",
+        "axis_z_name": "height",
+        "axis_x_name": "longitude",
+        "precision": "0.01",
+        "axis_t_name": "time",
+        "long_name": "rain_accumulation",
+        "standard_name": "__NONE__",
+        "units": "mm",
+        "data": 0.0
+      },
+      {
+        "axis_y_name": "latitude",
+        "param_name": "RAIN_INT",
+        "axis_z_name": "height",
+        "axis_x_name": "longitude",
+        "precision": "0.01",
+        "axis_t_name": "time",
+        "long_name": "rain_intensity",
+        "standard_name": "__NONE__",
+        "units": "mm h-1",
+        "data": 0.0
+      },
+      {
+        "axis_y_name": "latitude",
+        "param_name": "VOLT",
+        "axis_z_name": "height",
+        "axis_x_name": "longitude",
+        "precision": "0.1",
+        "axis_t_name": "time",
+        "long_name": "voltage",
+        "standard_name": "__NONE__",
+        "units": "V",
+        "data": 11.9
+      },
+      {
+        "axis_y_name": "latitude",
+        "param_name": "WDIN",
+        "axis_z_name": "height",
+        "axis_x_name": "longitude",
+        "precision": "1",
+        "axis_t_name": "time",
+        "long_name": "acyclic_wind_direction",
+        "standard_name": "__NONE__",
+        "units": "degree",
+        "data": 258.0
+      },
+      {
+        "axis_y_name": "latitude",
+        "param_name": "RAIN_INT_PEAK",
+        "axis_z_name": "height",
+        "axis_x_name": "longitude",
+        "precision": "0.01",
+        "axis_t_name": "time",
+        "long_name": "rain_peak_intensity",
+        "standard_name": "__NONE__",
+        "units": "mm h-1",
+        "data": 55.2
+      },
+      {
+        "axis_y_name": "latitude",
+        "param_name": "RAIN_DUR",
+        "axis_z_name": "height",
+        "axis_x_name": "longitude",
+        "precision": "1",
+        "axis_t_name": "time",
+        "long_name": "rain_duration",
+        "standard_name": "__NONE__",
+        "units": "s",
+        "data": 0.0
+      },
+      {
+        "axis_y_name": "latitude",
+        "param_name": "REL_HUM",
+        "axis_x_name": "longitude",
+        "precision": "1",
+        "axis_t_name": "time",
+        "axis_z_name": "height",
+        "standard_name": "relative_humidity",
+        "units": "%",
+        "data": 72.0
+      },
+      {
+        "axis_y_name": "latitude",
+        "param_name": "AIR_TEM",
+        "axis_z_name": "height",
+        "axis_x_name": "longitude",
+        "precision": "0.1",
+        "axis_t_name": "time",
+        "long_name": "Air temperature",
+        "standard_name": "air_temperature",
+        "units": "C",
+        "data": 16.4
+      },
+      {
+        "axis_y_name": "latitude",
+        "param_name": "AIR_PRE_NO_SL",
+        "axis_z_name": "height",
+        "axis_x_name": "longitude",
+        "precision": "0.1",
+        "axis_t_name": "time",
+        "long_name": "Air pressure",
+        "standard_name": "air_pressure",
+        "units": "hPa",
+        "data": 1014.6
+      },
+      {
+        "axis_y_name": "latitude",
+        "param_name": "WIN_DIR",
+        "axis_z_name": "height",
+        "axis_x_name": "longitude",
+        "precision": "1",
+        "axis_t_name": "time",
+        "long_name": "Wind from direction average",
+        "standard_name": "wind_from_direction",
+        "units": "degree",
+        "data": 90.0
+      },
+      {
+        "axis_y_name": "latitude",
+        "param_name": "WIN_DIR_GUS",
+        "axis_z_name": "height",
+        "axis_x_name": "longitude",
+        "precision": "1",
+        "axis_t_name": "time",
+        "long_name": "Maximum wind from direction",
+        "standard_name": "wind_from_direction",
+        "units": "degree",
+        "data": 98.0
+      }
+    ],
+    "coordinates": {
+      "latitude": {
+        "units": "degree_north",
+        "long_name": "Latitude coordinate",
+        "axis": "Y",
+        "data": 39.596277,
+        "variable_name": "latitude"
+      },
+      "height": {
+        "units": "m",
+        "long_name": "Height coordinate",
+        "axis": "Z",
+        "data": 0.0,
+        "variable_name": "height"
+      },
+      "longitude": {
+        "units": "degree_east",
+        "long_name": "Longitude coordinate",
+        "axis": "X",
+        "data": 3.383145,
+        "variable_name": "longitude"
+      },
+      "time": {
+        "axis": "T",
+        "data": "2020-04-12T08:28:00",
+        "variable_name": "time"
+      }
+    },
+    "data_mode": "rt",
+    "time_range": {
+      "initial_datetime": "2020-04-01T00:00:00",
+      "end_datetime": "2020-04-12T08:28:00"
+    },
+    "processing_level": "L1"
+  },
+  {
+    "feature_type": "timeSeries",
+    "variables": [
+      {
+        "axis_y_name": "latitude",
+        "param_name": "AIR_PRE",
+        "axis_z_name": "height",
+        "axis_x_name": "longitude",
+        "precision": "0.1",
+        "axis_t_name": "time",
+        "long_name": "Air pressure",
+        "standard_name": "air_pressure",
+        "units": "hPa",
+        "data": 1014.6
+      }
+    ],
+    "coordinates": {
+      "latitude": {
+        "units": "degree_north",
+        "long_name": "Latitude coordinate",
+        "axis": "Y",
+        "data": 39.596277,
+        "variable_name": "latitude"
+      },
+      "height": {
+        "units": "m",
+        "long_name": "Height coordinate at sea level",
+        "axis": "Z",
+        "data": 0.0,
+        "variable_name": "height"
+      },
+      "longitude": {
+        "units": "degree_east",
+        "long_name": "Longitude coordinate",
+        "axis": "X",
+        "data": 3.383145,
+        "variable_name": "longitude"
+      },
+      "time": {
+        "axis": "T",
+        "data": "2020-04-12T08:28:00",
+        "variable_name": "time"
+      }
+    },
+    "data_mode": "rt",
+    "time_range": {
+      "initial_datetime": "2020-04-01T00:00:00",
+      "end_datetime": "2020-04-12T08:28:00"
+    },
+    "processing_level": "L1"
+  }
+]
