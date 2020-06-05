@@ -23,12 +23,10 @@ import io.reactivex.Observable;
 
 public class FixedStationApiService {
     private static final String TRUE = "true";
-
     private FixedStationConverter fixedStationConverter;
     private final GetApiOperation getApiOperation;
     private final String apiKey;
     private final String yesterday;
-
 
     public FixedStationApiService(GetApiOperation getApiOperation, String apiKey) {
         this.getApiOperation = getApiOperation;
@@ -39,17 +37,19 @@ public class FixedStationApiService {
 
     public Observable<List<FixedStation>> getFixedStations(StationType stationType) {
         return getApiOperation.getProducts(stationType.stationType(), TRUE, apiKey)
-                .doOnError(error -> Log.e("Error get fixedStation from product:",stationType.stationType(),error))
+                .doOnError(error -> Log.e("Error get fixedStation from product:", stationType.stationType(), error))
                 .map(GetProductsResponse::getResults)
                 .flatMap(products -> this.getFixedStationFromProduct(products, stationType));
     }
 
-    private Observable<List<FixedStation>> getFixedStationFromProduct(final List<Product> products, final StationType stationType) {
+    private Observable<List<FixedStation>> getFixedStationFromProduct(final List<Product> products,
+                                                                      final StationType stationType) {
         List<Observable<FixedStation>> fixedStationsList = new ArrayList<>();
         for (Product product : products) {
             fixedStationsList.add(getApiOperation.getDataSource(product.getId(), TRUE, yesterday, apiKey)
-                    .doOnError(error -> Log.e("Error get dataSource from product:",product.getId(),error))
-                    .map(getDataSourceResponse -> converterFixedStationFromDataSource(product, getDataSourceResponse.getResults(), stationType)));
+                    .doOnError(error -> Log.e("Error get dataSource from product:", product.getId(), error))
+                    .map(getDataSourceResponse -> converterFixedStationFromDataSource(product,
+                            getDataSourceResponse.getResults(), stationType)));
         }
         return Observable.zip(fixedStationsList, this::getFixedStationList);
     }
@@ -57,11 +57,11 @@ public class FixedStationApiService {
     private List<FixedStation> getFixedStationList(final Object[] objects) {
         return Arrays.stream(objects)
                 .map(FixedStation.class::cast)
-                .filter(fixedStation -> fixedStation!= null && fixedStation.isValid())
+                .filter(fixedStation -> fixedStation != null && fixedStation.isValid())
                 .collect(Collectors.toList());
     }
 
-    private FixedStation converterFixedStationFromDataSource(final Product product, final List<DataSource> dataSources, StationType stationType){
+    private FixedStation converterFixedStationFromDataSource(final Product product, final List<DataSource> dataSources, StationType stationType) {
         return fixedStationConverter.toDomainModel(product, dataSources, stationType);
     }
 
